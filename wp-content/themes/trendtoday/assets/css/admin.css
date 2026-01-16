@@ -1,0 +1,130 @@
+/**
+ * Admin Styles for Trend Today Theme
+ * 
+ * @package TrendToday
+ * @since 1.0.0
+ */
+
+/* Gallery Images List */
+.gallery-images-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.gallery-image-item {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background: #fff;
+    border-radius: 3px;
+}
+
+.gallery-image-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gallery-image-item .remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #dc3232;
+}
+
+.gallery-image-item .remove-image:hover {
+    background: #dc3232;
+    color: #fff;
+}
+
+/* Related Posts List */
+.related-posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.related-post-item {
+    padding: 8px 12px;
+    background: #f5f5f5;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.related-post-item strong {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.related-post-item .remove-related-post {
+    color: #dc3232;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.related-post-item .remove-related-post:hover {
+    text-decoration: underline;
+}
+
+/* Social Image Preview */
+.social-image-preview {
+    margin-bottom: 10px;
+}
+
+.social-image-preview img {
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 5px;
+    background: #fff;
+}
+
+/* Category Color Picker */
+.term-color-wrap .wp-picker-container {
+    margin-top: 5px;
+}
+
+/* Meta Box Styling */
+#trendtoday_post_options,
+#trendtoday_post_additional,
+#trendtoday_seo_options,
+#trendtoday_video_options,
+#trendtoday_gallery_options,
+#trendtoday_featured_options {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Table Styling */
+.form-table th {
+    font-weight: 600;
+    padding-left: 0;
+}
+
+.form-table td {
+    padding-left: 0;
+}
+
+/* Description Text */
+.description {
+    color: #646970;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* Button Styling */
+.button-secondary {
+    margin-right: 5px;
+}

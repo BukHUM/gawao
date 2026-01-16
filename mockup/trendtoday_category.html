@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข่าวเทคโนโลยี - Trend Today</title>
+
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1a1a1a',
+                        accent: '#3B82F6', // เปลี่ยนสี Accent เป็นสีฟ้าสำหรับหมวด Tech
+                        'accent-hover': '#2563EB',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="TrendToday_News.html" class="flex-shrink-0 flex items-center gap-2 group">
+                        <div
+                            class="w-8 h-8 bg-black group-hover:bg-accent transition text-white flex items-center justify-center rounded font-bold text-lg">
+                            T</div>
+                        <span class="font-bold text-2xl tracking-tight text-gray-900">Trend<span
+                                class="text-accent">Today</span></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="TrendToday_News.html" class="text-gray-500 hover:text-accent transition">หน้าแรก</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition">การเมือง</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition">เศรษฐกิจ</a>
+                    <a href="#" class="text-accent font-bold border-b-2 border-accent pb-1">เทคโนโลยี</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition">บันเทิง</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button class="text-gray-500 hover:text-gray-900 p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Category Header -->
+    <header class="bg-white border-b border-gray-200 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="text-sm text-gray-500 mb-2">
+                        <a href="TrendToday_News.html" class="hover:text-accent">หน้าแรก</a> <i
+                            class="fas fa-chevron-right text-xs mx-1"></i> <span>เทคโนโลยี</span>
+                    </div>
+                    <h1 class="text-4xl font-bold text-gray-900">เทคโนโลยี <span class="text-accent">Update</span></h1>
+                    <p class="text-gray-500 mt-2 font-light">เกาะติดนวัตกรรม AI, Gadget ใหม่, และโลก Cyber Security</p>
+                </div>
+
+                <!-- Sub-category Filter (Pills) -->
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        class="px-4 py-2 bg-accent text-white rounded-full text-sm font-medium shadow-md">ทั้งหมด</button>
+                    <button
+                        class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full text-sm transition">AI
+                        & Robot</button>
+                    <button
+                        class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full text-sm transition">Gadget</button>
+                    <button
+                        class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full text-sm transition">Startups</button>
+                    <button
+                        class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-full text-sm transition">Cyber
+                        Security</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Top Story of Category -->
+        <section class="mb-12">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col md:flex-row group cursor-pointer hover:shadow-md transition"
+                onclick="window.location.href='trendtoday_article.html'">
+                <div class="md:w-3/5 relative overflow-hidden h-64 md:h-auto">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        alt="Top Tech News">
+                    <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded">HOT
+                        Topic</span>
+                </div>
+                <div class="p-6 md:p-8 md:w-2/5 flex flex-col justify-center">
+                    <div class="text-accent font-bold text-sm mb-2">AI & Robot</div>
+                    <h2
+                        class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-accent transition">
+                        หุ่นยนต์ฮิวแมนนอยด์รุ่นล่าสุด เริ่มทำงานในโรงงานผลิตรถยนต์จริงแล้ว
+                    </h2>
+                    <p class="text-gray-500 mb-6 line-clamp-3 font-light">
+                        พาไปชมเบื้องหลังการทำงานของกองทัพหุ่นยนต์ที่เข้ามาแทนที่แรงงานมนุษย์ในไลน์การผลิตที่อันตราย
+                        พร้อมบทสัมภาษณ์วิศวกร...
+                    </p>
+                    <div class="flex items-center gap-3 text-sm text-gray-400 mt-auto">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"
+                            class="w-8 h-8 rounded-full">
+                        <span>โดย Tech Editor</span>
+                        <span>•</span>
+                        <span>4 ชั่วโมงที่แล้ว</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex flex-col lg:flex-row gap-10">
+
+            <!-- Article List -->
+            <div class="lg:w-3/4">
+                <h3 class="font-bold text-xl mb-6 flex items-center gap-2">
+                    <i class="far fa-newspaper text-accent"></i> ล่าสุด
+                </h3>
+
+                <!-- List Item 1 -->
+                <article
+                    class="flex flex-col sm:flex-row bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6 hover:shadow-md transition group cursor-pointer"
+                    onclick="window.location.href='trendtoday_article.html'">
+                    <div class="sm:w-1/3 mb-4 sm:mb-0 relative overflow-hidden rounded-lg h-48 sm:h-auto">
+                        <img src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2101&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="sm:w-2/3 sm:pl-6 flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-bold text-accent bg-blue-50 px-2 py-1 rounded">Gadget</span>
+                            <span class="text-xs text-gray-400">10:30 น.</span>
+                        </div>
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
+                            รีวิวสมาร์ทวอทช์รุ่นประหยัด แบตอึด 14 วัน ฟีเจอร์ครบในงบ 2 พัน
+                        </h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4 font-light">
+                            ทดสอบการใช้งานจริง ใส่วิ่ง ใส่ทำเนียม ว่าจะแม่นยำแค่ไหน คุ้มค่าตัวหรือไม่...
+                        </p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">#SmartWatch</span>
+                                <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">#Review</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-accent"><i class="far fa-bookmark"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- List Item 2 -->
+                <article
+                    class="flex flex-col sm:flex-row bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6 hover:shadow-md transition group cursor-pointer"
+                    onclick="window.location.href='trendtoday_article.html'">
+                    <div class="sm:w-1/3 mb-4 sm:mb-0 relative overflow-hidden rounded-lg h-48 sm:h-auto">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="sm:w-2/3 sm:pl-6 flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-bold text-accent bg-blue-50 px-2 py-1 rounded">App</span>
+                            <span class="text-xs text-gray-400">เมื่อวานนี้</span>
+                        </div>
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
+                            อัปเดตด่วน! แอปธนาคารเตรียมยกเลิกสนับสนุน Android เวอร์ชั่นเก่า
+                        </h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4 font-light">
+                            เช็คด่วนมือถือของคุณยังไปต่อได้ไหม ธนาคารประกาศยกระดับความปลอดภัย...
+                        </p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">#MobileBanking</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-accent"><i class="far fa-bookmark"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- List Item 3 -->
+                <article
+                    class="flex flex-col sm:flex-row bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6 hover:shadow-md transition group cursor-pointer"
+                    onclick="window.location.href='trendtoday_article.html'">
+                    <div class="sm:w-1/3 mb-4 sm:mb-0 relative overflow-hidden rounded-lg h-48 sm:h-auto">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef526b0042a0?q=80&w=2600&auto=format&fit=crop"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="sm:w-2/3 sm:pl-6 flex flex-col">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-bold text-accent bg-blue-50 px-2 py-1 rounded">Startup</span>
+                            <span class="text-xs text-gray-400">เมื่อวานนี้</span>
+                        </div>
+                        <h3
+                            class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
+                            Startup ไทยคว้าเงินลงทุน Series A เตรียมบุกตลาดเอเชีย
+                        </h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4 font-light">
+                            แพลตฟอร์มบริหารจัดการร้านอาหารสัญชาติไทย สร้างชื่อในเวทีโลก...
+                        </p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">#StartupTH</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-accent"><i class="far fa-bookmark"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Pagination -->
+                <div class="flex justify-center mt-8 gap-2">
+                    <button
+                        class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 text-gray-500"><i
+                            class="fas fa-chevron-left"></i></button>
+                    <button
+                        class="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center font-bold">1</button>
+                    <button
+                        class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 text-gray-600">2</button>
+                    <button
+                        class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 text-gray-600">3</button>
+                    <button
+                        class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 text-gray-500"><i
+                            class="fas fa-chevron-right"></i></button>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:w-1/4 space-y-8">
+
+                <!-- Most Read in Tech -->
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                    <h4 class="font-bold text-lg mb-4 text-gray-900 border-l-4 border-accent pl-3">ยอดนิยมในหมวดนี้</h4>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3 group cursor-pointer">
+                            <span class="text-3xl font-bold text-gray-200 group-hover:text-accent">1</span>
+                            <div>
+                                <h5 class="text-sm font-medium text-gray-700 group-hover:text-accent leading-tight">
+                                    โปรแกรมเมอร์ไทยเงินเดือนพุ่ง จบใหม่สตาร์ท 4 หมื่น</h5>
+                                <span class="text-xs text-gray-400 mt-1 block">3.5k views</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 group cursor-pointer">
+                            <span class="text-3xl font-bold text-gray-200 group-hover:text-accent">2</span>
+                            <div>
+                                <h5 class="text-sm font-medium text-gray-700 group-hover:text-accent leading-tight">
+                                    เน็ตบ้านค่ายไหนดี? เปรียบเทียบโปรฯ ล่าสุดปี 2024</h5>
+                                <span class="text-xs text-gray-400 mt-1 block">2.8k views</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 group cursor-pointer">
+                            <span class="text-3xl font-bold text-gray-200 group-hover:text-accent">3</span>
+                            <div>
+                                <h5 class="text-sm font-medium text-gray-700 group-hover:text-accent leading-tight">
+                                    เตือนภัย SMS ดูดเงิน ระบาดหนักช่วงสิ้นเดือน</h5>
+                                <span class="text-xs text-gray-400 mt-1 block">1.9k views</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Ad/Banner Space -->
+                <div class="bg-gray-100 h-64 rounded-xl flex items-center justify-center text-gray-400 flex-col">
+                    <i class="fas fa-ad text-3xl mb-2"></i>
+                    <span class="text-sm">พื้นที่โฆษณา</span>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-0 md:gap-8 mb-8">
+                <!-- Brand Column -->
+                <div class="col-span-1 md:col-span-1 border-b border-gray-100 md:border-none pb-4 md:pb-0 mb-4 md:mb-0">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div
+                            class="w-6 h-6 bg-black text-white flex items-center justify-center rounded font-bold text-sm">
+                            T</div>
+                        <span class="font-bold text-xl tracking-tight text-gray-900">TrendToday</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        เว็บไซต์ข่าวที่นำเสนอเรื่องราวทันสมัย ทันเหตุการณ์ ในรูปแบบที่เข้าใจง่าย สำหรับคนรุ่นใหม่
+                    </p>
+                </div>
+
+                <!-- Category Column -->
+                <div class="border-b border-gray-100 md:border-none">
+                    <button class="flex justify-between items-center w-full py-2 md:py-0 text-left md:cursor-default"
+                        onclick="toggleFooter(this)">
+                        <h4 class="font-bold text-gray-900 md:mb-4">หมวดหมู่</h4>
+                        <i
+                            class="fas fa-chevron-down text-gray-400 text-xs md:hidden transition-transform duration-300 transform"></i>
+                    </button>
+                    <ul class="footer-links space-y-2 text-sm text-gray-500 hidden md:block pb-4 md:pb-0">
+                        <li><a href="#" class="hover:text-accent">ข่าวในประเทศ</a></li>
+                        <li><a href="#" class="hover:text-accent">ต่างประเทศ</a></li>
+                        <li><a href="#" class="hover:text-accent">เศรษฐกิจ</a></li>
+                        <li><a href="#" class="hover:text-accent">ไลฟ์สไตล์</a></li>
+                    </ul>
+                </div>
+
+                <!-- About Column -->
+                <div class="border-b border-gray-100 md:border-none">
+                    <button class="flex justify-between items-center w-full py-2 md:py-0 text-left md:cursor-default"
+                        onclick="toggleFooter(this)">
+                        <h4 class="font-bold text-gray-900 md:mb-4">เกี่ยวกับเรา</h4>
+                        <i
+                            class="fas fa-chevron-down text-gray-400 text-xs md:hidden transition-transform duration-300 transform"></i>
+                    </button>
+                    <ul class="footer-links space-y-2 text-sm text-gray-500 hidden md:block pb-4 md:pb-0">
+                        <li><a href="#" class="hover:text-accent">ติดต่อโฆษณา</a></li>
+                        <li><a href="#" class="hover:text-accent">ร่วมงานกับเรา</a></li>
+                        <li><a href="#" class="hover:text-accent">นโยบายความเป็นส่วนตัว</a></li>
+                    </ul>
+                </div>
+
+                <!-- Follow Column -->
+                <div class="border-b border-gray-100 md:border-none">
+                    <button class="flex justify-between items-center w-full py-2 md:py-0 text-left md:cursor-default"
+                        onclick="toggleFooter(this)">
+                        <h4 class="font-bold text-gray-900 md:mb-4">ติดตามเรา</h4>
+                        <i
+                            class="fas fa-chevron-down text-gray-400 text-xs md:hidden transition-transform duration-300 transform"></i>
+                    </button>
+                    <div class="footer-links hidden md:block pb-4 md:pb-0">
+                        <div class="flex space-x-4">
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-blue-600 hover:text-white transition"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-sky-500 hover:text-white transition"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-pink-600 hover:text-white transition"><i
+                                    class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 pt-8 text-center text-sm text-gray-500">
+                &copy; 2024 Trend Today News. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Footer Accordion
+        function toggleFooter(button) {
+            if (window.innerWidth >= 768) return;
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+    </script>
+
+</body>
+
+</html>

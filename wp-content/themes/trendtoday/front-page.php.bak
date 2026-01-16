@@ -1,0 +1,121 @@
+<?php
+/**
+ * The front page template
+ * Used when "Front page displays" is set to "A static page"
+ *
+ * @package TrendToday
+ * @since 1.0.0
+ */
+
+get_header();
+?>
+
+<div class="bg-black text-white font-sans antialiased relative overflow-hidden h-screen flex flex-col items-center justify-center">
+
+    <!-- Background Effects -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] animate-pulse-slow"
+            style="animation-delay: 2s;"></div>
+        <!-- Grid Pattern -->
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 w-full max-w-2xl px-6 text-center">
+
+        <!-- Logo -->
+        <div class="mb-8 animate-float">
+            <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-full shadow-2xl">
+                <?php if ( has_custom_logo() ) : ?>
+                    <?php the_custom_logo(); ?>
+                <?php else : ?>
+                    <div class="w-10 h-10 bg-white text-black flex items-center justify-center rounded font-bold text-xl">
+                        T
+                    </div>
+                    <span class="font-bold text-3xl tracking-tight text-white">
+                        Trend<span class="text-accent">Today</span>
+                    </span>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            <?php _e( 'Welcome Back!', 'trendtoday' ); ?>
+        </h1>
+
+        <p class="text-gray-400 text-lg mb-10 font-light">
+            <?php _e( 'It looks like you are visiting from', 'trendtoday' ); ?> 
+            <span class="text-white font-bold border-b border-accent"><?php _e( 'Thailand', 'trendtoday' ); ?></span>. <br>
+            <?php _e( 'Would you like to view the local trends?', 'trendtoday' ); ?>
+        </p>
+
+        <!-- Detected Country Card (Primary Action) -->
+        <div class="mb-8 transform hover:scale-105 transition duration-300">
+            <a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                class="relative group block bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 hover:border-accent p-1 rounded-2xl shadow-xl overflow-hidden">
+                <div class="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition duration-500 blur-xl">
+                </div>
+                <div class="bg-gray-900 rounded-xl p-6 flex items-center justify-between relative z-10">
+                    <div class="flex items-center gap-4">
+                        <img src="https://flagcdn.com/w80/th.png" alt="Thailand"
+                            class="w-16 h-auto rounded shadow-lg border border-gray-700">
+                        <div class="text-left">
+                            <span class="block text-gray-400 text-xs uppercase tracking-wider mb-1">
+                                <?php _e( 'Recommended for you', 'trendtoday' ); ?>
+                            </span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-accent transition">
+                                <?php _e( 'Thailand Edition', 'trendtoday' ); ?>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="bg-white/10 p-3 rounded-full group-hover:bg-accent group-hover:text-white transition duration-300">
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Alternative Options -->
+        <div class="space-y-4">
+            <p class="text-gray-500 text-sm"><?php _e( 'Not in Thailand?', 'trendtoday' ); ?></p>
+            <button onclick="document.getElementById('region-selector').classList.toggle('hidden')"
+                class="px-6 py-2 border border-white/20 rounded-full text-sm text-gray-300 hover:bg-white/10 hover:text-white transition">
+                <?php _e( 'Select another region', 'trendtoday' ); ?> <i class="fas fa-chevron-down ml-1"></i>
+            </button>
+
+            <!-- Hidden Selector -->
+            <div id="region-selector"
+                class="hidden mt-6 grid grid-cols-2 md:grid-cols-3 gap-4 pt-4 border-t border-white/10 animate-fade-in">
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                    class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                    <img src="https://flagcdn.com/w40/us.png" class="w-8 rounded" alt="USA">
+                    <span class="text-white text-sm font-medium"><?php _e( 'Global (US)', 'trendtoday' ); ?></span>
+                </a>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                    class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                    <img src="https://flagcdn.com/w40/jp.png" class="w-8 rounded" alt="Japan">
+                    <span class="text-white text-sm font-medium"><?php _e( 'Japan', 'trendtoday' ); ?></span>
+                </a>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>"
+                    class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition border border-transparent hover:border-white/10">
+                    <img src="https://flagcdn.com/w40/gb.png" class="w-8 rounded" alt="UK">
+                    <span class="text-white text-sm font-medium"><?php _e( 'United Kingdom', 'trendtoday' ); ?></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Info -->
+    <div class="absolute bottom-6 w-full text-center z-10">
+        <p class="text-gray-600 text-sm">
+            <?php _e( 'Powered by AI Agent Trend Hunter System', 'trendtoday' ); ?> &copy; <?php echo date( 'Y' ); ?>
+        </p>
+    </div>
+
+</div>
+
+<?php
+get_footer();
+?>
