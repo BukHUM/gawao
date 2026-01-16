@@ -129,7 +129,7 @@ get_header();
                     <h3 class="text-2xl font-bold text-gray-900 mb-6"><?php _e( 'ข่าวที่เกี่ยวข้อง', 'trendtoday' ); ?></h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <?php foreach ( $related_posts as $related_post ) : ?>
-                            <a href="<?php echo esc_url( get_permalink( $related_post->ID ) ); ?>" class="group">
+                            <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink( $related_post->ID ) ) ); ?>" class="group">
                                 <div class="overflow-hidden rounded-xl mb-3 h-48">
                                     <?php
                                     if ( has_post_thumbnail( $related_post->ID ) ) {

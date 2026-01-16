@@ -60,7 +60,7 @@ get_header();
                 <h3 class="text-2xl font-bold text-gray-900 mb-6"><?php _e( 'ข่าวล่าสุด', 'trendtoday' ); ?></h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <?php foreach ( $popular_posts as $post ) : setup_postdata( $post ); ?>
-                        <a href="<?php the_permalink(); ?>" class="group">
+                        <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>" class="group">
                             <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition">
                                 <?php if ( has_post_thumbnail() ) : ?>
                                     <div class="h-40 overflow-hidden">

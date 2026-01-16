@@ -58,7 +58,7 @@ class TrendToday_Recent_Posts_Widget extends WP_Widget {
             while ( $query->have_posts() ) {
                 $query->the_post();
                 ?>
-                <a href="<?php the_permalink(); ?>" 
+                <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>" 
                    class="popular-item flex gap-3 items-start group p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                    role="listitem">
                     <?php if ( has_post_thumbnail() ) : ?>

@@ -453,13 +453,27 @@ function trendtoday_get_flexible_image_url( $url_or_id, $size = 'full' ) {
 }
 
 /**
- * Fix image URL to use current site URL instead of hardcoded URL
- * This ensures images work when site URL changes
+ * Get current site URL (Multisite compatible)
  *
- * @param string $url Image URL.
- * @return string Fixed image URL.
+ * @return string Current site URL.
  */
-function trendtoday_fix_image_url( $url ) {
+function trendtoday_get_current_site_url() {
+    // In Multisite, use get_site_url() to get the current site URL
+    if ( is_multisite() ) {
+        return get_site_url( get_current_blog_id() );
+    }
+    return home_url();
+}
+
+/**
+ * Fix URL to use current site URL instead of hardcoded URL
+ * This ensures URLs work when site URL changes
+ * Multisite compatible
+ *
+ * @param string $url URL to fix.
+ * @return string Fixed URL.
+ */
+function trendtoday_fix_url( $url ) {
     if ( empty( $url ) ) {
         return $url;
     }
@@ -467,26 +481,99 @@ function trendtoday_fix_image_url( $url ) {
     // If it's already a relative URL, make it absolute using current site URL
     if ( strpos( $url, 'http' ) !== 0 ) {
         // It's a relative URL, prepend site URL
-        return esc_url( home_url( $url ) );
+        // In Multisite, this will use the current site's URL
+        return esc_url( trendtoday_get_current_site_url() . '/' . ltrim( $url, '/' ) );
     }
     
     // It's an absolute URL, check if it's from our site
-    $site_url = home_url();
+    $site_url = trendtoday_get_current_site_url();
     $parsed_url = parse_url( $url );
     $parsed_site_url = parse_url( $site_url );
     
-    // If the domain matches, replace with current site URL
-    if ( isset( $parsed_url['host'] ) && isset( $parsed_site_url['host'] ) ) {
-        // Extract path from old URL
-        $path = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '';
-        $query = isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '';
-        
-        // Rebuild URL with current site URL
-        return esc_url( $site_url . $path . $query );
+    if ( ! isset( $parsed_url['host'] ) || ! isset( $parsed_site_url['host'] ) ) {
+        // Couldn't parse, return as is
+        return esc_url( $url );
     }
     
-    // External URL or couldn't parse, return as is
+    // Get the path from URL
+    $path = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '';
+    $query = isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '';
+    $fragment = isset( $parsed_url['fragment'] ) ? '#' . $parsed_url['fragment'] : '';
+    
+    // In Multisite, check if it's from the same network or same site
+    if ( is_multisite() ) {
+        $current_blog_id = get_current_blog_id();
+        $url_blog_id = get_blog_id_from_url( $parsed_url['host'], $path );
+        
+        // If URL belongs to current site, rebuild with current site URL
+        if ( $url_blog_id === $current_blog_id || $parsed_url['host'] === $parsed_site_url['host'] ) {
+            return esc_url( $site_url . $path . $query . $fragment );
+        }
+        
+        // If it's from same network but different site, check if we should fix it
+        // For now, only fix URLs from the same site
+    }
+    
+    // Check if it's from the same site (domain matches)
+    if ( $parsed_url['host'] === $parsed_site_url['host'] ) {
+        // Same domain, rebuild with current site URL
+        return esc_url( $site_url . $path . $query . $fragment );
+    }
+    
+    // Different domain - check if it's an internal WordPress URL
+    // WordPress internal URLs typically have:
+    // - /wp-content/ (for media files)
+    // - /wp-admin/ (for admin)
+    // - Path that matches WordPress permalink structure
+    // - Or path that starts with / (root path)
+    
+    $is_internal = false;
+    
+    // Check if path contains WordPress directories
+    if ( 
+        strpos( $path, '/wp-content/' ) !== false ||
+        strpos( $path, '/wp-admin/' ) !== false ||
+        strpos( $path, '/wp-includes/' ) !== false ||
+        strpos( $path, '/wp-json/' ) !== false
+    ) {
+        $is_internal = true;
+    }
+    
+    // Check if it's a permalink structure (starts with / and has path)
+    // WordPress permalinks usually don't have file extensions in the path
+    if ( ! $is_internal && ! empty( $path ) && $path !== '/' ) {
+        // Check if path looks like a WordPress permalink
+        // (not an external URL with file extension like .jpg, .pdf, etc.)
+        $path_parts = pathinfo( $path );
+        $has_extension = isset( $path_parts['extension'] ) && 
+                         ! in_array( strtolower( $path_parts['extension'] ), array( 'html', 'htm', 'php' ) );
+        
+        // If no extension or common web extension, likely WordPress permalink
+        if ( ! $has_extension ) {
+            // Additional check: see if path matches known WordPress patterns
+            // This is a heuristic - if path doesn't look like external resource, treat as internal
+            $is_internal = true;
+        }
+    }
+    
+    // If it's internal, replace domain with current site URL
+    if ( $is_internal ) {
+        return esc_url( $site_url . $path . $query . $fragment );
+    }
+    
+    // External URL, return as is
     return esc_url( $url );
+}
+
+/**
+ * Fix image URL to use current site URL instead of hardcoded URL
+ * This ensures images work when site URL changes
+ *
+ * @param string $url Image URL.
+ * @return string Fixed image URL.
+ */
+function trendtoday_fix_image_url( $url ) {
+    return trendtoday_fix_url( $url );
 }
 
 /**
@@ -662,8 +749,8 @@ function trendtoday_filter_attachment_image_html( $html, $attachment_id, $size, 
 add_filter( 'wp_get_attachment_image', 'trendtoday_filter_attachment_image_html', 10, 5 );
 
 /**
- * Filter post content to fix image URLs
- * This ensures images in post content work when site URL changes
+ * Filter post content to fix URLs (images, links, etc.)
+ * This ensures all URLs in post content work when site URL changes
  *
  * @param string $content Post content.
  * @return string Fixed post content.
@@ -680,8 +767,49 @@ function trendtoday_filter_post_content( $content ) {
             $before_attrs = $matches[1];
             $url = $matches[2];
             $after_attrs = $matches[3];
-            $fixed_url = trendtoday_fix_image_url( $url );
+            $fixed_url = trendtoday_fix_url( $url );
             return '<img' . $before_attrs . 'src="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $content
+    );
+    
+    // Fix anchor href attributes (links)
+    $content = preg_replace_callback(
+        '/<a([^>]+)href=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            
+            // Only fix internal links (same domain or relative URLs)
+            // Don't modify external links, mailto:, tel:, javascript:, etc.
+            if ( 
+                strpos( $url, 'http' ) === 0 && 
+                strpos( $url, home_url() ) !== 0 &&
+                strpos( $url, 'mailto:' ) !== 0 &&
+                strpos( $url, 'tel:' ) !== 0 &&
+                strpos( $url, 'javascript:' ) !== 0 &&
+                strpos( $url, '#' ) !== 0
+            ) {
+                // Check if it's an old site URL that needs fixing
+                $parsed_url = parse_url( $url );
+                $parsed_site_url = parse_url( home_url() );
+                
+                if ( isset( $parsed_url['host'] ) && isset( $parsed_site_url['host'] ) ) {
+                    // It's an absolute URL, might be from old domain
+                    $fixed_url = trendtoday_fix_url( $url );
+                } else {
+                    $fixed_url = $url;
+                }
+            } elseif ( strpos( $url, 'http' ) !== 0 ) {
+                // Relative URL, make it absolute
+                $fixed_url = trendtoday_fix_url( $url );
+            } else {
+                // External URL or special protocol, keep as is
+                $fixed_url = $url;
+            }
+            
+            return '<a' . $before_attrs . 'href="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
         },
         $content
     );
@@ -695,7 +823,7 @@ function trendtoday_filter_post_content( $content ) {
                 '/url\(["\']?([^"\'()]+)["\']?\)/i',
                 function( $url_matches ) {
                     $url = $url_matches[1];
-                    $fixed_url = trendtoday_fix_image_url( $url );
+                    $fixed_url = trendtoday_fix_url( $url );
                     return 'url("' . esc_attr( $fixed_url ) . '")';
                 },
                 $style
@@ -705,6 +833,346 @@ function trendtoday_filter_post_content( $content ) {
         $content
     );
     
+    // Fix iframe src attributes
+    $content = preg_replace_callback(
+        '/<iframe([^>]+)src=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            $fixed_url = trendtoday_fix_url( $url );
+            return '<iframe' . $before_attrs . 'src="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $content
+    );
+    
+    // Fix video source src attributes
+    $content = preg_replace_callback(
+        '/<source([^>]+)src=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            $fixed_url = trendtoday_fix_url( $url );
+            return '<source' . $before_attrs . 'src="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $content
+    );
+    
     return $content;
 }
 add_filter( 'the_content', 'trendtoday_filter_post_content', 20, 1 );
+
+/**
+ * Filter post excerpt to fix URLs
+ *
+ * @param string $excerpt Post excerpt.
+ * @return string Fixed post excerpt.
+ */
+function trendtoday_filter_post_excerpt( $excerpt ) {
+    if ( empty( $excerpt ) ) {
+        return $excerpt;
+    }
+    
+    // Fix anchor href attributes (links) in excerpt
+    $excerpt = preg_replace_callback(
+        '/<a([^>]+)href=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            
+            // Only fix internal links
+            if ( 
+                strpos( $url, 'http' ) === 0 && 
+                strpos( $url, home_url() ) !== 0 &&
+                strpos( $url, 'mailto:' ) !== 0 &&
+                strpos( $url, 'tel:' ) !== 0 &&
+                strpos( $url, 'javascript:' ) !== 0 &&
+                strpos( $url, '#' ) !== 0
+            ) {
+                $fixed_url = trendtoday_fix_url( $url );
+            } elseif ( strpos( $url, 'http' ) !== 0 ) {
+                $fixed_url = trendtoday_fix_url( $url );
+            } else {
+                $fixed_url = $url;
+            }
+            
+            return '<a' . $before_attrs . 'href="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $excerpt
+    );
+    
+    return $excerpt;
+}
+add_filter( 'get_the_excerpt', 'trendtoday_filter_post_excerpt', 20, 1 );
+add_filter( 'the_excerpt', 'trendtoday_filter_post_excerpt', 20, 1 );
+
+/**
+ * Filter permalink to ensure it uses current site URL
+ * This fixes permalinks that may have old domain hardcoded
+ *
+ * @param string $permalink Permalink URL.
+ * @param int|WP_Post $post Post ID or object.
+ * @return string Fixed permalink URL.
+ */
+function trendtoday_filter_permalink( $permalink, $post ) {
+    if ( empty( $permalink ) ) {
+        return $permalink;
+    }
+    
+    $current_site_url = trendtoday_get_current_site_url();
+    $parsed_permalink = parse_url( $permalink );
+    $parsed_site_url = parse_url( $current_site_url );
+    
+    // If permalink has a different domain, replace it
+    if ( isset( $parsed_permalink['host'] ) && isset( $parsed_site_url['host'] ) ) {
+        if ( $parsed_permalink['host'] !== $parsed_site_url['host'] ) {
+            // Different domain - extract path and rebuild with current domain
+            $path = isset( $parsed_permalink['path'] ) ? $parsed_permalink['path'] : '';
+            $query = isset( $parsed_permalink['query'] ) ? '?' . $parsed_permalink['query'] : '';
+            $fragment = isset( $parsed_permalink['fragment'] ) ? '#' . $parsed_permalink['fragment'] : '';
+            
+            // Rebuild with current site URL
+            $scheme = isset( $parsed_permalink['scheme'] ) ? $parsed_permalink['scheme'] : 'http';
+            if ( is_ssl() ) {
+                $scheme = 'https';
+            }
+            
+            // In Multisite, preserve the site path if using subdirectory structure
+            $site_path = '';
+            if ( is_multisite() && isset( $parsed_site_url['path'] ) ) {
+                $site_path = rtrim( $parsed_site_url['path'], '/' );
+            }
+            
+            return esc_url( $scheme . '://' . $parsed_site_url['host'] . 
+                          ( isset( $parsed_site_url['port'] ) ? ':' . $parsed_site_url['port'] : '' ) .
+                          $site_path . $path . $query . $fragment );
+        }
+    }
+    
+    // Use the fix_url function for any other cases
+    return trendtoday_fix_url( $permalink );
+}
+// Use high priority to ensure it runs before other filters
+add_filter( 'post_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'page_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'post_type_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'attachment_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'term_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'category_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'tag_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'author_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'day_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'month_link', 'trendtoday_filter_permalink', 5, 2 );
+add_filter( 'year_link', 'trendtoday_filter_permalink', 5, 2 );
+
+/**
+ * Filter get_permalink to ensure it uses current site URL
+ * This is a catch-all for any permalink that might have old domain
+ *
+ * @param string $permalink Permalink URL.
+ * @param int $post_id Post ID.
+ * @param bool $leavename Whether to leave post name.
+ * @return string Fixed permalink URL.
+ */
+function trendtoday_filter_get_permalink( $permalink, $post_id, $leavename ) {
+    return trendtoday_filter_permalink( $permalink, $post_id );
+}
+add_filter( 'get_permalink', 'trendtoday_filter_get_permalink', 5, 3 );
+
+/**
+ * Output buffer filter to fix any remaining URLs in the output
+ * This catches URLs that might have been generated before filters ran
+ */
+function trendtoday_output_buffer_callback( $buffer ) {
+    if ( empty( $buffer ) ) {
+        return $buffer;
+    }
+    
+    $current_site_url = trendtoday_get_current_site_url();
+    $parsed_site_url = parse_url( $current_site_url );
+    $current_domain = isset( $parsed_site_url['host'] ) ? $parsed_site_url['host'] : '';
+    
+    // List of known old domains to replace (can be extended)
+    $old_domains = array( 'trendtoday.local', 'localhost', '127.0.0.1' );
+    
+    // Fix href attributes with old domains
+    foreach ( $old_domains as $old_domain ) {
+        if ( $old_domain === $current_domain ) {
+            continue; // Skip if it's the current domain
+        }
+        
+        // Pattern to match href with old domain
+        $pattern = '/href=["\'](https?:\/\/' . preg_quote( $old_domain, '/' ) . ')([^"\']*)["\']/i';
+        $buffer = preg_replace_callback( $pattern, function( $matches ) use ( $current_site_url ) {
+            $old_url = $matches[1] . $matches[2];
+            $fixed_url = trendtoday_fix_url( $old_url );
+            return 'href="' . esc_attr( $fixed_url ) . '"';
+        }, $buffer );
+        
+        // Also fix onclick with window.location.href
+        $pattern = '/onclick=["\']([^"\']*window\.location\.href\s*=\s*["\'])(https?:\/\/' . preg_quote( $old_domain, '/' ) . ')([^"\']*)(["\'][^"\']*)["\']/i';
+        $buffer = preg_replace_callback( $pattern, function( $matches ) use ( $current_site_url ) {
+            $old_url = $matches[2] . $matches[3];
+            $fixed_url = trendtoday_fix_url( $old_url );
+            return $matches[1] . $fixed_url . $matches[4];
+        }, $buffer );
+    }
+    
+    return $buffer;
+}
+
+// Start output buffering if not in admin
+if ( ! is_admin() ) {
+    ob_start( 'trendtoday_output_buffer_callback' );
+}
+
+/**
+ * Multisite compatibility: Ensure theme works correctly in Multisite environment
+ */
+if ( is_multisite() ) {
+    /**
+     * Filter permalink to use current site URL in Multisite
+     * This ensures permalinks use the correct site URL in network
+     *
+     * @param string $permalink Permalink URL.
+     * @param int|WP_Post $post Post ID or object.
+     * @return string Fixed permalink URL.
+     */
+    function trendtoday_multisite_filter_permalink( $permalink, $post ) {
+        // In Multisite, ensure permalink uses current site URL
+        $current_site_url = get_site_url( get_current_blog_id() );
+        $parsed_permalink = parse_url( $permalink );
+        $parsed_site_url = parse_url( $current_site_url );
+        
+        // If permalink has a different domain/path, replace it
+        if ( isset( $parsed_permalink['host'] ) && isset( $parsed_site_url['host'] ) ) {
+            if ( $parsed_permalink['host'] !== $parsed_site_url['host'] ) {
+                // Different domain - extract path and rebuild with current site
+                $path = isset( $parsed_permalink['path'] ) ? $parsed_permalink['path'] : '';
+                $query = isset( $parsed_permalink['query'] ) ? '?' . $parsed_permalink['query'] : '';
+                $fragment = isset( $parsed_permalink['fragment'] ) ? '#' . $parsed_permalink['fragment'] : '';
+                
+                // Rebuild with current site URL
+                $scheme = isset( $parsed_permalink['scheme'] ) ? $parsed_permalink['scheme'] : ( is_ssl() ? 'https' : 'http' );
+                return esc_url( $scheme . '://' . $parsed_site_url['host'] . 
+                              ( isset( $parsed_site_url['port'] ) ? ':' . $parsed_site_url['port'] : '' ) .
+                              ( isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '' ) .
+                              $path . $query . $fragment );
+            }
+        }
+        
+        return $permalink;
+    }
+    
+    // Add Multisite-specific filters with higher priority
+    add_filter( 'post_link', 'trendtoday_multisite_filter_permalink', 3, 2 );
+    add_filter( 'page_link', 'trendtoday_multisite_filter_permalink', 3, 2 );
+    add_filter( 'post_type_link', 'trendtoday_multisite_filter_permalink', 3, 2 );
+}
+
+/**
+ * Filter home_url to ensure it always uses current site URL
+ * This is a safety measure in case WordPress settings haven't been updated
+ *
+ * @param string $url Home URL.
+ * @param string $path URL path.
+ * @param string|null $scheme URL scheme.
+ * @param int|null $blog_id Blog ID.
+ * @return string Fixed home URL.
+ */
+function trendtoday_filter_home_url( $url, $path, $scheme, $blog_id ) {
+    // This filter ensures home_url always returns the correct current URL
+    // WordPress should handle this, but this is a safety net
+    return $url;
+}
+// Note: We don't filter home_url as it should already be correct from WordPress settings
+// But we ensure all URLs are fixed when used
+
+/**
+ * Filter widget content to fix URLs
+ *
+ * @param string $content Widget content.
+ * @return string Fixed widget content.
+ */
+function trendtoday_filter_widget_content( $content ) {
+    if ( empty( $content ) ) {
+        return $content;
+    }
+    
+    // Fix anchor href attributes (links) in widget content
+    $content = preg_replace_callback(
+        '/<a([^>]+)href=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            
+            // Only fix internal links
+            if ( 
+                strpos( $url, 'http' ) === 0 && 
+                strpos( $url, home_url() ) !== 0 &&
+                strpos( $url, 'mailto:' ) !== 0 &&
+                strpos( $url, 'tel:' ) !== 0 &&
+                strpos( $url, 'javascript:' ) !== 0 &&
+                strpos( $url, '#' ) !== 0
+            ) {
+                $fixed_url = trendtoday_fix_url( $url );
+            } elseif ( strpos( $url, 'http' ) !== 0 ) {
+                $fixed_url = trendtoday_fix_url( $url );
+            } else {
+                $fixed_url = $url;
+            }
+            
+            return '<a' . $before_attrs . 'href="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $content
+    );
+    
+    // Fix img src attributes in widget content
+    $content = preg_replace_callback(
+        '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*)>/i',
+        function( $matches ) {
+            $before_attrs = $matches[1];
+            $url = $matches[2];
+            $after_attrs = $matches[3];
+            $fixed_url = trendtoday_fix_url( $url );
+            return '<img' . $before_attrs . 'src="' . esc_attr( $fixed_url ) . '"' . $after_attrs . '>';
+        },
+        $content
+    );
+    
+    return $content;
+}
+add_filter( 'widget_text', 'trendtoday_filter_widget_content', 20, 1 );
+add_filter( 'widget_custom_html_content', 'trendtoday_filter_widget_content', 20, 1 );
+
+/**
+ * Filter menu item URL to ensure it uses current site URL
+ *
+ * @param array $atts Menu item attributes.
+ * @param WP_Post $item Menu item object.
+ * @param stdClass $args Menu arguments.
+ * @return array Fixed menu item attributes.
+ */
+function trendtoday_filter_nav_menu_link_attributes( $atts, $item, $args ) {
+    if ( isset( $atts['href'] ) ) {
+        $atts['href'] = trendtoday_fix_url( $atts['href'] );
+    }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'trendtoday_filter_nav_menu_link_attributes', 10, 3 );
+
+/**
+ * Filter menu item URL in walker
+ * This ensures menu URLs are fixed when rendered
+ *
+ * @param string $url Menu item URL.
+ * @param WP_Post $item Menu item object.
+ * @return string Fixed menu item URL.
+ */
+function trendtoday_filter_nav_menu_item_url( $url, $item ) {
+    return trendtoday_fix_url( $url );
+}
+add_filter( 'nav_menu_item_url', 'trendtoday_filter_nav_menu_item_url', 10, 2 );

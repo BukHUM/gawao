@@ -11,10 +11,110 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Create main admin menu for Trend Today theme
+ */
+function trendtoday_add_admin_menu() {
+    // Main menu page
+    add_menu_page(
+        __( 'Trend Today', 'trendtoday' ),
+        __( 'Trend Today', 'trendtoday' ),
+        'edit_posts',
+        'trendtoday',
+        'trendtoday_admin_page',
+        'dashicons-admin-site-alt3',
+        5
+    );
+    
+    // Dashboard submenu (default page)
+    add_submenu_page(
+        'trendtoday',
+        __( 'Dashboard', 'trendtoday' ),
+        __( 'Dashboard', 'trendtoday' ),
+        'edit_posts',
+        'trendtoday',
+        'trendtoday_admin_page'
+    );
+}
+add_action( 'admin_menu', 'trendtoday_add_admin_menu', 9 );
+
+/**
+ * Admin page callback for Trend Today menu
+ */
+function trendtoday_admin_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+        <div class="trendtoday-dashboard">
+            <div class="trendtoday-dashboard-widgets">
+                <div class="trendtoday-widget">
+                    <h2><?php _e( 'Welcome to Trend Today', 'trendtoday' ); ?></h2>
+                    <p><?php _e( 'Manage your content using the menu items below.', 'trendtoday' ); ?></p>
+                </div>
+                
+                <div class="trendtoday-widget">
+                    <h3><?php _e( 'Quick Stats', 'trendtoday' ); ?></h3>
+                    <ul>
+                        <li>
+                            <strong><?php _e( 'Video News:', 'trendtoday' ); ?></strong>
+                            <?php
+                            $video_count = wp_count_posts( 'video_news' );
+                            echo number_format_i18n( $video_count->publish );
+                            ?>
+                        </li>
+                        <li>
+                            <strong><?php _e( 'Photo Galleries:', 'trendtoday' ); ?></strong>
+                            <?php
+                            $gallery_count = wp_count_posts( 'gallery' );
+                            echo number_format_i18n( $gallery_count->publish );
+                            ?>
+                        </li>
+                        <li>
+                            <strong><?php _e( 'Featured Stories:', 'trendtoday' ); ?></strong>
+                            <?php
+                            $featured_count = wp_count_posts( 'featured_story' );
+                            echo number_format_i18n( $featured_count->publish );
+                            ?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .trendtoday-dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .trendtoday-widget {
+            background: #fff;
+            border: 1px solid #ccd0d4;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+            padding: 20px;
+        }
+        .trendtoday-widget h2 {
+            margin-top: 0;
+        }
+        .trendtoday-widget h3 {
+            margin-top: 0;
+        }
+        .trendtoday-widget ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+        .trendtoday-widget li {
+            margin: 10px 0;
+        }
+    </style>
+    <?php
+}
+
+/**
  * Register Custom Post Types
  */
 function trendtoday_register_post_types() {
-    // Video News Post Type
+    // Video News Post Type - under Trend Today menu
     register_post_type(
         'video_news',
         array(
@@ -36,10 +136,9 @@ function trendtoday_register_post_types() {
             'has_archive'         => true,
             'publicly_queryable'  => true,
             'show_ui'             => true,
-            'show_in_menu'        => true,
+            'show_in_menu'        => 'trendtoday', // Parent menu slug
             'show_in_nav_menus'   => true,
             'show_in_admin_bar'   => true,
-            'menu_position'       => 5,
             'menu_icon'           => 'dashicons-video-alt3',
             'capability_type'     => 'post',
             'hierarchical'        => false,
@@ -52,7 +151,7 @@ function trendtoday_register_post_types() {
         )
     );
 
-    // Gallery Post Type
+    // Gallery Post Type - under Trend Today menu
     register_post_type(
         'gallery',
         array(
@@ -74,10 +173,9 @@ function trendtoday_register_post_types() {
             'has_archive'         => true,
             'publicly_queryable'  => true,
             'show_ui'             => true,
-            'show_in_menu'        => true,
+            'show_in_menu'        => 'trendtoday', // Parent menu slug
             'show_in_nav_menus'   => true,
             'show_in_admin_bar'   => true,
-            'menu_position'       => 5,
             'menu_icon'           => 'dashicons-format-gallery',
             'capability_type'     => 'post',
             'hierarchical'        => false,
@@ -90,7 +188,7 @@ function trendtoday_register_post_types() {
         )
     );
 
-    // Featured Story Post Type (for special featured content)
+    // Featured Story Post Type - under Trend Today menu
     register_post_type(
         'featured_story',
         array(
@@ -112,10 +210,9 @@ function trendtoday_register_post_types() {
             'has_archive'         => true,
             'publicly_queryable'  => true,
             'show_ui'             => true,
-            'show_in_menu'        => true,
+            'show_in_menu'        => 'trendtoday', // Parent menu slug
             'show_in_nav_menus'   => true,
             'show_in_admin_bar'   => true,
-            'menu_position'       => 5,
             'menu_icon'           => 'dashicons-star-filled',
             'capability_type'     => 'post',
             'hierarchical'        => false,

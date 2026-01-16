@@ -23,9 +23,10 @@ if ( $breaking_query->have_posts() ) :
     $breaking_query->the_post();
     ?>
     <section class="mb-12" aria-label="Breaking news">
+        <?php $post_permalink = trendtoday_fix_url( get_permalink() ); ?>
         <article class="relative rounded-2xl overflow-hidden shadow-xl group cursor-pointer h-96 md:h-[500px] transition-all duration-300 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-                 onclick="window.location.href='<?php the_permalink(); ?>'"
-                 onkeypress="if(event.key === 'Enter') window.location.href='<?php the_permalink(); ?>'"
+                 onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'"
+                 onkeypress="if(event.key === 'Enter') window.location.href='<?php echo esc_url( $post_permalink ); ?>'"
                  role="article"
                  tabindex="0"
                  aria-label="<?php echo esc_attr( get_the_title() ); ?>">
@@ -41,7 +42,7 @@ if ( $breaking_query->have_posts() ) :
                     <i class="fas fa-fire mr-1"></i>Breaking News
                 </span>
                 <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 drop-shadow-lg">
-                    <a href="<?php the_permalink(); ?>" class="text-white hover:text-gray-200">
+                    <a href="<?php echo esc_url( $post_permalink ); ?>" class="text-white hover:text-gray-200">
                         <?php the_title(); ?>
                     </a>
                 </h1>

@@ -18,12 +18,12 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
 ?>
 
 <article class="article-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition duration-300 flex flex-col cursor-pointer"
-         onclick="window.location.href='<?php the_permalink(); ?>'"
+         onclick="window.location.href='<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>'"
          role="article"
          aria-label="<?php echo esc_attr( get_the_title() ); ?>">
     <div class="relative overflow-hidden h-48">
         <?php if ( has_post_thumbnail() ) : ?>
-            <a href="<?php the_permalink(); ?>">
+            <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>">
                 <?php the_post_thumbnail( 'trendtoday-card', array(
                     'class' => 'article-img w-full h-full object-cover transition duration-500',
                     'alt'   => get_the_title(),
@@ -39,7 +39,7 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
     </div>
     <div class="p-5 flex flex-col flex-grow">
         <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug line-clamp-2 hover:text-accent cursor-pointer transition-colors">
-            <a href="<?php the_permalink(); ?>">
+            <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>">
                 <?php the_title(); ?>
             </a>
         </h3>

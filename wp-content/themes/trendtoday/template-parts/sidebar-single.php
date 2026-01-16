@@ -42,7 +42,7 @@
                     $latest_query->the_post();
                     $post_obj = $latest_query->post;
                     $post_title = $post_obj->post_title;
-                    $post_permalink = get_permalink( $post_obj->ID );
+                    $post_permalink = trendtoday_fix_url( get_permalink( $post_obj->ID ) );
                     $post_date = get_post_time( 'U', false, $post_obj->ID );
                     $thumbnail_id = get_post_thumbnail_id( $post_obj->ID );
                     

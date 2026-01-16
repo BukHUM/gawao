@@ -16,6 +16,7 @@ Trend Today is a clean, responsive WordPress theme designed for news and blog co
 - Featured images support
 - Post formats support
 - Translation ready
+- WordPress Multisite compatible
 
 ## Requirements
 

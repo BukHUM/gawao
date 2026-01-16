@@ -60,9 +60,10 @@ get_header();
     if ( $top_story->have_posts() ) :
         $top_story->the_post();
         ?>
+        <?php $post_permalink = trendtoday_fix_url( get_permalink() ); ?>
         <section class="mb-12">
             <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col md:flex-row group cursor-pointer hover:shadow-md transition"
-                 onclick="window.location.href='<?php the_permalink(); ?>'">
+                 onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'">
                 <div class="md:w-3/5 relative overflow-hidden h-64 md:h-auto">
                     <?php if ( has_post_thumbnail() ) : ?>
                         <?php the_post_thumbnail( 'trendtoday-hero', array(
@@ -81,7 +82,7 @@ get_header();
                         <div class="text-accent font-bold text-sm mb-2"><?php echo esc_html( $categories[0]->name ); ?></div>
                     <?php endif; ?>
                     <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-accent transition">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        <a href="<?php echo esc_url( $post_permalink ); ?>"><?php the_title(); ?></a>
                     </h2>
                     <?php if ( has_excerpt() ) : ?>
                         <p class="text-gray-500 mb-6 line-clamp-3 font-light">

@@ -78,8 +78,9 @@ get_header();
                     while ( have_posts() ) :
                         the_post();
                         ?>
+                        <?php $post_permalink = trendtoday_fix_url( get_permalink() ); ?>
                         <article class="flex flex-col sm:flex-row bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 mb-6 group cursor-pointer"
-                                 onclick="window.location.href='<?php the_permalink(); ?>'">
+                                 onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'">
                             <div class="sm:w-1/3 relative overflow-hidden h-48 sm:h-auto">
                                 <?php if ( has_post_thumbnail() ) : ?>
                                     <?php the_post_thumbnail( 'trendtoday-card', array(
@@ -105,7 +106,7 @@ get_header();
                                     </span>
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
-                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                    <a href="<?php echo esc_url( $post_permalink ); ?>"><?php the_title(); ?></a>
                                 </h3>
                                 <?php if ( has_excerpt() ) : ?>
                                     <p class="text-gray-500 text-sm line-clamp-2">

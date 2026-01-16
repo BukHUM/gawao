@@ -63,7 +63,7 @@ class TrendToday_Popular_Posts_Widget extends WP_Widget {
                     continue;
                 }
                 ?>
-                <a href="<?php the_permalink(); ?>" 
+                <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>" 
                    class="popular-item flex gap-4 items-start group p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                    role="listitem"
                    aria-label="<?php echo esc_attr( sprintf( __( 'Popular article %d: %s', 'trendtoday' ), $index, $post_title ) ); ?>">
