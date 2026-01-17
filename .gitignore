@@ -1,0 +1,65 @@
+# WordPress Core (if not tracking)
+# wp-admin/
+# wp-includes/
+# wp-*.php
+# xmlrpc.php
+# license.txt
+# readme.html
+
+# WordPress Uploads
+wp-content/uploads/
+
+# WordPress Cache
+wp-content/cache/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+
+# WordPress Debug
+wp-content/debug.log
+
+# WordPress Config (sensitive)
+# wp-config.php
+
+# Node modules
+node_modules/
+
+# Dependencies
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Archives in plan folder
+plan/*.zip
+plan/*.pdf
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build files
+dist/
+build/
