@@ -137,7 +137,7 @@ function trendtoday_add_preconnect_for_fonts( $tag, $handle ) {
  * Enqueue admin styles
  */
 function trendtoday_enqueue_admin_styles( $hook ) {
-    // Only load on post edit screens
+    // Load on post list and edit screens
     if ( ! in_array( $hook, array( 'post.php', 'post-new.php', 'edit.php' ) ) ) {
         return;
     }
@@ -148,6 +148,29 @@ function trendtoday_enqueue_admin_styles( $hook ) {
         array(),
         trendtoday_get_theme_version()
     );
+    
+    // Add inline CSS for post list table column widths
+    if ( 'edit.php' === $hook ) {
+        $custom_css = '
+        #posts-filter .wp-list-table,
+        #posts-filter .widefat {
+            table-layout: auto !important;
+        }
+        #posts-filter .wp-list-table th.column-title,
+        #posts-filter .wp-list-table td.column-title {
+            width: 50% !important;
+            min-width: 400px !important;
+            max-width: none !important;
+        }
+        .wp-list-table th.column-title,
+        .wp-list-table td.column-title {
+            width: 50% !important;
+            min-width: 400px !important;
+            max-width: none !important;
+        }
+        ';
+        wp_add_inline_style( 'trendtoday-admin', $custom_css );
+    }
 }
 add_action( 'admin_enqueue_scripts', 'trendtoday_enqueue_admin_styles' );
 

@@ -19,7 +19,8 @@ RSS Feed Read เป็น Node พื้นฐานแต่ทรงพลั
 
 **URL สำหรับ Google Trends:**
 ```
-https://trends.google.com/trends/trendingsearches/daily/rss?geo=TH
+https://trends.google.com/trending/rss?geo=US
+https://trends.google.com/trending/rss?geo=TH
 ```
 
 **หมายเหตุ:** 
@@ -33,8 +34,8 @@ https://trends.google.com/trends/trendingsearches/daily/rss?geo=TH
 1. เปิด n8n Canvas ของคุณขึ้นมา
 2. กดเครื่องหมาย **+** เพื่อเพิ่ม Node ใหม่
 3. ค้นหาคำว่า **RSS Feed Read**
-4. ในช่อง **URL**, ให้วางลิงก์ Google Trends ด้านบนลงไป
-5. กดปุ่ม **Execute Node** เพื่อทดสอบ
+4. ในช่อง **URL**, ให้วางลิงก์ Google Trends (เช่น `https://trends.google.com/trending/rss?geo=TH`)
+5. กดปุ่ม **Execute Node** (หรือ **Test step**) เพื่อทดสอบ
 
 ---
 
@@ -61,7 +62,7 @@ https://trends.google.com/trends/trendingsearches/daily/rss?geo=TH
     },
     {
       "parameters": {
-        "url": "https://trends.google.com/trends/trendingsearches/daily/rss?geo=TH"
+        "url": "https://trends.google.com/trending/rss?geo=TH"
       },
       "id": "rss-node-id",
       "name": "Google Trends TH",

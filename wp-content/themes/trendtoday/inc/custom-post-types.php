@@ -300,6 +300,21 @@ add_action( 'init', 'trendtoday_register_taxonomies' );
  * Add custom columns to post type admin lists
  */
 function trendtoday_add_custom_columns( $columns ) {
+    // Add thumbnail column at the beginning for all post types
+    $new_columns = array();
+    
+    // Add checkbox column first
+    if ( isset( $columns['cb'] ) ) {
+        $new_columns['cb'] = $columns['cb'];
+        unset( $columns['cb'] );
+    }
+    
+    // Add thumbnail column after checkbox
+    $new_columns['featured_image'] = __( 'Image', 'trendtoday' );
+    
+    // Merge with existing columns
+    $columns = array_merge( $new_columns, $columns );
+    
     // Add custom columns for posts
     if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] === 'post' ) {
         $columns['breaking_news'] = __( 'Breaking', 'trendtoday' );
@@ -328,6 +343,16 @@ add_filter( 'manage_pages_columns', 'trendtoday_add_custom_columns' );
  */
 function trendtoday_custom_column_content( $column, $post_id ) {
     switch ( $column ) {
+        case 'featured_image':
+            if ( has_post_thumbnail( $post_id ) ) {
+                $thumbnail = get_the_post_thumbnail( $post_id, array( 60, 60 ), array( 'style' => 'width: 60px; height: 60px; object-fit: cover; border-radius: 4px;' ) );
+                $edit_link = get_edit_post_link( $post_id );
+                echo '<a href="' . esc_url( $edit_link ) . '">' . $thumbnail . '</a>';
+            } else {
+                echo '<span style="display: inline-block; width: 60px; height: 60px; background: #f0f0f0; border-radius: 4px; text-align: center; line-height: 60px; color: #999; font-size: 11px;">' . __( 'No image', 'trendtoday' ) . '</span>';
+            }
+            break;
+
         case 'breaking_news':
             $breaking = get_post_meta( $post_id, 'breaking_news', true );
             echo $breaking === '1' ? '<span style="color: #dc2626;">●</span>' : '—';

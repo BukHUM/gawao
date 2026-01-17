@@ -128,3 +128,110 @@
 .button-secondary {
     margin-right: 5px;
 }
+
+/* WordPress Admin Post List Table - Fix Title Column Width */
+/* Use more specific selectors to ensure styles are applied */
+#posts-filter .wp-list-table,
+#posts-filter .widefat {
+    table-layout: auto !important;
+}
+
+#posts-filter .wp-list-table th.column-title,
+#posts-filter .wp-list-table td.column-title,
+.wp-list-table th.column-title,
+.wp-list-table td.column-title {
+    width: 50% !important;
+    min-width: 400px !important;
+    max-width: none !important;
+}
+
+#posts-filter .wp-list-table th.column-author,
+#posts-filter .wp-list-table td.column-author,
+.wp-list-table th.column-author,
+.wp-list-table td.column-author {
+    width: 10% !important;
+}
+
+#posts-filter .wp-list-table th.column-categories,
+#posts-filter .wp-list-table td.column-categories,
+.wp-list-table th.column-categories,
+.wp-list-table td.column-categories {
+    width: 15% !important;
+}
+
+#posts-filter .wp-list-table th.column-tags,
+#posts-filter .wp-list-table td.column-tags,
+.wp-list-table th.column-tags,
+.wp-list-table td.column-tags {
+    width: 15% !important;
+}
+
+#posts-filter .wp-list-table th.column-date,
+#posts-filter .wp-list-table td.column-date,
+.wp-list-table th.column-date,
+.wp-list-table td.column-date {
+    width: 10% !important;
+}
+
+/* For custom post types */
+.wp-list-table.post-type-video_news th.column-title,
+.wp-list-table.post-type-video_news td.column-title,
+.wp-list-table.post-type-gallery th.column-title,
+.wp-list-table.post-type-gallery td.column-title,
+.wp-list-table.post-type-featured_story th.column-title,
+.wp-list-table.post-type-featured_story td.column-title {
+    width: 50% !important;
+    min-width: 400px !important;
+    max-width: none !important;
+}
+
+/* Ensure table doesn't force fixed layout */
+.wp-list-table {
+    table-layout: auto !important;
+    width: 100% !important;
+}
+
+/* Featured Image Column Styling */
+.wp-list-table .column-featured_image {
+    width: 80px !important;
+    text-align: center;
+}
+
+.wp-list-table td.column-featured_image {
+    padding: 8px !important;
+    vertical-align: middle;
+}
+
+.wp-list-table td.column-featured_image a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.wp-list-table td.column-featured_image img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wp-list-table td.column-featured_image a:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.wp-list-table td.column-featured_image span {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 60px;
+    color: #999;
+    font-size: 11px;
+    border: 1px solid #ddd;
+}

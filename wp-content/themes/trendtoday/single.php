@@ -89,12 +89,12 @@ get_header();
             <?php endif; ?>
 
             <!-- Article Body -->
-            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-light">
+            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
                 <?php
                 the_content();
 
                 wp_link_pages( array(
-                    'before' => '<div class="page-links">' . __( 'Pages:', 'trendtoday' ),
+                    'before' => '<div class="page-links mt-8 pt-6 border-t border-gray-200">' . __( 'Pages:', 'trendtoday' ),
                     'after'  => '</div>',
                 ) );
                 ?>
