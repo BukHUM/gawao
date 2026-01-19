@@ -251,50 +251,119 @@
             });
         }
 
-        // Newsletter Form
+        // Newsletter Form Handler (jQuery fallback for older forms)
         $('form[onsubmit*="handleNewsletterSubmit"]').on('submit', function(e) {
             e.preventDefault();
             const form = $(this);
-            const email = form.find('input[type="email"]').val();
+            const emailInput = form.find('input[type="email"]');
+            const email = emailInput.val().trim();
             const button = form.find('button[type="submit"]');
             const originalText = button.html();
             
-            if (email) {
-                button.html('<i class="fas fa-spinner fa-spin mr-2"></i>กำลังส่ง...');
-                button.prop('disabled', true);
+            if (!email) {
+                emailInput.focus();
+                return;
+            }
+            
+            button.html('<i class="fas fa-spinner fa-spin"></i>');
+            button.prop('disabled', true);
+            
+            // Simulate API call (replace with actual API endpoint)
+            setTimeout(function() {
+                // Success state
+                button.html('<i class="fas fa-check text-green-500"></i>');
+                button.addClass('bg-green-500 hover:bg-green-600');
+                form[0].reset();
                 
-                // Simulate API call
+                // Show success message
+                const successMsg = $('<div class="mt-2 text-sm text-green-500">ขอบคุณที่สมัครรับข่าวสาร!</div>');
+                form.append(successMsg);
+                
                 setTimeout(function() {
-                    alert('ขอบคุณที่สมัครรับข่าวสาร! เราจะส่งอีเมลยืนยันให้คุณเร็วๆ นี้');
-                    form[0].reset();
                     button.html(originalText);
                     button.prop('disabled', false);
-                }, 1500);
-            }
+                    button.removeClass('bg-green-500 hover:bg-green-600');
+                    successMsg.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }, 3000);
+            }, 1500);
         });
     });
 
-    // Footer Toggle Function (for mobile accordion)
+    // Footer Toggle Function (for mobile accordion) - Enhanced
     window.toggleFooter = function(button) {
         if (!button) return;
         
         const $button = $(button);
         const $icon = $button.find('i.fa-chevron-down');
-        const $links = $button.next('.footer-links');
+        const targetId = $button.attr('aria-controls');
+        const $links = targetId ? $('#' + targetId) : $button.next('.footer-links');
         
         if ($links.length) {
-            const isHidden = $links.hasClass('hidden');
+            const isHidden = $links.hasClass('hidden') || $button.attr('aria-expanded') === 'false';
             
             if (isHidden) {
-                $links.removeClass('hidden').slideDown(300);
+                $links.removeClass('hidden').slideDown(300, function() {
+                    $(this).attr('aria-hidden', 'false');
+                });
                 $icon.addClass('rotate-180');
+                $button.attr('aria-expanded', 'true');
             } else {
                 $links.slideUp(300, function() {
-                    $(this).addClass('hidden');
+                    $(this).addClass('hidden').attr('aria-hidden', 'true');
                 });
                 $icon.removeClass('rotate-180');
+                $button.attr('aria-expanded', 'false');
             }
         }
+    };
+    
+    // Enhanced Newsletter Form Handler
+    window.handleNewsletterSubmit = function(event) {
+        event.preventDefault();
+        const form = event.target.closest('form');
+        if (!form) return;
+        
+        const emailInput = form.querySelector('input[type="email"]');
+        const button = form.querySelector('button[type="submit"]');
+        
+        if (!emailInput || !button) return;
+        
+        const email = emailInput.value.trim();
+        const originalButtonHTML = button.innerHTML;
+        
+        if (!email) {
+            emailInput.focus();
+            return;
+        }
+        
+        // Disable button and show loading state
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        
+        // Simulate API call (replace with actual API endpoint)
+        setTimeout(function() {
+            // Success state
+            button.innerHTML = '<i class="fas fa-check text-green-500"></i>';
+            button.classList.add('bg-green-500', 'hover:bg-green-600');
+            emailInput.value = '';
+            
+            // Show success message (you can replace with toast notification)
+            const successMsg = document.createElement('div');
+            successMsg.className = 'mt-2 text-sm text-green-500';
+            successMsg.textContent = 'ขอบคุณที่สมัครรับข่าวสาร!';
+            form.appendChild(successMsg);
+            
+            setTimeout(function() {
+                button.disabled = false;
+                button.innerHTML = originalButtonHTML;
+                button.classList.remove('bg-green-500', 'hover:bg-green-600');
+                if (successMsg.parentNode) {
+                    successMsg.parentNode.removeChild(successMsg);
+                }
+            }, 3000);
+        }, 1500);
     };
 
     // Hero Slider Functionality

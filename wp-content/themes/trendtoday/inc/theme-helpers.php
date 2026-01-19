@@ -11,6 +11,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Get enabled widgets from settings
+ *
+ * @return array Array of enabled widget keys
+ */
+function trendtoday_get_enabled_widgets() {
+    $available_widgets = array( 'popular_posts', 'recent_posts', 'trending_tags' );
+    $saved_widgets = get_option( 'trendtoday_enabled_widgets' );
+    
+    if ( $saved_widgets === false ) {
+        // First time - default to all enabled
+        return $available_widgets;
+    } else {
+        // Use saved value (can be empty array if all unchecked)
+        return is_array( $saved_widgets ) ? $saved_widgets : array();
+    }
+}
+
+/**
+ * Check if a specific widget is enabled
+ *
+ * @param string $widget_key Widget key to check (popular_posts, recent_posts, trending_tags).
+ * @return bool True if enabled, false otherwise.
+ */
+function trendtoday_is_widget_enabled( $widget_key ) {
+    $enabled_widgets = trendtoday_get_enabled_widgets();
+    return in_array( $widget_key, $enabled_widgets, true );
+}
+
+/**
  * Get theme version
  *
  * @return string Theme version

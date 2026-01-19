@@ -9,19 +9,17 @@
 
 <aside class="lg:w-1/3 space-y-8 sticky-sidebar" aria-label="Sidebar content">
     <?php 
-    // Always show default sidebar widgets (Popular Posts and Newsletter)
-    // These are theme-specific widgets that display automatically
-    
-    // Popular Posts Widget
-    // Try views first, fallback to date if no results
-    $popular_query = trendtoday_get_popular_posts( 4, 'views' );
-    
-    // If no posts with views, fallback to latest posts
-    if ( ! $popular_query->have_posts() ) {
-        $popular_query = trendtoday_get_popular_posts( 4, 'date' );
-    }
-    
-    if ( $popular_query->have_posts() ) :
+    // Popular Posts Widget (only if enabled)
+    if ( trendtoday_is_widget_enabled( 'popular_posts' ) ) :
+        // Try views first, fallback to date if no results
+        $popular_query = trendtoday_get_popular_posts( 4, 'views' );
+        
+        // If no posts with views, fallback to latest posts
+        if ( ! $popular_query->have_posts() ) {
+            $popular_query = trendtoday_get_popular_posts( 4, 'date' );
+        }
+        
+        if ( $popular_query->have_posts() ) :
         ?>
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
             <h3 class="font-bold text-xl mb-5 flex items-center gap-2">
@@ -73,35 +71,8 @@
                 ?>
             </div>
         </div>
-    <?php endif; ?>
-
-    <!-- Newsletter Widget -->
-    <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-xl relative overflow-hidden shadow-lg">
-        <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-2">
-                <i class="fas fa-envelope text-accent text-xl"></i>
-                <h3 class="font-bold text-xl"><?php _e( 'ไม่พลาดทุกเทรนด์', 'trendtoday' ); ?></h3>
-            </div>
-            <p class="text-gray-300 text-sm mb-4 leading-relaxed">
-                <?php _e( 'สมัครรับข่าวสารสรุปประจำวันส่งตรงถึงอีเมลของคุณ', 'trendtoday' ); ?>
-            </p>
-            <form class="space-y-3" onsubmit="event.preventDefault(); handleNewsletterSubmit(event);" aria-label="<?php _e( 'Newsletter subscription', 'trendtoday' ); ?>">
-                <input type="email" 
-                       placeholder="<?php _e( 'ใส่อีเมลของคุณ', 'trendtoday' ); ?>" 
-                       required
-                       aria-label="<?php _e( 'Email address', 'trendtoday' ); ?>"
-                       class="newsletter-input w-full px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-200"
-                       id="newsletter-email">
-                <button type="submit"
-                        class="w-full bg-accent hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                    <i class="fas fa-paper-plane mr-2"></i><?php _e( 'ติดตาม', 'trendtoday' ); ?>
-                </button>
-            </form>
-        </div>
-        <!-- Decorative elements -->
-        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        <div class="absolute -top-10 -left-10 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
-    </div>
+        <?php endif; // End check for have_posts ?>
+    <?php endif; // End check for popular_posts_enabled ?>
     
     <?php 
     // Display additional widgets from sidebar-1 if any are active

@@ -661,6 +661,16 @@ function trendtoday_settings_page() {
             if ( isset( $_POST['trendtoday_search_show_excerpt'] ) ) {
                 $suggestions_display[] = 'excerpt';
             }
+            
+            // Save widget visibility settings
+            $available_widgets = array( 'popular_posts', 'recent_posts', 'trending_tags' );
+            if ( isset( $_POST['trendtoday_enabled_widgets'] ) && is_array( $_POST['trendtoday_enabled_widgets'] ) ) {
+                $enabled_widgets = array_intersect( $_POST['trendtoday_enabled_widgets'], $available_widgets );
+            } else {
+                // If no checkboxes are selected, save empty array
+                $enabled_widgets = array();
+            }
+            update_option( 'trendtoday_enabled_widgets', $enabled_widgets );
             if ( isset( $_POST['trendtoday_search_show_date'] ) ) {
                 $suggestions_display[] = 'date';
             }
@@ -850,7 +860,7 @@ function trendtoday_settings_page() {
         $active_tab = sanitize_text_field( $_GET['tab'] );
     }
     
-    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'image-optimization' ), true ) ) {
+    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'image-optimization', 'widgets' ), true ) ) {
         $active_tab = 'general';
     }
     
@@ -930,6 +940,22 @@ function trendtoday_settings_page() {
     $image_webp_quality = get_option( 'trendtoday_image_webp_quality', 85 );
     $image_strip_exif = get_option( 'trendtoday_image_strip_exif', '1' );
     
+    // Get Widget visibility settings
+    $available_widgets = array(
+        'popular_posts' => __( 'Popular Posts Widget', 'trendtoday' ),
+        'recent_posts' => __( 'Recent Posts Widget', 'trendtoday' ),
+        'trending_tags' => __( 'Trending Tags Widget', 'trendtoday' ),
+    );
+    // Get enabled widgets - default to all enabled only if option doesn't exist
+    $saved_widgets = get_option( 'trendtoday_enabled_widgets' );
+    if ( $saved_widgets === false ) {
+        // First time - default to all enabled
+        $enabled_widgets = array_keys( $available_widgets );
+    } else {
+        // Use saved value (can be empty array if all unchecked)
+        $enabled_widgets = is_array( $saved_widgets ) ? $saved_widgets : array();
+    }
+    
     // Get image statistics
     if ( function_exists( 'trendtoday_get_image_stats' ) ) {
         $image_stats = trendtoday_get_image_stats();
@@ -969,6 +995,9 @@ function trendtoday_settings_page() {
                 </a>
                 <a href="#image-optimization" class="nav-tab <?php echo $active_tab === 'image-optimization' ? 'nav-tab-active' : ''; ?>" data-tab="image-optimization">
                     <span class="dashicons dashicons-images-alt2"></span> <?php _e( 'Image Optimization', 'trendtoday' ); ?>
+                </a>
+                <a href="#widgets" class="nav-tab <?php echo $active_tab === 'widgets' ? 'nav-tab-active' : ''; ?>" data-tab="widgets">
+                    <span class="dashicons dashicons-welcome-widgets-menus"></span> <?php _e( 'Widgets', 'trendtoday' ); ?>
                 </a>
             </nav>
             
@@ -2040,6 +2069,64 @@ function trendtoday_settings_page() {
                                     </div>
                                     <p id="trendtoday-regenerate-status" style="margin-top: 5px; font-size: 12px;"></p>
                                 </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Widgets Tab -->
+            <div id="widgets-tab" class="trendtoday-tab-content <?php echo $active_tab === 'widgets' ? 'active' : ''; ?>">
+                <div class="trendtoday-settings-section">
+                    <h2 class="trendtoday-section-title">
+                        <span class="dashicons dashicons-welcome-widgets-menus"></span>
+                        <?php _e( 'Widget Visibility Settings', 'trendtoday' ); ?>
+                    </h2>
+                    <p class="trendtoday-section-description">
+                        <?php _e( 'เลือก widgets ที่ต้องการให้แสดงใน WordPress Widgets area (Appearance > Widgets)', 'trendtoday' ); ?>
+                    </p>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'Available Widgets', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <fieldset>
+                                    <legend class="screen-reader-text">
+                                        <span><?php _e( 'Select widgets to enable', 'trendtoday' ); ?></span>
+                                    </legend>
+                                    <?php foreach ( $available_widgets as $widget_key => $widget_name ) : ?>
+                                        <label style="display: block; margin-bottom: 12px; padding: 10px; background: #f9f9f9; border-radius: 4px; border-left: 3px solid #2271b1;">
+                                            <input type="checkbox" 
+                                                   name="trendtoday_enabled_widgets[]" 
+                                                   value="<?php echo esc_attr( $widget_key ); ?>"
+                                                   <?php checked( in_array( $widget_key, $enabled_widgets, true ) ); ?> />
+                                            <strong><?php echo esc_html( $widget_name ); ?></strong>
+                                            <p class="description" style="margin: 5px 0 0 25px; color: #646970;">
+                                                <?php
+                                                switch ( $widget_key ) {
+                                                    case 'popular_posts':
+                                                        _e( 'แสดงบทความยอดนิยมตามจำนวน views', 'trendtoday' );
+                                                        break;
+                                                    case 'recent_posts':
+                                                        _e( 'แสดงบทความล่าสุด', 'trendtoday' );
+                                                        break;
+                                                    case 'trending_tags':
+                                                        _e( 'แสดง tags ที่มาแรง (Trending tags)', 'trendtoday' );
+                                                        break;
+                                                }
+                                                ?>
+                                            </p>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </fieldset>
+                                <p class="description" style="margin-top: 15px;">
+                                    <strong><?php _e( 'หมายเหตุ:', 'trendtoday' ); ?></strong><br>
+                                    <?php _e( '• Widgets ที่ถูกเลือกจะแสดงใน Appearance > Widgets และสามารถเพิ่มไปยัง Widget Areas ต่างๆ ได้', 'trendtoday' ); ?><br>
+                                    <?php _e( '• Widgets ที่ไม่ถูกเลือกจะไม่แสดงใน Widgets area แต่โค้ดยังคงทำงานอยู่', 'trendtoday' ); ?><br>
+                                    <?php _e( '• การเปลี่ยนแปลงจะมีผลหลังจากบันทึกการตั้งค่า', 'trendtoday' ); ?>
+                                </p>
                             </td>
                         </tr>
                     </table>

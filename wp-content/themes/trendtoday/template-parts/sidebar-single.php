@@ -25,23 +25,25 @@
         dynamic_sidebar( 'sidebar-1' );
     } else {
         // Only show default sidebar content if no widgets are active
-        ?>
+        // Check if Recent Posts widget is enabled in settings
+        if ( trendtoday_is_widget_enabled( 'recent_posts' ) ) :
+            ?>
+            
+            <!-- Latest News Sidebar (for single post pages) -->
+        <?php
+        // Get latest posts excluding current post
+        $current_post_id = get_the_ID();
+        $latest_query = new WP_Query( array(
+            'post_type'      => 'post',
+            'posts_per_page' => 3,
+            'post_status'    => 'publish',
+            'post__not_in'   => array( $current_post_id ),
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'ignore_sticky_posts' => true,
+        ) );
         
-        <!-- Latest News Sidebar (for single post pages) -->
-    <?php
-    // Get latest posts excluding current post
-    $current_post_id = get_the_ID();
-    $latest_query = new WP_Query( array(
-        'post_type'      => 'post',
-        'posts_per_page' => 3,
-        'post_status'    => 'publish',
-        'post__not_in'   => array( $current_post_id ),
-        'orderby'        => 'date',
-        'order'          => 'DESC',
-        'ignore_sticky_posts' => true,
-    ) );
-    
-    if ( $latest_query->have_posts() ) :
+        if ( $latest_query->have_posts() ) :
         ?>
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-24">
             <h3 class="font-bold text-xl mb-4 border-l-4 border-accent pl-3">
@@ -102,8 +104,9 @@
                 ?>
             </div>
         </div>
-    <?php 
-    endif; // End check for have_posts
+        <?php 
+        endif; // End check for have_posts
+        endif; // End check for recent_posts_enabled
     } // End check for is_active_sidebar
     ?>
 </aside>
