@@ -164,19 +164,99 @@ function trendtoday_get_share_url( $platform, $post_id = null ) {
         $post_id = get_the_ID();
     }
 
-    $url   = urlencode( get_permalink( $post_id ) );
+    $url = trendtoday_fix_url( get_permalink( $post_id ) );
+    $encoded_url = urlencode( $url );
     $title = urlencode( get_the_title( $post_id ) );
+    
+    // Get custom share text if available
+    $custom_share_text = get_option( 'trendtoday_custom_share_text', '' );
+    if ( ! empty( $custom_share_text ) ) {
+        $custom_share_text = str_replace( '{title}', get_the_title( $post_id ), $custom_share_text );
+        $custom_share_text = str_replace( '{url}', $url, $custom_share_text );
+        $text = urlencode( $custom_share_text );
+    } else {
+        $text = $title;
+    }
+    
+    // Get Twitter handle
+    $twitter_handle = get_option( 'trendtoday_twitter_handle', '' );
+    $twitter_via = ! empty( $twitter_handle ) ? '&via=' . urlencode( $twitter_handle ) : '';
 
     switch ( $platform ) {
         case 'facebook':
-            return 'https://www.facebook.com/sharer/sharer.php?u=' . $url;
+            return 'https://www.facebook.com/sharer/sharer.php?u=' . $encoded_url;
         case 'twitter':
-            return 'https://twitter.com/intent/tweet?url=' . $url . '&text=' . $title;
+            return 'https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $text . $twitter_via;
         case 'line':
-            return 'https://social-plugins.line.me/lineit/share?url=' . $url;
+            return 'https://social-plugins.line.me/lineit/share?url=' . $encoded_url;
+        case 'linkedin':
+            return 'https://www.linkedin.com/sharing/share-offsite/?url=' . $encoded_url;
+        case 'whatsapp':
+            return 'https://wa.me/?text=' . $text . '%20' . $encoded_url;
+        case 'telegram':
+            return 'https://t.me/share/url?url=' . $encoded_url . '&text=' . $text;
+        case 'copy_link':
+            return '#'; // Will be handled by JavaScript
         default:
             return '';
     }
+}
+
+/**
+ * Get social share button label
+ *
+ * @param string $platform Social platform.
+ * @return string Button label.
+ */
+function trendtoday_get_share_label( $platform ) {
+    $labels = array(
+        'facebook' => __( 'Facebook', 'trendtoday' ),
+        'twitter' => __( 'Twitter', 'trendtoday' ),
+        'line' => __( 'Line', 'trendtoday' ),
+        'linkedin' => __( 'LinkedIn', 'trendtoday' ),
+        'whatsapp' => __( 'WhatsApp', 'trendtoday' ),
+        'telegram' => __( 'Telegram', 'trendtoday' ),
+        'copy_link' => __( 'Copy Link', 'trendtoday' ),
+    );
+    return isset( $labels[ $platform ] ) ? $labels[ $platform ] : '';
+}
+
+/**
+ * Get social share icon class
+ *
+ * @param string $platform Social platform.
+ * @return string Icon class.
+ */
+function trendtoday_get_share_icon( $platform ) {
+    $icons = array(
+        'facebook' => 'fab fa-facebook-f',
+        'twitter' => 'fab fa-twitter',
+        'line' => 'fab fa-line',
+        'linkedin' => 'fab fa-linkedin-in',
+        'whatsapp' => 'fab fa-whatsapp',
+        'telegram' => 'fab fa-telegram-plane',
+        'copy_link' => 'fas fa-link',
+    );
+    return isset( $icons[ $platform ] ) ? $icons[ $platform ] : 'fas fa-share-alt';
+}
+
+/**
+ * Get social share button color
+ *
+ * @param string $platform Social platform.
+ * @return string Color code.
+ */
+function trendtoday_get_share_color( $platform ) {
+    $colors = array(
+        'facebook' => '#1877F2',
+        'twitter' => '#1DA1F2',
+        'line' => '#00C300',
+        'linkedin' => '#0077B5',
+        'whatsapp' => '#25D366',
+        'telegram' => '#0088CC',
+        'copy_link' => '#6B7280',
+    );
+    return isset( $colors[ $platform ] ) ? $colors[ $platform ] : '#6B7280';
 }
 
 /**
@@ -309,11 +389,21 @@ function trendtoday_get_author_name( $post_id = null ) {
     if ( ! $post_id ) {
         $post_id = get_the_ID();
     }
+    
+    // Check for custom author name first
     $custom_author = get_post_meta( $post_id, 'author_name', true );
-    if ( ! empty( $custom_author ) ) {
-        return $custom_author;
+    if ( ! empty( $custom_author ) && trim( $custom_author ) !== '' ) {
+        return trim( $custom_author );
     }
-    return get_the_author();
+    
+    // Fallback to WordPress author
+    $author_name = get_the_author();
+    if ( ! empty( $author_name ) && trim( $author_name ) !== '' ) {
+        return trim( $author_name );
+    }
+    
+    // Final fallback
+    return __( 'กองบรรณาธิการ', 'trendtoday' );
 }
 
 /**
@@ -500,6 +590,9 @@ function trendtoday_fix_url( $url ) {
     $query = isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '';
     $fragment = isset( $parsed_url['fragment'] ) ? '#' . $parsed_url['fragment'] : '';
     
+    // Get site path from site URL (for multisite subdirectory structure)
+    $site_path = isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '';
+    
     // In Multisite, check if it's from the same network or same site
     if ( is_multisite() ) {
         $current_blog_id = get_current_blog_id();
@@ -507,7 +600,15 @@ function trendtoday_fix_url( $url ) {
         
         // If URL belongs to current site, rebuild with current site URL
         if ( $url_blog_id === $current_blog_id || $parsed_url['host'] === $parsed_site_url['host'] ) {
-            return esc_url( $site_url . $path . $query . $fragment );
+            // Check if path already contains site path to avoid duplication
+            if ( ! empty( $site_path ) && strpos( $path, $site_path ) === 0 ) {
+                // Path already includes site path, remove it and use site_url (which already has it)
+                $clean_path = substr( $path, strlen( $site_path ) );
+                return esc_url( $site_url . $clean_path . $query . $fragment );
+            } else {
+                // Path doesn't include site path, site_url already has it, so just use path
+                return esc_url( $site_url . $path . $query . $fragment );
+            }
         }
         
         // If it's from same network but different site, check if we should fix it
@@ -517,7 +618,15 @@ function trendtoday_fix_url( $url ) {
     // Check if it's from the same site (domain matches)
     if ( $parsed_url['host'] === $parsed_site_url['host'] ) {
         // Same domain, rebuild with current site URL
-        return esc_url( $site_url . $path . $query . $fragment );
+        // Check if path already contains site path to avoid duplication
+        if ( ! empty( $site_path ) && strpos( $path, $site_path ) === 0 ) {
+            // Path already includes site path, remove it and use site_url (which already has it)
+            $clean_path = substr( $path, strlen( $site_path ) );
+            return esc_url( $site_url . $clean_path . $query . $fragment );
+        } else {
+            // Path doesn't include site path, site_url already has it, so just use path
+            return esc_url( $site_url . $path . $query . $fragment );
+        }
     }
     
     // Different domain - check if it's an internal WordPress URL
@@ -558,7 +667,18 @@ function trendtoday_fix_url( $url ) {
     
     // If it's internal, replace domain with current site URL
     if ( $is_internal ) {
-        return esc_url( $site_url . $path . $query . $fragment );
+        // Get site path from site URL (for multisite subdirectory structure)
+        $site_path = isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '';
+        
+        // Check if path already contains site path to avoid duplication
+        if ( ! empty( $site_path ) && strpos( $path, $site_path ) === 0 ) {
+            // Path already includes site path, remove it and use site_url (which already has it)
+            $clean_path = substr( $path, strlen( $site_path ) );
+            return esc_url( $site_url . $clean_path . $query . $fragment );
+        } else {
+            // Path doesn't include site path, site_url already has it, so just use path
+            return esc_url( $site_url . $path . $query . $fragment );
+        }
     }
     
     // External URL, return as is
@@ -1054,13 +1174,33 @@ if ( is_multisite() ) {
                 $query = isset( $parsed_permalink['query'] ) ? '?' . $parsed_permalink['query'] : '';
                 $fragment = isset( $parsed_permalink['fragment'] ) ? '#' . $parsed_permalink['fragment'] : '';
                 
+                // Get site path from site URL
+                $site_path = isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '';
+                
+                // Check if path already contains site path to avoid duplication
+                if ( ! empty( $site_path ) && strpos( $path, $site_path ) === 0 ) {
+                    // Path already includes site path, use as is
+                    $final_path = $path;
+                } else {
+                    // Path doesn't include site path, add it
+                    $final_path = $site_path . $path;
+                }
+                
                 // Rebuild with current site URL
                 $scheme = isset( $parsed_permalink['scheme'] ) ? $parsed_permalink['scheme'] : ( is_ssl() ? 'https' : 'http' );
                 return esc_url( $scheme . '://' . $parsed_site_url['host'] . 
                               ( isset( $parsed_site_url['port'] ) ? ':' . $parsed_site_url['port'] : '' ) .
-                              ( isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '' ) .
-                              $path . $query . $fragment );
+                              $final_path . $query . $fragment );
             }
+        }
+        
+        // Same domain - check if path needs fixing
+        $site_path = isset( $parsed_site_url['path'] ) ? rtrim( $parsed_site_url['path'], '/' ) : '';
+        $path = isset( $parsed_permalink['path'] ) ? $parsed_permalink['path'] : '';
+        
+        // If path already contains site path, return as is
+        if ( ! empty( $site_path ) && strpos( $path, $site_path ) === 0 ) {
+            return $permalink;
         }
         
         return $permalink;

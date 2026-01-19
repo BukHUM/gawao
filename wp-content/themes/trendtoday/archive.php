@@ -17,7 +17,27 @@ get_header();
                 <div class="text-sm text-gray-500 mb-2">
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hover:text-accent"><?php _e( 'หน้าแรก', 'trendtoday' ); ?></a>
                     <i class="fas fa-chevron-right text-xs mx-1"></i>
-                    <span><?php echo esc_html( get_the_archive_title() ); ?></span>
+                    <?php
+                    if ( is_category() ) {
+                        $cat_title = single_cat_title( '', false );
+                        $cat_title = strip_tags( $cat_title );
+                        $cat_title = preg_replace( '/^(หมวดหมู่|Category):\s*/i', '', $cat_title );
+                        $cat_title = trim( $cat_title );
+                        echo '<span>' . esc_html( $cat_title ) . '</span>';
+                    } elseif ( is_tag() ) {
+                        $tag_title = single_tag_title( '', false );
+                        $tag_title = strip_tags( $tag_title );
+                        $tag_title = preg_replace( '/^(แท็ก|Tag):\s*/i', '', $tag_title );
+                        $tag_title = trim( $tag_title );
+                        echo '<span>' . esc_html( $tag_title ) . '</span>';
+                    } else {
+                        $archive_title = get_the_archive_title();
+                        $archive_title = strip_tags( $archive_title );
+                        $archive_title = preg_replace( '/^(หมวดหมู่|Category|แท็ก|Tag|Archive):\s*/i', '', $archive_title );
+                        $archive_title = trim( $archive_title );
+                        echo '<span>' . esc_html( $archive_title ) . '</span>';
+                    }
+                    ?>
                 </div>
                 <h1 class="text-4xl font-bold text-gray-900">
                     <?php
@@ -46,72 +66,22 @@ get_header();
     </div>
 </header>
 
-<main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+<main id="main-content" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
-    <!-- Top Story of Category -->
-    <?php
-    $top_story = new WP_Query( array(
-        'posts_per_page' => 1,
-        'post_type'      => 'post',
-        'orderby'        => 'date',
-        'order'          => 'DESC',
-    ) );
-
-    if ( $top_story->have_posts() ) :
-        $top_story->the_post();
-        ?>
-        <?php $post_permalink = trendtoday_fix_url( get_permalink() ); ?>
-        <section class="mb-12">
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col md:flex-row group cursor-pointer hover:shadow-md transition"
-                 onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'">
-                <div class="md:w-3/5 relative overflow-hidden h-64 md:h-auto">
-                    <?php if ( has_post_thumbnail() ) : ?>
-                        <?php the_post_thumbnail( 'trendtoday-hero', array(
-                            'class' => 'w-full h-full object-cover transition duration-700 group-hover:scale-105',
-                        ) ); ?>
-                    <?php endif; ?>
-                    <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded">
-                        <?php _e( 'HOT Topic', 'trendtoday' ); ?>
-                    </span>
-                </div>
-                <div class="p-6 md:p-8 md:w-2/5 flex flex-col justify-center">
-                    <?php
-                    $categories = get_the_category();
-                    if ( ! empty( $categories ) ) :
-                        ?>
-                        <div class="text-accent font-bold text-sm mb-2"><?php echo esc_html( $categories[0]->name ); ?></div>
-                    <?php endif; ?>
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-accent transition">
-                        <a href="<?php echo esc_url( $post_permalink ); ?>"><?php the_title(); ?></a>
-                    </h2>
-                    <?php if ( has_excerpt() ) : ?>
-                        <p class="text-gray-500 mb-6 line-clamp-3 font-light">
-                            <?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?>
-                        </p>
-                    <?php endif; ?>
-                    <div class="flex items-center gap-3 text-sm text-gray-400 mt-auto">
-                        <?php echo get_avatar( get_the_author_meta( 'ID' ), 32, '', '', array( 'class' => 'rounded-full' ) ); ?>
-                        <span><?php _e( 'โดย', 'trendtoday' ); ?> <?php the_author(); ?></span>
-                        <span>•</span>
-                        <span><?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ที่แล้ว'; ?></span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <?php
-        wp_reset_postdata();
-    endif;
-    ?>
+    <!-- Hero Section (Slider) -->
+    <?php get_template_part( 'template-parts/hero-section' ); ?>
 
     <div class="flex flex-col lg:flex-row gap-10">
 
-        <!-- Article List -->
-        <div class="lg:w-3/4">
-            <h3 class="font-bold text-xl mb-6 flex items-center gap-2">
-                <i class="far fa-newspaper text-accent"></i> <?php _e( 'ล่าสุด', 'trendtoday' ); ?>
-            </h3>
+        <!-- Main Feed -->
+        <div class="lg:w-2/3">
+            <div class="flex justify-between items-end mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 border-l-4 border-accent pl-3">
+                    <?php _e( 'ข่าวล่าสุด', 'trendtoday' ); ?>
+                </h2>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="news-grid">
                 <?php
                 if ( have_posts() ) :
                     while ( have_posts() ) :
@@ -124,8 +94,36 @@ get_header();
                 ?>
             </div>
 
-            <!-- Pagination -->
-            <?php get_template_part( 'template-parts/pagination' ); ?>
+            <?php
+            global $wp_query;
+            $pagination_type = get_option( 'trendtoday_pagination_type', 'load_more' );
+            
+            if ( $wp_query->max_num_pages > 1 ) :
+                if ( $pagination_type === 'pagination' ) :
+                    // Show Pagination
+                    get_template_part( 'template-parts/pagination' );
+                else :
+                    // Show Load More Button
+                    ?>
+                    <div class="mt-10 text-center">
+                        <button
+                            class="bg-white border-2 border-gray-300 text-gray-700 font-medium py-3 px-8 rounded-full hover:bg-gray-50 hover:text-black hover:border-accent transition-all duration-200 shadow-sm hover:shadow-md w-full md:w-auto btn-primary"
+                            id="load-more-btn"
+                            data-page="1"
+                            <?php if ( is_category() ) : ?>
+                                data-cat-id="<?php echo esc_attr( get_queried_object_id() ); ?>"
+                            <?php elseif ( is_tag() ) : ?>
+                                data-tag-id="<?php echo esc_attr( get_queried_object_id() ); ?>"
+                            <?php endif; ?>
+                            aria-label="<?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?>">
+                            <span class="relative z-10"><?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?></span>
+                            <i class="fas fa-arrow-down ml-2 relative z-10"></i>
+                        </button>
+                    </div>
+                    <?php
+                endif;
+            endif;
+            ?>
         </div>
 
         <!-- Sidebar -->

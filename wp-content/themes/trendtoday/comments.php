@@ -19,7 +19,7 @@ if ( post_password_required() ) {
 }
 ?>
 
-<div id="comments" class="comments-area mt-12 pt-8 border-t border-gray-200">
+<div id="comments" class="comments-area mt-12 pt-8 border-t border-gray-200" data-toc-exclude="true">
 
     <?php
     // You can start editing here -- including this comment!

@@ -8,6 +8,17 @@
 ?>
 
 <aside class="lg:w-1/3 space-y-8">
+    <?php
+    // Table of Contents - Sidebar
+    $toc_enabled = get_option( 'trendtoday_toc_enabled', '1' );
+    $toc_position = get_option( 'trendtoday_toc_position', 'top' );
+    if ( $toc_enabled === '1' && $toc_position === 'sidebar' ) :
+    ?>
+        <div class="mb-8">
+            <?php get_template_part( 'template-parts/table-of-contents' ); ?>
+        </div>
+    <?php endif; ?>
+    
     <?php 
     // Display widgets from sidebar-1 if any are active
     if ( is_active_sidebar( 'sidebar-1' ) ) {

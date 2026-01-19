@@ -27,14 +27,19 @@ require_once get_template_directory() . '/inc/navigation-functions.php';
 require_once get_template_directory() . '/inc/menu-icons.php';
 require_once get_template_directory() . '/inc/menu-active-states.php';
 require_once get_template_directory() . '/inc/widget-helpers.php';
-require_once get_template_directory() . '/inc/register-widgets.php';
 require_once get_template_directory() . '/inc/widget-styling.php';
+require_once get_template_directory() . '/inc/search-functions.php';
+require_once get_template_directory() . '/inc/security.php';
+require_once get_template_directory() . '/inc/image-optimization.php';
 
-// Load widgets
+// Load widgets (must be loaded before register-widgets.php)
 require_once get_template_directory() . '/widgets/class-popular-posts-widget.php';
 require_once get_template_directory() . '/widgets/class-recent-posts-widget.php';
 require_once get_template_directory() . '/widgets/class-newsletter-widget.php';
 require_once get_template_directory() . '/widgets/class-trending-tags-widget.php';
+
+// Register widgets (after widget classes are loaded)
+require_once get_template_directory() . '/inc/register-widgets.php';
 
 /**
  * Multisite compatibility: Ensure theme is available in network

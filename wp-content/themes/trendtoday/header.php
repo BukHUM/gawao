@@ -167,9 +167,8 @@
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white"><?php _e( 'Skip to content', 'trendtoday' ); ?></a>
 
 <?php
-// Show navbar, trending tags, and category filters on all pages
+// Show navbar and trending tags on all pages
 // (front-page.php is now disabled, so we show navbar everywhere)
 get_template_part( 'template-parts/navbar' );
 get_template_part( 'template-parts/trending-tags' );
-get_template_part( 'template-parts/category-filters' );
 ?>

@@ -18,7 +18,7 @@ get_header();
                    name="s" 
                    value="<?php echo get_search_query(); ?>"
                    class="w-full px-6 py-4 rounded-full text-gray-900 focus:outline-none focus:ring-4 focus:ring-accent/50 text-lg shadow-lg pl-14"
-                   placeholder="<?php _e( 'พิมพ์คำค้นหา...', 'trendtoday' ); ?>">
+                   placeholder="<?php echo esc_attr( get_option( 'trendtoday_search_placeholder', __( 'พิมพ์คำค้นหา...', 'trendtoday' ) ) ); ?>">
             <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
             <button type="submit"
                     class="absolute right-3 top-1/2 -translate-y-1/2 bg-accent hover:bg-orange-600 text-white px-6 py-2 rounded-full font-bold text-sm transition">
@@ -72,56 +72,90 @@ get_header();
                 </h2>
             </div>
 
-            <?php if ( have_posts() ) : ?>
-                <div class="space-y-6">
+            <?php if ( have_posts() ) : 
+                $search_results_layout = get_option( 'trendtoday_search_results_layout', 'list' );
+                $layout_class = $search_results_layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6';
+            ?>
+                <div class="<?php echo esc_attr( $layout_class ); ?>">
                     <?php
                     while ( have_posts() ) :
                         the_post();
+                        $post_permalink = trendtoday_fix_url( get_permalink() );
+                        
+                        if ( $search_results_layout === 'grid' ) :
+                            // Grid Layout
+                            get_template_part( 'template-parts/news-card' );
+                        else :
+                            // List Layout
                         ?>
-                        <?php $post_permalink = trendtoday_fix_url( get_permalink() ); ?>
-                        <article class="flex flex-col sm:flex-row bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 mb-6 group cursor-pointer"
-                                 onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'">
-                            <div class="sm:w-1/3 relative overflow-hidden h-48 sm:h-auto">
-                                <?php if ( has_post_thumbnail() ) : ?>
-                                    <?php the_post_thumbnail( 'trendtoday-card', array(
-                                        'class' => 'w-full h-full object-cover group-hover:scale-105 transition duration-500',
-                                    ) ); ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="sm:w-2/3 p-6 flex flex-col justify-center">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <?php
-                                    $categories = get_the_category();
-                                    if ( ! empty( $categories ) ) :
-                                        $category = $categories[0];
-                                        $cat_color = get_term_meta( $category->term_id, 'category_color', true ) ?: '#3B82F6';
-                                        ?>
-                                        <span class="text-xs font-bold text-white px-2 py-1 rounded"
-                                              style="background-color: <?php echo esc_attr( $cat_color ); ?>">
-                                            <?php echo esc_html( $category->name ); ?>
-                                        </span>
+                            <article class="flex flex-col sm:flex-row bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition border border-gray-100 mb-6 group cursor-pointer"
+                                     onclick="window.location.href='<?php echo esc_url( $post_permalink ); ?>'">
+                                <div class="sm:w-1/3 relative overflow-hidden h-48 sm:h-auto">
+                                    <?php if ( has_post_thumbnail() ) : ?>
+                                        <?php the_post_thumbnail( 'trendtoday-card', array(
+                                            'class' => 'w-full h-full object-cover group-hover:scale-105 transition duration-500',
+                                        ) ); ?>
                                     <?php endif; ?>
-                                    <span class="text-xs text-gray-400">
-                                        <?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ที่แล้ว'; ?>
-                                    </span>
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
-                                    <a href="<?php echo esc_url( $post_permalink ); ?>"><?php the_title(); ?></a>
-                                </h3>
-                                <?php if ( has_excerpt() ) : ?>
-                                    <p class="text-gray-500 text-sm line-clamp-2">
-                                        <?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?>
-                                    </p>
-                                <?php endif; ?>
-                            </div>
-                        </article>
+                                <div class="sm:w-2/3 p-6 flex flex-col justify-center">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <?php
+                                        $categories = get_the_category();
+                                        if ( ! empty( $categories ) ) :
+                                            $category = $categories[0];
+                                            $cat_color = get_term_meta( $category->term_id, 'category_color', true ) ?: '#3B82F6';
+                                            ?>
+                                            <span class="text-xs font-bold text-white px-2 py-1 rounded"
+                                                  style="background-color: <?php echo esc_attr( $cat_color ); ?>">
+                                                <?php echo esc_html( $category->name ); ?>
+                                            </span>
+                                        <?php endif; ?>
+                                        <span class="text-xs text-gray-400">
+                                            <?php echo human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ที่แล้ว'; ?>
+                                        </span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-accent transition leading-snug">
+                                        <a href="<?php echo esc_url( $post_permalink ); ?>"><?php the_title(); ?></a>
+                                    </h3>
+                                    <?php if ( has_excerpt() ) : ?>
+                                        <p class="text-gray-500 text-sm line-clamp-2">
+                                            <?php echo wp_trim_words( get_the_excerpt(), 20, '...' ); ?>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            </article>
                         <?php
+                        endif;
                     endwhile;
                     ?>
                 </div>
 
-                <!-- Pagination -->
-                <?php get_template_part( 'template-parts/pagination' ); ?>
+                <?php
+                global $wp_query;
+                $pagination_type = get_option( 'trendtoday_pagination_type', 'load_more' );
+                
+                if ( $wp_query->max_num_pages > 1 ) :
+                    if ( $pagination_type === 'pagination' ) :
+                        // Show Pagination
+                        get_template_part( 'template-parts/pagination' );
+                    else :
+                        // Show Load More Button
+                        ?>
+                        <div class="mt-10 text-center">
+                            <button
+                                class="bg-white border-2 border-gray-300 text-gray-700 font-medium py-3 px-8 rounded-full hover:bg-gray-50 hover:text-black hover:border-accent transition-all duration-200 shadow-sm hover:shadow-md w-full md:w-auto btn-primary"
+                                id="load-more-btn"
+                                data-page="1"
+                                data-search="<?php echo esc_attr( get_search_query() ); ?>"
+                                aria-label="<?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?>">
+                                <span class="relative z-10"><?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?></span>
+                                <i class="fas fa-arrow-down ml-2 relative z-10"></i>
+                            </button>
+                        </div>
+                        <?php
+                    endif;
+                endif;
+                ?>
             <?php else : ?>
                 <div class="text-center py-12">
                     <i class="fas fa-search text-gray-300 text-5xl mb-4"></i>

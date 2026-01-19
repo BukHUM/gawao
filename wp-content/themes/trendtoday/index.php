@@ -26,7 +26,29 @@ get_header();
             ?>
         </div>
         <?php
-        get_template_part( 'template-parts/pagination' );
+        global $wp_query;
+        $pagination_type = get_option( 'trendtoday_pagination_type', 'load_more' );
+        
+        if ( $wp_query->max_num_pages > 1 ) :
+            if ( $pagination_type === 'pagination' ) :
+                // Show Pagination
+                get_template_part( 'template-parts/pagination' );
+            else :
+                // Show Load More Button
+                ?>
+                <div class="mt-10 text-center">
+                    <button
+                        class="bg-white border-2 border-gray-300 text-gray-700 font-medium py-3 px-8 rounded-full hover:bg-gray-50 hover:text-black hover:border-accent transition-all duration-200 shadow-sm hover:shadow-md w-full md:w-auto btn-primary"
+                        id="load-more-btn"
+                        data-page="1"
+                        aria-label="<?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?>">
+                        <span class="relative z-10"><?php _e( 'โหลดข่าวเพิ่มเติม', 'trendtoday' ); ?></span>
+                        <i class="fas fa-arrow-down ml-2 relative z-10"></i>
+                    </button>
+                </div>
+                <?php
+            endif;
+        endif;
     else :
         get_template_part( 'template-parts/content', 'none' );
     endif;

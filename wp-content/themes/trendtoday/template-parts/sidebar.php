@@ -9,18 +9,17 @@
 
 <aside class="lg:w-1/3 space-y-8 sticky-sidebar" aria-label="Sidebar content">
     <?php 
-    // Display widgets from sidebar-1 if any are active
-    if ( is_active_sidebar( 'sidebar-1' ) ) {
-        dynamic_sidebar( 'sidebar-1' );
-    } else {
-        // Only show default sidebar content if no widgets are active
-        ?>
-        
-        <!-- Default sidebar content (only shown when no widgets) -->
-        
-        <!-- Popular Posts -->
-    <?php
+    // Always show default sidebar widgets (Popular Posts and Newsletter)
+    // These are theme-specific widgets that display automatically
+    
+    // Popular Posts Widget
+    // Try views first, fallback to date if no results
     $popular_query = trendtoday_get_popular_posts( 4, 'views' );
+    
+    // If no posts with views, fallback to latest posts
+    if ( ! $popular_query->have_posts() ) {
+        $popular_query = trendtoday_get_popular_posts( 4, 'date' );
+    }
     
     if ( $popular_query->have_posts() ) :
         ?>
@@ -76,7 +75,7 @@
         </div>
     <?php endif; ?>
 
-    <!-- Newsletter -->
+    <!-- Newsletter Widget -->
     <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white p-6 rounded-xl relative overflow-hidden shadow-lg">
         <div class="relative z-10">
             <div class="flex items-center gap-2 mb-2">
@@ -103,6 +102,12 @@
         <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
         <div class="absolute -top-10 -left-10 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
     </div>
-    <?php } // End check for is_active_sidebar ?>
+    
+    <?php 
+    // Display additional widgets from sidebar-1 if any are active
+    if ( is_active_sidebar( 'sidebar-1' ) ) {
+        dynamic_sidebar( 'sidebar-1' );
+    }
+    ?>
 
 </aside>

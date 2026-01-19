@@ -18,7 +18,17 @@
                     <?php else : ?>
                         <!-- Default: Brand Column -->
                         <div class="flex items-center gap-2 mb-4">
-                            <?php if ( has_custom_logo() ) : ?>
+                            <?php 
+                            $theme_logo_id = get_option( 'trendtoday_logo', '' );
+                            $theme_logo_url = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
+                            
+                            if ( $theme_logo_url ) : 
+                                // Use theme settings logo
+                                ?>
+                                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>">
+                                    <img src="<?php echo esc_url( $theme_logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="h-8 w-auto" />
+                                </a>
+                            <?php elseif ( has_custom_logo() ) : ?>
                                 <?php the_custom_logo(); ?>
                             <?php else : ?>
                                 <div class="w-6 h-6 bg-black text-white flex items-center justify-center rounded font-bold text-sm">
@@ -121,6 +131,26 @@
             </div>
         </div>
     </footer>
+
+    <?php
+    // Floating Social Share Buttons
+    if ( is_single() ) {
+        $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+        if ( in_array( 'floating', $display_positions ) ) {
+            get_template_part( 'template-parts/social-share-floating' );
+        }
+        
+        // Table of Contents - Floating
+        $toc_enabled = get_option( 'trendtoday_toc_enabled', '1' );
+        $toc_position = get_option( 'trendtoday_toc_position', 'top' );
+        if ( $toc_enabled === '1' && $toc_position === 'floating' ) {
+            get_template_part( 'template-parts/table-of-contents' );
+        }
+    }
+    
+    // Search Modal
+    get_template_part( 'template-parts/search-modal' );
+    ?>
 
     <!-- Back to Top Button -->
     <button id="back-to-top" 

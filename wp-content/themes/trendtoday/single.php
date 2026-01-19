@@ -22,7 +22,7 @@ get_header();
     <div class="flex flex-col lg:flex-row gap-10">
 
         <!-- Article Content -->
-        <article class="lg:w-2/3">
+        <article class="lg:w-2/3 overflow-hidden">
 
             <!-- Article Header -->
             <header class="mb-8">
@@ -44,36 +44,25 @@ get_header();
                     </div>
                 <?php endif; ?>
 
-                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                <h1 class="text-xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6">
                     <?php the_title(); ?>
                 </h1>
+
+                <?php
+                // Social Share Buttons - Top
+                $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+                if ( in_array( 'single_top', $display_positions ) ) :
+                ?>
+                    <div class="mb-6">
+                        <?php get_template_part( 'template-parts/social-share' ); ?>
+                    </div>
+                <?php endif; ?>
 
                 <?php if ( has_excerpt() ) : ?>
                     <p class="text-xl text-gray-600 leading-relaxed font-light mb-6 border-l-4 border-accent pl-4">
                         <?php the_excerpt(); ?>
                     </p>
                 <?php endif; ?>
-
-                <div class="flex items-center justify-between border-y border-gray-100 py-4">
-                    <div class="flex items-center gap-3">
-                        <?php echo get_avatar( get_the_author_meta( 'ID' ), 40, '', '', array( 'class' => 'rounded-full' ) ); ?>
-                        <div>
-                            <div class="font-bold text-gray-900 text-sm"><?php the_author(); ?></div>
-                            <div class="text-xs text-gray-500"><?php _e( 'ผู้สื่อข่าว', 'trendtoday' ); ?></div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-                        <button class="w-8 h-8 rounded-full bg-sky-500 text-white flex items-center justify-center hover:bg-sky-600 transition">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition">
-                            <i class="fab fa-line"></i>
-                        </button>
-                    </div>
-                </div>
             </header>
 
             <!-- Featured Image -->
@@ -88,8 +77,20 @@ get_header();
                 </figure>
             <?php endif; ?>
 
+            <?php
+            // Table of Contents - Top
+            $toc_enabled = get_option( 'trendtoday_toc_enabled', '1' );
+            $toc_position = get_option( 'trendtoday_toc_position', 'top' );
+            if ( $toc_enabled === '1' && $toc_position === 'top' ) :
+            ?>
+                <div class="mb-8">
+                    <?php get_template_part( 'template-parts/table-of-contents' ); ?>
+                </div>
+            <?php endif; ?>
+
             <!-- Article Body -->
-            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed overflow-hidden" id="article-content" data-toc-content="true">
+                <div class="trendtoday-article-content">
                 <?php
                 the_content();
 
@@ -98,7 +99,18 @@ get_header();
                     'after'  => '</div>',
                 ) );
                 ?>
+                </div>
             </div>
+
+            <?php
+            // Social Share Buttons - Bottom
+            $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+            if ( in_array( 'single_bottom', $display_positions ) ) :
+            ?>
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <?php get_template_part( 'template-parts/social-share' ); ?>
+                </div>
+            <?php endif; ?>
 
             <!-- Tags -->
             <?php

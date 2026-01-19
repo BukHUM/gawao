@@ -24,10 +24,23 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
     <div class="relative overflow-hidden h-48">
         <?php if ( has_post_thumbnail() ) : ?>
             <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>">
-                <?php the_post_thumbnail( 'trendtoday-card', array(
-                    'class' => 'article-img w-full h-full object-cover transition duration-500',
-                    'alt'   => get_the_title(),
-                ) ); ?>
+                <?php 
+                $thumbnail_id = get_post_thumbnail_id();
+                if ( $thumbnail_id ) {
+                    echo wp_get_attachment_image( 
+                        $thumbnail_id, 
+                        'trendtoday-card', 
+                        false, 
+                        array(
+                            'class' => 'article-img w-full h-full object-cover transition duration-500',
+                            'alt'   => esc_attr( get_the_title() ),
+                            'loading' => 'lazy',
+                            'srcset' => wp_get_attachment_image_srcset( $thumbnail_id, 'trendtoday-card' ),
+                            'sizes' => '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw',
+                        ) 
+                    );
+                }
+                ?>
             </a>
         <?php endif; ?>
         <?php if ( $category ) : ?>
@@ -51,7 +64,7 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
         <div class="flex justify-between items-center text-xs text-gray-400 border-t border-gray-50 pt-3 mt-auto">
             <span class="font-medium text-gray-500 flex items-center">
                 <i class="far fa-user mr-1"></i>
-                <?php the_author(); ?>
+                <?php echo esc_html( trendtoday_get_author_name() ); ?>
             </span>
             <span class="flex items-center">
                 <i class="far fa-clock mr-1"></i>

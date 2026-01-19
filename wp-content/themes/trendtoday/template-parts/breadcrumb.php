@@ -20,17 +20,23 @@ if ( is_front_page() ) {
         </li>
         
         <?php if ( is_category() ) : ?>
+            <?php
+            $cat_title = single_cat_title( '', false );
+            $cat_title = strip_tags( $cat_title );
+            $cat_title = preg_replace( '/^(หมวดหมู่|Category):\s*/i', '', $cat_title );
+            $cat_title = trim( $cat_title );
+            ?>
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="fas fa-chevron-right text-xs mx-1"></i>
-                    <span class="text-gray-400"><?php single_cat_title(); ?></span>
+                    <span class="text-gray-400"><?php echo esc_html( $cat_title ); ?></span>
                 </div>
             </li>
         <?php elseif ( is_tag() ) : ?>
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="fas fa-chevron-right text-xs mx-1"></i>
-                    <span class="text-gray-400"><?php single_tag_title(); ?></span>
+                    <span class="text-gray-400"><?php echo esc_html( strip_tags( single_tag_title( '', false ) ) ); ?></span>
                 </div>
             </li>
         <?php elseif ( is_single() ) : ?>
@@ -38,12 +44,16 @@ if ( is_front_page() ) {
             $categories = get_the_category();
             if ( ! empty( $categories ) ) :
                 $category = $categories[0];
+                // Strip all HTML tags and remove any prefix text like "หมวดหมู่:" or "Category:"
+                $category_name = strip_tags( $category->name );
+                $category_name = preg_replace( '/^(หมวดหมู่|Category):\s*/i', '', $category_name );
+                $category_name = trim( $category_name );
                 ?>
                 <li>
                     <div class="flex items-center">
                         <i class="fas fa-chevron-right text-xs mx-1"></i>
                         <a href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>" class="hover:text-accent">
-                            <?php echo esc_html( $category->name ); ?>
+                            <?php echo esc_html( $category_name ); ?>
                         </a>
                     </div>
                 </li>
@@ -51,14 +61,14 @@ if ( is_front_page() ) {
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="fas fa-chevron-right text-xs mx-1"></i>
-                    <span class="text-gray-400"><?php echo wp_trim_words( get_the_title(), 5, '...' ); ?></span>
+                    <span class="text-gray-400"><?php echo esc_html( strip_tags( get_the_title() ) ); ?></span>
                 </div>
             </li>
         <?php elseif ( is_page() ) : ?>
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="fas fa-chevron-right text-xs mx-1"></i>
-                    <span class="text-gray-400"><?php the_title(); ?></span>
+                    <span class="text-gray-400"><?php echo esc_html( strip_tags( get_the_title() ) ); ?></span>
                 </div>
             </li>
         <?php elseif ( is_search() ) : ?>

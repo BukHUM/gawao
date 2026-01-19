@@ -19,6 +19,9 @@ function trendtoday_load_more_posts() {
     $page = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
     $posts_per_page = isset( $_POST['posts_per_page'] ) ? absint( $_POST['posts_per_page'] ) : get_option( 'posts_per_page' );
     $category = isset( $_POST['category'] ) ? sanitize_text_field( $_POST['category'] ) : '';
+    $search_query = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
+    $tag_id = isset( $_POST['tag_id'] ) ? absint( $_POST['tag_id'] ) : 0;
+    $cat_id = isset( $_POST['cat_id'] ) ? absint( $_POST['cat_id'] ) : 0;
 
     $args = array(
         'post_type'      => 'post',
@@ -27,8 +30,24 @@ function trendtoday_load_more_posts() {
         'post_status'    => 'publish',
     );
 
+    // Handle category filter (from category filters)
     if ( ! empty( $category ) && $category !== 'all' ) {
         $args['cat'] = absint( $category );
+    }
+    
+    // Handle archive category
+    if ( $cat_id > 0 ) {
+        $args['cat'] = $cat_id;
+    }
+    
+    // Handle archive tag
+    if ( $tag_id > 0 ) {
+        $args['tag_id'] = $tag_id;
+    }
+    
+    // Handle search query
+    if ( ! empty( $search_query ) ) {
+        $args['s'] = $search_query;
     }
 
     $query = new WP_Query( $args );
@@ -103,19 +122,44 @@ add_action( 'wp_ajax_nopriv_filter_posts', 'trendtoday_filter_posts' );
  */
 function trendtoday_search_suggestions() {
     check_ajax_referer( 'trendtoday-nonce', 'nonce' );
+    
+    // Rate limiting
+    if ( ! trendtoday_check_rate_limit( 'search_suggestions', 30 ) ) {
+        wp_send_json_error( array( 'message' => __( 'Too many requests. Please try again later.', 'trendtoday' ) ) );
+    }
 
-    $search_term = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
+    // Get search settings
+    $search_enabled = get_option( 'trendtoday_search_enabled', '1' );
+    $search_suggestions_enabled = get_option( 'trendtoday_search_suggestions_enabled', '1' );
+    $search_min_length = get_option( 'trendtoday_search_min_length', 2 );
+    $search_suggestions_count = get_option( 'trendtoday_search_suggestions_count', 5 );
+    $search_post_types = get_option( 'trendtoday_search_post_types', array( 'post' ) );
+    $search_fields = get_option( 'trendtoday_search_fields', array( 'title', 'content' ) );
+    $search_suggestions_display = get_option( 'trendtoday_search_suggestions_display', array( 'image', 'excerpt' ) );
+    $search_exclude_categories = get_option( 'trendtoday_search_exclude_categories', array() );
 
-    if ( strlen( $search_term ) < 2 ) {
+    if ( $search_enabled !== '1' || $search_suggestions_enabled !== '1' ) {
         wp_send_json_success( array( 'suggestions' => array() ) );
     }
 
+    $search_term = isset( $_POST['search'] ) ? trendtoday_sanitize_search_query( $_POST['search'] ) : '';
+
+    if ( strlen( $search_term ) < $search_min_length ) {
+        wp_send_json_success( array( 'suggestions' => array() ) );
+    }
+
+    // Build search query
     $args = array(
-        'post_type'      => array( 'post', 'video_news', 'gallery' ),
-        'posts_per_page' => 5,
+        'post_type'      => $search_post_types,
+        'posts_per_page' => $search_suggestions_count,
         's'              => $search_term,
         'post_status'    => 'publish',
     );
+
+    // Exclude categories
+    if ( ! empty( $search_exclude_categories ) ) {
+        $args['category__not_in'] = $search_exclude_categories;
+    }
 
     $query = new WP_Query( $args );
 
@@ -124,11 +168,34 @@ function trendtoday_search_suggestions() {
     if ( $query->have_posts() ) {
         while ( $query->have_posts() ) {
             $query->the_post();
-            $suggestions[] = array(
+            $suggestion = array(
                 'title' => get_the_title(),
-                'url'   => get_permalink(),
+                'url'   => trendtoday_fix_url( get_permalink() ),
                 'type'  => get_post_type(),
             );
+
+            // Add optional fields based on settings
+            if ( in_array( 'image', $search_suggestions_display ) && has_post_thumbnail() ) {
+                $suggestion['image'] = get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' );
+            }
+
+            if ( in_array( 'excerpt', $search_suggestions_display ) ) {
+                $suggestion['excerpt'] = wp_trim_words( get_the_excerpt(), 15, '...' );
+            }
+
+            if ( in_array( 'date', $search_suggestions_display ) ) {
+                $suggestion['date'] = human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) . ' ที่แล้ว';
+            }
+
+            if ( in_array( 'category', $search_suggestions_display ) ) {
+                $categories = get_the_category();
+                if ( ! empty( $categories ) ) {
+                    $suggestion['category'] = $categories[0]->name;
+                    $suggestion['category_color'] = get_term_meta( $categories[0]->term_id, 'category_color', true ) ?: '#3B82F6';
+                }
+            }
+
+            $suggestions[] = $suggestion;
         }
         wp_reset_postdata();
     }
@@ -157,3 +224,70 @@ function trendtoday_increment_views() {
 }
 add_action( 'wp_ajax_increment_views', 'trendtoday_increment_views' );
 add_action( 'wp_ajax_nopriv_increment_views', 'trendtoday_increment_views' );
+
+/**
+ * Regenerate images via AJAX
+ */
+function trendtoday_regenerate_images_ajax() {
+    check_ajax_referer( 'trendtoday_settings_nonce', 'nonce' );
+    
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => __( 'Insufficient permissions', 'trendtoday' ) ) );
+    }
+    
+    $action = isset( $_POST['action_type'] ) ? sanitize_text_field( $_POST['action_type'] ) : 'get_total';
+    $offset = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
+    $batch_size = isset( $_POST['batch_size'] ) ? absint( $_POST['batch_size'] ) : 5;
+    
+    if ( $action === 'get_total' ) {
+        // Get total images count
+        $attachments = get_posts( array(
+            'post_type' => 'attachment',
+            'post_mime_type' => 'image',
+            'posts_per_page' => -1,
+            'post_status' => 'inherit',
+            'fields' => 'ids',
+        ) );
+        
+        wp_send_json_success( array(
+            'total' => count( $attachments ),
+            'message' => sprintf( __( 'Found %d images to process', 'trendtoday' ), count( $attachments ) ),
+        ) );
+    } elseif ( $action === 'regenerate' ) {
+        // Get batch of images
+        $attachments = get_posts( array(
+            'post_type' => 'attachment',
+            'post_mime_type' => 'image',
+            'posts_per_page' => $batch_size,
+            'offset' => $offset,
+            'post_status' => 'inherit',
+            'fields' => 'ids',
+            'orderby' => 'ID',
+            'order' => 'ASC',
+        ) );
+        
+        $processed = 0;
+        $errors = array();
+        
+        foreach ( $attachments as $attachment_id ) {
+            if ( function_exists( 'trendtoday_regenerate_image' ) ) {
+                $result = trendtoday_regenerate_image( $attachment_id );
+                if ( is_wp_error( $result ) ) {
+                    $errors[] = sprintf( __( 'Error processing image ID %d: %s', 'trendtoday' ), $attachment_id, $result->get_error_message() );
+                } else {
+                    $processed++;
+                }
+            }
+        }
+        
+        wp_send_json_success( array(
+            'processed' => $processed,
+            'errors' => $errors,
+            'offset' => $offset + count( $attachments ),
+            'message' => sprintf( __( 'Processed %d images', 'trendtoday' ), $processed ),
+        ) );
+    }
+    
+    wp_send_json_error( array( 'message' => __( 'Invalid action', 'trendtoday' ) ) );
+}
+add_action( 'wp_ajax_regenerate_images', 'trendtoday_regenerate_images_ajax' );

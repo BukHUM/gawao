@@ -11,28 +11,74 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get popular posts
+ * Get popular posts (with caching)
  *
  * @param int    $number Number of posts.
  * @param string $orderby Order by field (views, date, comment_count).
  * @return WP_Query Query object.
  */
 function trendtoday_get_popular_posts( $number = 5, $orderby = 'views' ) {
+    $cache_key = 'trendtoday_popular_' . $orderby . '_' . $number;
+    $cache_duration = 30 * MINUTE_IN_SECONDS; // 30 minutes
+    
+    // Try to get from cache
+    $cached_query = get_transient( $cache_key );
+    
+    if ( false !== $cached_query && is_array( $cached_query ) ) {
+        // Reconstruct WP_Query from cached data
+        $query = new WP_Query();
+        $query->posts = $cached_query['posts'];
+        $query->post_count = count( $cached_query['posts'] );
+        $query->found_posts = $cached_query['found_posts'];
+        $query->max_num_pages = $cached_query['max_num_pages'];
+        $query->query_vars = $cached_query['query_vars'];
+        return $query;
+    }
+    
     $args = array(
         'post_type'      => 'post',
         'posts_per_page' => $number,
         'post_status'    => 'publish',
         'ignore_sticky_posts' => true,
+        'update_post_meta_cache' => true,
+        'update_post_term_cache' => true,
     );
 
     switch ( $orderby ) {
         case 'views':
-            // Try to order by views first, but fallback to date if no views
-            $args['meta_key'] = 'post_views';
-            $args['orderby']  = array(
-                'meta_value_num' => 'DESC',
-                'date'          => 'DESC',
-            );
+            // Order by views, but always return results
+            // If no posts have views, fallback to date order
+            // First try to get posts with views
+            $args_with_views = $args;
+            $args_with_views['meta_key'] = 'post_views';
+            $args_with_views['meta_compare'] = 'EXISTS';
+            $args_with_views['orderby'] = 'meta_value_num';
+            $args_with_views['order'] = 'DESC';
+            
+            $query_with_views = new WP_Query( $args_with_views );
+            
+            // If we have posts with views, use them
+            if ( $query_with_views->have_posts() ) {
+                $query = $query_with_views;
+            } else {
+                // Fallback to latest posts if no posts have views
+                $args['orderby'] = 'date';
+                $args['order'] = 'DESC';
+                $query = new WP_Query( $args );
+            }
+            
+            // Cache the query results
+            if ( $query->have_posts() ) {
+                $cache_data = array(
+                    'posts' => $query->posts,
+                    'found_posts' => $query->found_posts,
+                    'max_num_pages' => $query->max_num_pages,
+                    'query_vars' => $query->query_vars,
+                );
+                set_transient( $cache_key, $cache_data, $cache_duration );
+            }
+            
+            return $query;
             break;
 
         case 'comments':
@@ -46,8 +92,24 @@ function trendtoday_get_popular_posts( $number = 5, $orderby = 'views' ) {
             $args['order']   = 'DESC';
             break;
     }
-
-    return new WP_Query( $args );
+    
+    // Only create query if not already created (for views case)
+    if ( ! isset( $query ) ) {
+        $query = new WP_Query( $args );
+        
+        // Cache the query results
+        if ( $query->have_posts() ) {
+            $cache_data = array(
+                'posts' => $query->posts,
+                'found_posts' => $query->found_posts,
+                'max_num_pages' => $query->max_num_pages,
+                'query_vars' => $query->query_vars,
+            );
+            set_transient( $cache_key, $cache_data, $cache_duration );
+        }
+    }
+    
+    return $query;
 }
 
 /**
@@ -68,12 +130,33 @@ function trendtoday_get_trending_tags( $number = 10 ) {
 }
 
 /**
- * Get breaking news posts
+ * Get breaking news posts (with caching)
  *
  * @param int $number Number of posts.
  * @return WP_Query Query object.
  */
-function trendtoday_get_breaking_news( $number = 5 ) {
+function trendtoday_get_breaking_news( $number = 5, $category_id = null ) {
+    // Include category ID in cache key if provided
+    $cache_key = 'trendtoday_breaking_news_' . $number;
+    if ( $category_id ) {
+        $cache_key .= '_cat_' . $category_id;
+    }
+    $cache_duration = 15 * MINUTE_IN_SECONDS; // 15 minutes
+    
+    // Try to get from cache
+    $cached_query = get_transient( $cache_key );
+    
+    if ( false !== $cached_query && is_array( $cached_query ) ) {
+        // Reconstruct WP_Query from cached data
+        $query = new WP_Query();
+        $query->posts = $cached_query['posts'];
+        $query->post_count = count( $cached_query['posts'] );
+        $query->found_posts = $cached_query['found_posts'];
+        $query->max_num_pages = $cached_query['max_num_pages'];
+        $query->query_vars = $cached_query['query_vars'];
+        return $query;
+    }
+    
     $args = array(
         'post_type'      => 'post',
         'posts_per_page' => $number,
@@ -82,9 +165,29 @@ function trendtoday_get_breaking_news( $number = 5 ) {
         'meta_value'     => '1',
         'orderby'        => 'date',
         'order'          => 'DESC',
+        'update_post_meta_cache' => true,
+        'update_post_term_cache' => true,
     );
+    
+    // Filter by category if provided
+    if ( $category_id ) {
+        $args['cat'] = $category_id;
+    }
 
-    return new WP_Query( $args );
+    $query = new WP_Query( $args );
+    
+    // Cache the query results
+    if ( $query->have_posts() ) {
+        $cache_data = array(
+            'posts' => $query->posts,
+            'found_posts' => $query->found_posts,
+            'max_num_pages' => $query->max_num_pages,
+            'query_vars' => $query->query_vars,
+        );
+        set_transient( $cache_key, $cache_data, $cache_duration );
+    }
+    
+    return $query;
 }
 
 /**
