@@ -11,7 +11,7 @@ if ( is_front_page() ) {
 }
 ?>
 
-<nav class="flex mb-6 text-sm text-gray-500" aria-label="Breadcrumb">
+<nav class="hidden md:flex mb-6 text-sm text-gray-500" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="inline-flex items-center hover:text-accent">

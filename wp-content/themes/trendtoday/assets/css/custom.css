@@ -700,6 +700,82 @@ footer form button[type="submit"]:hover::before {
     flex-wrap: wrap;
 }
 
+/* Mobile: Horizontal scroll for better UX */
+@media (max-width: 768px) {
+    .trendtoday-share-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+        gap: 0.5rem;
+        padding-bottom: 0.5rem;
+        margin-right: -1rem;
+        padding-right: 1rem;
+    }
+    
+    .trendtoday-share-buttons::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .trendtoday-share-buttons::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .trendtoday-share-buttons::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 2px;
+    }
+    
+    /* Make buttons smaller on mobile */
+    .trendtoday-share-btn {
+        flex-shrink: 0;
+    }
+    
+    .trendtoday-share-icon-only .trendtoday-share-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .trendtoday-share-icon-only .trendtoday-share-btn i {
+        font-size: 1.125rem;
+    }
+    
+    .trendtoday-share-icon-text .trendtoday-share-btn,
+    .trendtoday-share-button .trendtoday-share-btn {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.8125rem;
+        min-width: auto;
+    }
+    
+    .trendtoday-share-btn-label {
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    
+    /* Hide label on mobile if icon_text or button style */
+    .trendtoday-share-icon-text .trendtoday-share-btn-label,
+    .trendtoday-share-button .trendtoday-share-btn-label {
+        display: none;
+    }
+    
+    /* Adjust container - keep in same line */
+    .trendtoday-social-share {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: nowrap;
+    }
+    
+    .trendtoday-share-label {
+        font-size: 0.75rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+
 .trendtoday-share-btn {
     display: inline-flex;
     align-items: center;
