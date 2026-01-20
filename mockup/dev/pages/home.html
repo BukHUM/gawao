@@ -94,6 +94,76 @@
 
 <!-- Home Content -->
 <main class="container mx-auto px-4 py-12">
+    <!-- AI-Powered Recommendations Section -->
+    <section class="mb-16">
+        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border border-purple-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-gradient-to-br from-purple-500 to-blue-500 p-3 rounded-xl">
+                    <i class="ph ph-sparkle text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-heading font-bold text-2xl text-dark">แนะนำสำหรับคุณ</h2>
+                    <p class="text-sm text-gray-600">เนื้อหาที่คัดสรรมาเป็นพิเศษตามความสนใจของคุณ</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('เที่ยวญี่ปุ่น 7 วัน 6 คืน'); navigateTo('single')">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&w=800&q=80" alt="ญี่ปุ่น" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                            <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">เที่ยวญี่ปุ่น 7 วัน 6 คืน</h3>
+                        <p class="text-gray-500 text-sm mb-3 line-clamp-2">คู่มือเที่ยวญี่ปุ่นแบบครบวงจร โตเกียว เกียวโต โอซาก้า</p>
+                        <div class="flex items-center gap-2 text-gray-400 text-xs">
+                            <i class="ph ph-calendar"></i> 12 ม.ค. 2026
+                            <span class="mx-1">•</span>
+                            <i class="ph ph-eye"></i> 4.2K views
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('โรงแรมบาหลีติดทะเล'); navigateTo('hotels')">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="บาหลี" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                            <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">โรงแรมบาหลีติดทะเล ราคาดี</h3>
+                        <p class="text-gray-500 text-sm mb-3 line-clamp-2">รวมโรงแรมติดทะเลในบาหลี ราคาเริ่มต้น 1,500 บาท/คืน</p>
+                        <div class="flex items-center gap-2 text-gray-400 text-xs">
+                            <i class="ph ph-calendar"></i> 5 ม.ค. 2026
+                            <span class="mx-1">•</span>
+                            <i class="ph ph-eye"></i> 3.5K views
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('แพ็คเกจทัวร์ยุโรป'); navigateTo('promotion')">
+                    <div class="relative h-40 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="ยุโรป" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                            <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">แพ็คเกจทัวร์ยุโรป 7 วัน 6 คืน</h3>
+                        <p class="text-gray-500 text-sm mb-3 line-clamp-2">เที่ยว 4 ประเทศในยุโรป ราคาเริ่มต้น 89,900 บาท</p>
+                        <div class="flex items-center gap-2 text-gray-400 text-xs">
+                            <i class="ph ph-calendar"></i> 3 ม.ค. 2026
+                            <span class="mx-1">•</span>
+                            <i class="ph ph-eye"></i> 2.8K views
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- Section 1 -->
     <div class="flex justify-between items-end mb-8 border-l-4 border-primary pl-4">
         <div>
@@ -292,76 +362,6 @@
         </article>
     </div>
 </main>
-
-<!-- AI-Powered Recommendations Section -->
-<section class="container mx-auto px-4 mt-8 mb-8">
-    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border border-purple-100">
-        <div class="flex items-center gap-3 mb-6">
-            <div class="bg-gradient-to-br from-purple-500 to-blue-500 p-3 rounded-xl">
-                <i class="ph ph-sparkle text-white text-2xl"></i>
-            </div>
-            <div>
-                <h2 class="font-heading font-bold text-2xl text-dark">แนะนำสำหรับคุณ</h2>
-                <p class="text-sm text-gray-600">เนื้อหาที่คัดสรรมาเป็นพิเศษตามความสนใจของคุณ</p>
-            </div>
-        </div>
-        <div class="grid md:grid-cols-3 gap-6">
-            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('เที่ยวญี่ปุ่น 7 วัน 6 คืน'); navigateTo('single')">
-                <div class="relative h-40 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&w=800&q=80" alt="ญี่ปุ่น" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
-                    </span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">เที่ยวญี่ปุ่น 7 วัน 6 คืน</h3>
-                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">คู่มือเที่ยวญี่ปุ่นแบบครบวงจร โตเกียว เกียวโต โอซาก้า</p>
-                    <div class="flex items-center gap-2 text-gray-400 text-xs">
-                        <i class="ph ph-calendar"></i> 12 ม.ค. 2026
-                        <span class="mx-1">•</span>
-                        <i class="ph ph-eye"></i> 4.2K views
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('โรงแรมบาหลีติดทะเล'); navigateTo('hotels')">
-                <div class="relative h-40 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="บาหลี" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
-                    </span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">โรงแรมบาหลีติดทะเล ราคาดี</h3>
-                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">รวมโรงแรมติดทะเลในบาหลี ราคาเริ่มต้น 1,500 บาท/คืน</p>
-                    <div class="flex items-center gap-2 text-gray-400 text-xs">
-                        <i class="ph ph-calendar"></i> 5 ม.ค. 2026
-                        <span class="mx-1">•</span>
-                        <i class="ph ph-eye"></i> 3.5K views
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('แพ็คเกจทัวร์ยุโรป'); navigateTo('promotion')">
-                <div class="relative h-40 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="ยุโรป" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
-                    </span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">แพ็คเกจทัวร์ยุโรป 7 วัน 6 คืน</h3>
-                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">เที่ยว 4 ประเทศในยุโรป ราคาเริ่มต้น 89,900 บาท</p>
-                    <div class="flex items-center gap-2 text-gray-400 text-xs">
-                        <i class="ph ph-calendar"></i> 3 ม.ค. 2026
-                        <span class="mx-1">•</span>
-                        <i class="ph ph-eye"></i> 2.8K views
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
 
 <!-- Social Feed Section -->
 <section class="container mx-auto px-4 mt-8 mb-16">
