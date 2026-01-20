@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คนเดินทาง (KonDernTang) - Full Prototype</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Sarabun', 'sans-serif'],
+                        heading: ['Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9',   
+                        secondary: '#f97316', 
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
+
+    <!-- Breadcrumb -->
+    <div id="breadcrumb-container"></div>
+
+    <!-- Main Content Container -->
+    <main id="main-content" class="flex-1">
+        <!-- Pages will be loaded here dynamically -->
+        <div id="view-home" class="page-view active"></div>
+        <div id="view-archive" class="page-view"></div>
+        <div id="view-international" class="page-view"></div>
+        <div id="view-single" class="page-view"></div>
+        <div id="view-hotels" class="page-view"></div>
+        <div id="view-flights" class="page-view"></div>
+        <div id="view-guide" class="page-view"></div>
+        <div id="view-news" class="page-view"></div>
+        <div id="view-promotion" class="page-view"></div>
+        <div id="view-search" class="page-view"></div>
+        <div id="view-about" class="page-view"></div>
+        <div id="view-contact" class="page-view"></div>
+        <div id="view-news-archive" class="page-view"></div>
+        <div id="view-login" class="page-view"></div>
+        <div id="view-seasonal" class="page-view"></div>
+        <div id="view-404" class="page-view"></div>
+        <div id="view-500" class="page-view"></div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Back to Top Button -->
+    <button 
+        id="back-to-top" 
+        onclick="scrollToTop()" 
+        class="fixed bottom-8 right-8 bg-primary text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 opacity-0 pointer-events-none z-50 group"
+        aria-label="กลับขึ้นด้านบน"
+    >
+        <i class="ph ph-arrow-up text-2xl"></i>
+    </button>
+
+    <!-- Cookie Consent Component -->
+    <div id="cookie-consent-container"></div>
+
+    <!-- Scripts -->
+    <script src="config/navigation.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/hero-slider.js"></script>
+    <script src="assets/js/countdown.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/contact.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/news-archive.js"></script>
+    <script src="assets/js/cookie-consent.js"></script>
+    <script src="assets/js/recently-viewed.js"></script>
+    <script src="assets/js/error-pages.js"></script>
+    <script src="assets/js/seasonal.js"></script>
+    
+    <!-- Load Components and Pages -->
+    <script>
+        // Load Components
+        async function loadComponents() {
+            try {
+                // Load navigation
+                const navResponse = await fetch('components/navigation.html');
+                const navHtml = await navResponse.text();
+                document.getElementById('navigation-container').innerHTML = navHtml;
+
+                // Load breadcrumb
+                const breadcrumbResponse = await fetch('components/breadcrumb.html');
+                const breadcrumbHtml = await breadcrumbResponse.text();
+                document.getElementById('breadcrumb-container').innerHTML = breadcrumbHtml;
+
+                // Load footer
+                const footerResponse = await fetch('components/footer.html');
+                const footerHtml = await footerResponse.text();
+                document.getElementById('footer-container').innerHTML = footerHtml;
+
+                // Load cookie consent
+                const cookieResponse = await fetch('components/cookie-consent.html');
+                const cookieHtml = await cookieResponse.text();
+                document.getElementById('cookie-consent-container').innerHTML = cookieHtml;
+            } catch (error) {
+                console.error('Error loading components:', error);
+            }
+        }
+
+        // Load Page Content
+        async function loadPage(pageName) {
+            const viewElement = document.getElementById('view-' + pageName);
+            if (!viewElement) return;
+
+            // Check if already loaded
+            if (viewElement.dataset.loaded === 'true') {
+                // Dispatch pageLoaded event even if already loaded
+                document.dispatchEvent(new CustomEvent('pageLoaded', { detail: { pageName } }));
+                return;
+            }
+
+            try {
+                const response = await fetch(`pages/${pageName}.html`);
+                if (response.ok) {
+                    const html = await response.text();
+                    viewElement.innerHTML = html;
+                    viewElement.dataset.loaded = 'true';
+                    
+                    // Dispatch pageLoaded event after content is loaded
+                    setTimeout(() => {
+                        document.dispatchEvent(new CustomEvent('pageLoaded', { detail: { pageName } }));
+                    }, 50);
+                } else {
+                    viewElement.innerHTML = `<div class="container mx-auto px-4 py-20 text-center text-gray-600">ไม่พบหน้า ${pageName}</div>`;
+                }
+            } catch (error) {
+                console.error(`Error loading page ${pageName}:`, error);
+                viewElement.innerHTML = `<div class="container mx-auto px-4 py-20 text-center text-red-600">เกิดข้อผิดพลาดในการโหลดหน้า</div>`;
+            }
+        }
+
+        // Override navigateTo to load pages dynamically
+        const originalNavigateTo = window.navigateTo;
+        window.navigateTo = function(pageName) {
+            // Load page if not loaded
+            loadPage(pageName).then(() => {
+                // Call original navigateTo
+                if (originalNavigateTo) {
+                    originalNavigateTo(pageName);
+                } else {
+                    // Fallback if main.js not loaded yet
+                    const views = document.querySelectorAll('.page-view');
+                    views.forEach(view => view.classList.remove('active'));
+                    const target = document.getElementById('view-' + pageName);
+                    if (target) {
+                        target.classList.add('active');
+                        window.scrollTo(0, 0);
+                    }
+                }
+            });
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadComponents();
+            await loadPage('home');
+            
+            // Initialize other scripts after components are loaded
+            if (typeof updateBreadcrumb === 'function') {
+                updateBreadcrumb('home');
+            }
+        });
+    </script>
+</body>
+</html>

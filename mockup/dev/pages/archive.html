@@ -1,0 +1,189 @@
+<!-- Category Header -->
+<div class="relative bg-dark text-white py-16 mb-8 overflow-hidden">
+    <!-- Background Image -->
+    <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=1600&q=80" alt="เที่ยวทั่วไทย" class="absolute inset-0 w-full h-full object-cover opacity-30">
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <span class="text-secondary font-bold tracking-wider uppercase text-sm">Category</span>
+        <h1 class="text-4xl font-heading font-bold mt-2">เที่ยวทั่วไทย</h1>
+        <p class="text-gray-300 mt-2 max-w-2xl mx-auto">รวมรีวิวที่เที่ยวในประเทศไทย ครบทั้ง 77 จังหวัด ตั้งแต่เหนือจรดใต้</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Sidebar (Left) -->
+    <aside class="hidden lg:block lg:col-span-1 space-y-6">
+        <!-- Filter by Region -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="font-heading font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="ph ph-map-pin text-primary"></i> ภาค (Regions)
+            </h3>
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li><label class="flex items-center gap-2 cursor-pointer hover:text-primary transition"><input type="checkbox" class="rounded text-primary"> ภาคเหนือ (120)</label></li>
+                <li><label class="flex items-center gap-2 cursor-pointer hover:text-primary transition"><input type="checkbox" class="rounded text-primary"> ภาคใต้ (85)</label></li>
+                <li><label class="flex items-center gap-2 cursor-pointer hover:text-primary transition"><input type="checkbox" class="rounded text-primary"> ภาคอีสาน (60)</label></li>
+                <li><label class="flex items-center gap-2 cursor-pointer hover:text-primary transition"><input type="checkbox" class="rounded text-primary"> ภาคตะวันออก (45)</label></li>
+                <li><label class="flex items-center gap-2 cursor-pointer hover:text-primary transition"><input type="checkbox" class="rounded text-primary"> ภาคกลาง (95)</label></li>
+            </ul>
+        </div>
+        
+        <!-- Popular Destinations -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="font-heading font-bold text-lg mb-4 flex items-center gap-2">
+                <i class="ph ph-fire text-secondary"></i> จุดหมายยอดนิยม
+            </h3>
+            <div class="space-y-3">
+                <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group">
+                    <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=100&q=80" alt="เชียงใหม่" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm text-dark group-hover:text-primary">เชียงใหม่</h4>
+                        <span class="text-xs text-gray-500">25 บทความ</span>
+                    </div>
+                </a>
+                <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group">
+                    <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=100&q=80" alt="ภูเก็ต" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm text-dark group-hover:text-primary">ภูเก็ต</h4>
+                        <span class="text-xs text-gray-500">18 บทความ</span>
+                    </div>
+                </a>
+                <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition group">
+                    <img src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=100&q=80" alt="กระบี่" class="w-12 h-12 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm text-dark group-hover:text-primary">กระบี่</h4>
+                        <span class="text-xs text-gray-500">15 บทความ</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Related Links -->
+        <div class="bg-gradient-to-br from-primary to-blue-600 rounded-xl p-6 text-white">
+            <h3 class="font-heading font-bold text-lg mb-3 flex items-center gap-2">
+                <i class="ph ph-airplane-tilt"></i> จองตั๋วเครื่องบิน
+            </h3>
+            <p class="text-sm text-blue-100 mb-4">บินไปเที่ยวทั่วไทย ราคาพิเศษ</p>
+            <button onclick="navigateTo('flights')" class="w-full bg-white text-primary font-bold py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                ดูราคา
+            </button>
+        </div>
+        
+        <!-- Newsletter -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="font-heading font-bold text-lg mb-3 flex items-center gap-2">
+                <i class="ph ph-envelope text-secondary"></i> สมัครรับข่าวสาร
+            </h3>
+            <p class="text-sm text-gray-600 mb-4">รับข่าวสารโปรโมชั่นและรีวิวใหม่ๆ</p>
+            <div class="space-y-2">
+                <input type="email" placeholder="อีเมลของคุณ" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary">
+                <button class="w-full bg-secondary text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600 transition text-sm">
+                    สมัครเลย
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Grid (Right) -->
+    <main class="lg:col-span-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Loop Cards -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=600&q=80" alt="ม่อนแจ่ม เชียงใหม่" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">เชียงใหม่</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">ม่อนแจ่มหน้าฝน</h3>
+                </div>
+            </article>
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80" alt="เชียงราย" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">เชียงราย</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">ไหว้พระวัดร่องขุ่น</h3>
+                </div>
+            </article>
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80" alt="ภูเก็ต" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">ภูเก็ต</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">จุดชมวิวแหลมพรหมเทพ</h3>
+                </div>
+            </article>
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=600&q=80" alt="กระบี่" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">กระบี่</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">ไร่เลย์ ทะเลแหวก</h3>
+                </div>
+            </article>
+             <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=600&q=80" alt="กรุงเทพ" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">กรุงเทพ</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">วัดอรุณยามเย็น</h3>
+                </div>
+            </article>
+             <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=600&q=80" alt="กาญจนบุรี" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">กาญจนบุรี</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">ล่องแพแม่น้ำแคว</h3>
+                </div>
+            </article>
+            <!-- Card 7 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=600&q=80" alt="เที่ยวน่าน 3 วัน 2 คืน หน้าฝน" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">น่าน</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">เที่ยวน่าน 3 วัน 2 คืน หน้าฝน</h3>
+                </div>
+            </article>
+            <!-- Card 8 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=600&q=80" alt="เชียงราย" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">เชียงราย</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">วัดร่องขุ่น สถาปัตยกรรมสุดอลังการ</h3>
+                </div>
+            </article>
+            <!-- Card 9 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=600&q=80" alt="กรุงเทพ" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">กรุงเทพ</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">One Day Trip เจริญกรุง Street Art</h3>
+                </div>
+            </article>
+            <!-- Card 10 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=600&q=80" alt="กาญจนบุรี" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">กาญจนบุรี</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">นั่งรถไฟไปเที่ยวน้ำตกไทรโยค งบ 500 บาท</h3>
+                </div>
+            </article>
+            <!-- Card 11 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=600&q=80" alt="พังงา" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">พังงา</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">เกาะเจมส์บอนด์ ทะเลใสใส</h3>
+                </div>
+            </article>
+            <!-- Card 12 -->
+            <article class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition" onclick="navigateTo('single')">
+                <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=600&q=80" alt="ลำปาง" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="text-xs text-primary font-bold">ลำปาง</span>
+                    <h3 class="font-heading font-bold text-lg mt-1 mb-2 hover:text-primary">เที่ยวลำปาง วัดพระธาตุลำปางหลวง</h3>
+                </div>
+            </article>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="flex justify-center items-center gap-2 mt-12">
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition">1</button>
+            <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition">2</button>
+            <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition">3</button>
+            <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition">Next <i class="ph ph-arrow-right"></i></button>
+        </div>
+    </main>
+</div>

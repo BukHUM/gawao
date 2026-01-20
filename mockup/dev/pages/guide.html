@@ -1,0 +1,291 @@
+<!-- Category Header -->
+<div class="relative bg-dark text-white py-16 mb-8 overflow-hidden">
+    <!-- Background Image -->
+    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-30">
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <span class="text-secondary font-bold tracking-wider uppercase text-sm">Travel Guide</span>
+        <h1 class="text-4xl font-heading font-bold mt-2">คู่มือเดินทาง</h1>
+        <p class="text-gray-300 mt-2 max-w-2xl mx-auto">คู่มือและเทคนิคการเดินทางที่คุณต้องรู้ ก่อนออกเดินทางไปทุกที่</p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4">
+    <!-- Category Tabs -->
+    <div class="flex flex-wrap gap-2 mb-8 justify-center">
+        <button class="px-4 py-2 bg-primary text-white rounded-full font-medium hover:bg-blue-600 transition">ทั้งหมด</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">การเตรียมตัว</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">วีซ่า & เอกสาร</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">การจอง</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">เทคนิคการเดินทาง</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">เคล็ดลับประหยัด</button>
+        <button class="px-4 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100 border border-gray-200 transition">อุปกรณ์เดินทาง</button>
+    </div>
+
+    <!-- Featured Guide -->
+    <div class="bg-gradient-to-r from-primary to-blue-600 rounded-2xl p-8 mb-12 text-white shadow-xl">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1">
+                <span class="inline-block bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Featured</span>
+                <h2 class="text-2xl md:text-3xl font-heading font-bold mb-3">คู่มือขอวีซ่าญี่ปุ่น 2026 ฉบับอัพเดทล่าสุด</h2>
+                <p class="text-blue-100 mb-4">ขั้นตอนการขอวีซ่าญี่ปุ่นแบบละเอียด พร้อมเอกสารที่ต้องเตรียม และเทคนิคเพิ่มโอกาสผ่านวีซ่า</p>
+                <button onclick="navigateTo('single')" class="inline-flex items-center gap-2 bg-white text-primary font-heading font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                    อ่านคู่มือ <i class="ph ph-arrow-right"></i>
+                </button>
+            </div>
+            <div class="w-full md:w-80 h-48 rounded-xl overflow-hidden shadow-lg">
+                <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" alt="Japan Visa Guide" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </div>
+
+    <!-- Guide Categories Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <!-- Guide Card 1 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80" alt="Travel Preparation" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded">การเตรียมตัว</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">เช็คลิสต์ก่อนออกเดินทาง 20 ข้อที่ต้องทำ</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">รายการสิ่งที่ต้องเช็คก่อนออกเดินทาง ตั้งแต่เอกสารไปจนถึงอุปกรณ์</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 5 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 15 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+
+        <!-- Guide Card 2 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80" alt="Visa Guide" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">วีซ่า & เอกสาร</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">ประเทศไหนที่คนไทยไปได้ไม่ต้องขอวีซ่า?</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">รวมรายชื่อประเทศที่คนไทยสามารถเดินทางไปได้โดยไม่ต้องขอวีซ่า</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 8 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 12 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+
+        <!-- Guide Card 3 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=800&q=80" alt="Booking Guide" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">การจอง</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">เทคนิคจองตั๋วเครื่องบินราคาถูกที่สุด</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">เคล็ดลับและเทคนิคการจองตั๋วเครื่องบินให้ได้ราคาดีที่สุด</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 6 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 10 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+
+        <!-- Guide Card 4 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="Travel Tips" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded">เทคนิคการเดินทาง</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">10 วิธีเอาตัวรอดเมื่อพลาดเที่ยวบิน</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">สิ่งที่ต้องทำเมื่อพลาดเที่ยวบิน และวิธีป้องกันไม่ให้พลาด</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 4 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 8 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+
+        <!-- Guide Card 5 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=800&q=80" alt="Budget Travel" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">เคล็ดลับประหยัด</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">เที่ยวญี่ปุ่นงบ 30,000 บาท 7 วันทำได้จริง!</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">วิธีเที่ยวญี่ปุ่นแบบประหยัด พร้อมตารางค่าใช้จ่ายจริง</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 10 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 5 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+
+        <!-- Guide Card 6 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="navigateTo('single')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80" alt="Travel Gear" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded">อุปกรณ์เดินทาง</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">ของที่ต้องพกไปเที่ยวต่างประเทศ 2026</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">รายการอุปกรณ์ที่จำเป็นและไม่จำเป็นสำหรับการเดินทาง</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-clock"></i> อ่าน 7 นาที
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-calendar"></i> 3 ม.ค. 2026
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <!-- Popular Topics -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-12">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-heading font-bold text-2xl text-dark border-l-4 border-primary pl-3">หัวข้อยอดนิยม</h2>
+            <span class="text-sm text-gray-500 hidden md:block">อัพเดทล่าสุด</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Topic 1 - Top Rank -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-primary/20 hover:border-primary hover:shadow-lg transition-all group bg-gradient-to-br from-primary/5 to-transparent">
+                <div class="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <i class="ph ph-fire text-sm"></i> #1
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition">
+                        <i class="ph ph-passport text-2xl text-primary"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-primary transition">วีซ่าญี่ปุ่น</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">15 บทความ</span>
+                            <span class="text-xs text-primary font-semibold">• 2.5K views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">คู่มือขอวีซ่าญี่ปุ่นแบบละเอียด พร้อมเทคนิคเพิ่มโอกาสผ่านวีซ่า</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 15 ม.ค. 2026
+                </div>
+            </a>
+
+            <!-- Topic 2 -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-secondary/20 hover:border-secondary hover:shadow-lg transition-all group bg-gradient-to-br from-secondary/5 to-transparent">
+                <div class="absolute top-3 right-3 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <i class="ph ph-fire text-sm"></i> #2
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-secondary/20 rounded-xl flex items-center justify-center group-hover:bg-secondary/30 transition">
+                        <i class="ph ph-airplane-tilt text-2xl text-secondary"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-secondary transition">จองตั๋วเครื่องบิน</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">22 บทความ</span>
+                            <span class="text-xs text-secondary font-semibold">• 1.8K views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">เทคนิคจองตั๋วเครื่องบินราคาถูก เวลาที่ดีที่สุดในการจอง</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 12 ม.ค. 2026
+                </div>
+            </a>
+
+            <!-- Topic 3 -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-purple-500/20 hover:border-purple-500 hover:shadow-lg transition-all group bg-gradient-to-br from-purple-500/5 to-transparent">
+                <div class="absolute top-3 right-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                    <i class="ph ph-fire text-sm"></i> #3
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center group-hover:bg-purple-500/30 transition">
+                        <i class="ph ph-currency-circle-dollar text-2xl text-purple-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-purple-600 transition">เที่ยวประหยัด</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">28 บทความ</span>
+                            <span class="text-xs text-purple-600 font-semibold">• 1.5K views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">เคล็ดลับเที่ยวประหยัดทุกประเทศ งบน้อยก็เที่ยวได้</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 10 ม.ค. 2026
+                </div>
+            </a>
+
+            <!-- Topic 4 -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-green-500/20 hover:border-green-500 hover:shadow-lg transition-all group bg-gradient-to-br from-green-500/5 to-transparent">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center group-hover:bg-green-500/30 transition">
+                        <i class="ph ph-bed text-2xl text-green-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-green-600 transition">จองที่พัก</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">18 บทความ</span>
+                            <span class="text-xs text-green-600 font-semibold">• 1.2K views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">วิธีจองที่พักราคาดี เปรียบเทียบราคาจากหลายเว็บ</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 8 ม.ค. 2026
+                </div>
+            </a>
+
+            <!-- Topic 5 -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-blue-500/20 hover:border-blue-500 hover:shadow-lg transition-all group bg-gradient-to-br from-blue-500/5 to-transparent">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition">
+                        <i class="ph ph-suitcase text-2xl text-blue-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-blue-600 transition">อุปกรณ์เดินทาง</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">12 บทความ</span>
+                            <span class="text-xs text-blue-600 font-semibold">• 980 views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">ของที่ต้องพกไปเที่ยว รายการเช็คลิสต์ก่อนออกเดินทาง</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 5 ม.ค. 2026
+                </div>
+            </a>
+
+            <!-- Topic 6 -->
+            <a href="#" class="relative flex flex-col gap-3 p-5 rounded-xl border-2 border-orange-500/20 hover:border-orange-500 hover:shadow-lg transition-all group bg-gradient-to-br from-orange-500/5 to-transparent">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-orange-500/20 rounded-xl flex items-center justify-center group-hover:bg-orange-500/30 transition">
+                        <i class="ph ph-shield-check text-2xl text-orange-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-heading font-bold text-lg text-dark group-hover:text-orange-600 transition">การเตรียมตัว</h3>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="text-xs text-gray-500">20 บทความ</span>
+                            <span class="text-xs text-orange-600 font-semibold">• 850 views</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 line-clamp-2">เช็คลิสต์ก่อนออกเดินทาง เอกสารและสิ่งที่ต้องเตรียม</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <i class="ph ph-clock"></i> อัพเดทล่าสุด: 3 ม.ค. 2026
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center gap-2">
+        <button class="px-4 py-2 bg-primary text-white rounded-lg">1</button>
+        <button class="px-4 py-2 bg-white border hover:bg-gray-50 rounded-lg">2</button>
+        <button class="px-4 py-2 bg-white border hover:bg-gray-50 rounded-lg">3</button>
+        <button class="px-4 py-2 bg-white border hover:bg-gray-50 rounded-lg">Next</button>
+    </div>
+</div>

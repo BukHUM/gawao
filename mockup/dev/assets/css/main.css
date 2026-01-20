@@ -1,0 +1,92 @@
+/* Main Styles for KonDernTang Mockup */
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+.animate-marquee { display: inline-block; animation: marquee 25s linear infinite; }
+
+/* Utility for switching views */
+.page-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+.page-view.active { display: block; }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Hero Slider Styles */
+.hero-slide {
+    transition: opacity 0.6s ease-in-out, z-index 0s 0.3s;
+}
+.hero-slide.opacity-100 {
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Back to Top Button */
+#back-to-top {
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+#back-to-top.opacity-100 {
+    transform: translateY(0);
+}
+#back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+}
+
+/* Cookie Consent Banner */
+#cookie-consent {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+/* Cookie Preferences Modal Animation */
+#cookie-preferences-modal {
+    animation: fadeIn 0.2s ease-out;
+}
+
+#cookie-preferences-modal > div {
+    animation: slideUpModal 0.3s ease-out;
+}
+
+@keyframes slideUpModal {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Dropdown Menu Styles */
+.group:hover .group-hover\:opacity-100 {
+    transition-delay: 0.1s;
+}
+
+/* Mobile Submenu Animation */
+#travel-submenu {
+    transition: all 0.3s ease-in-out;
+}
+
+#travel-submenu-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Toggle Switch Styles */
+input[type="checkbox"]:checked + div {
+    background-color: #0ea5e9;
+}
+
+input[type="checkbox"]:checked + div:after {
+    transform: translateX(calc(100% - 1.25rem));
+}

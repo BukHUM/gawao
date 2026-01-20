@@ -1,0 +1,425 @@
+<!-- Hero Slider Section -->
+<header class="relative bg-dark h-[500px] overflow-hidden group">
+    <!-- Slider Container -->
+    <div id="hero-slider" class="relative h-full">
+        <!-- Slide 1 -->
+        <div class="hero-slide absolute inset-0 flex items-end group" data-slide="0">
+            <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=1600&q=80" alt="Travel Hero" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="container mx-auto px-4 pb-12 relative z-10">
+                <span class="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">Highlight</span>
+                <h1 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4 leading-tight drop-shadow-md">
+                    แจกแพลนเที่ยว "น่าน" 3 วัน 2 คืน<br>หน้าฝนฉบับคนไม่มีรถ
+                </h1>
+                <p class="text-gray-300 text-lg mb-6 max-w-2xl font-light line-clamp-2">
+                    พาไปสัมผัสความเขียวขจีของเมืองน่าน ในบรรยากาศสุดชิลล์ พักโฮมสเตย์กลางทุ่งนา...
+                </p>
+                <button onclick="navigateTo('single')" class="inline-flex items-center gap-2 bg-white text-dark font-heading font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                    อ่านรีวิวฉบับเต็ม <i class="ph ph-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="hero-slide absolute inset-0 flex items-end group opacity-0" data-slide="1">
+            <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80" alt="Japan Travel" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="container mx-auto px-4 pb-12 relative z-10">
+                <span class="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">International</span>
+                <h1 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4 leading-tight drop-shadow-md">
+                    เที่ยวญี่ปุ่น 7 วัน 6 คืน<br>Osaka-Kyoto-Tokyo งบ 35,000 บาท
+                </h1>
+                <p class="text-gray-300 text-lg mb-6 max-w-2xl font-light line-clamp-2">
+                    แพลนเที่ยวญี่ปุ่นแบบประหยัด พร้อมคู่มือจองที่พักและตั๋วเครื่องบินราคาดี...
+                </p>
+                <button onclick="navigateTo('single')" class="inline-flex items-center gap-2 bg-white text-dark font-heading font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                    อ่านรีวิวฉบับเต็ม <i class="ph ph-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="hero-slide absolute inset-0 flex items-end group opacity-0" data-slide="2">
+            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1600&q=80" alt="Turkey Travel" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="container mx-auto px-4 pb-12 relative z-10">
+                <span class="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">Must Visit</span>
+                <h1 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4 leading-tight drop-shadow-md">
+                    นอนดูบอลลูนที่ Cappadocia<br>ตุรกี 5 วัน 4 คืน
+                </h1>
+                <p class="text-gray-300 text-lg mb-6 max-w-2xl font-light line-clamp-2">
+                    ประสบการณ์ครั้งหนึ่งในชีวิต นอนดูบอลลูนยามเช้าในดินแดนมหัศจรรย์...
+                </p>
+                <button onclick="navigateTo('single')" class="inline-flex items-center gap-2 bg-white text-dark font-heading font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                    อ่านรีวิวฉบับเต็ม <i class="ph ph-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="hero-slide absolute inset-0 flex items-end group opacity-0" data-slide="3">
+            <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1600&q=80" alt="Bali Travel" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="container mx-auto px-4 pb-12 relative z-10">
+                <span class="inline-block bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">Tropical</span>
+                <h1 class="text-3xl md:text-5xl font-heading font-bold text-white mb-4 leading-tight drop-shadow-md">
+                    บาหลี 4 วัน 3 คืน<br>งบประหยัด 15,000 บาท
+                </h1>
+                <p class="text-gray-300 text-lg mb-6 max-w-2xl font-light line-clamp-2">
+                    เที่ยวบาหลีแบบชิลล์ๆ พักวิลล่าติดชายหาด กินอาหารท้องถิ่นอร่อย...
+                </p>
+                <button onclick="navigateTo('single')" class="inline-flex items-center gap-2 bg-white text-dark font-heading font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+                    อ่านรีวิวฉบับเต็ม <i class="ph ph-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation Arrows -->
+    <button id="hero-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100">
+        <i class="ph ph-caret-left text-2xl"></i>
+    </button>
+    <button id="hero-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100">
+        <i class="ph ph-caret-right text-2xl"></i>
+    </button>
+    
+    <!-- Dots Indicator -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white transition-all duration-300" data-slide="0"></button>
+        <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300" data-slide="1"></button>
+        <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300" data-slide="2"></button>
+        <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300" data-slide="3"></button>
+    </div>
+</header>
+
+<!-- Home Content -->
+<main class="container mx-auto px-4 py-12">
+    <!-- Section 1 -->
+    <div class="flex justify-between items-end mb-8 border-l-4 border-primary pl-4">
+        <div>
+            <h2 class="text-3xl font-heading font-bold text-dark">เที่ยวทั่วไทย</h2>
+            <p class="text-gray-500 mt-1">หลงรักเมืองไทย ไปกี่ครั้งก็ไม่เบื่อ</p>
+        </div>
+        <button onclick="navigateTo('archive')" class="text-primary hover:text-blue-700 font-medium hidden md:block">ดูทั้งหมด <i class="ph ph-arrow-right inline-block"></i></button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+        <!-- Card Item -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=800&q=80" alt="ม่อนแจ่ม เชียงใหม่" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">เชียงใหม่</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">ม่อนแจ่ม 2026 เปลี่ยนไปแค่ไหน?</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 19 ม.ค. 2026</div>
+            </div>
+        </article>
+         <!-- Card Item -->
+         <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden bg-gray-200">
+                <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="เมืองเก่าภูเก็ต" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">ภูเก็ต</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">เดินเล่นย่านเมืองเก่าภูเก็ต 5 คาเฟ่ลับ</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 18 ม.ค. 2026</div>
+            </div>
+        </article>
+         <!-- Card Item -->
+         <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">กาญจนบุรี</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">นั่งรถไฟไปเที่ยวน้ำตกไทรโยค งบ 500 บาท</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 15 ม.ค. 2026</div>
+            </div>
+        </article>
+         <!-- Card Item -->
+         <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">กรุงเทพฯ</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-primary transition">One Day Trip เจริญกรุง ถ่ายรูป Street Art</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 12 ม.ค. 2026</div>
+            </div>
+        </article>
+    </div>
+    
+    <!-- Affiliate Banner -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl p-8 mb-16 text-center text-white shadow-xl">
+         <h2 class="text-3xl font-heading font-bold mb-2"><i class="ph ph-bed"></i> หาที่พักราคาดีที่สุด?</h2>
+         <p class="mb-4">จองกับเราถูกกว่าจองเอง ดีลพิเศษสำหรับคนเดินทาง</p>
+         <button onclick="navigateTo('hotels')" class="bg-secondary hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg">ค้นหาที่พัก</button>
+    </div>
+
+    <!-- Section 2: เที่ยวต่างประเทศ -->
+    <div class="flex justify-between items-end mb-8 border-l-4 border-secondary pl-4">
+        <div>
+            <h2 class="text-3xl font-heading font-bold text-dark">เที่ยวต่างประเทศ</h2>
+            <p class="text-gray-500 mt-1">เปิดประสบการณ์ใหม่ในต่างแดน สัมผัสวัฒนธรรมจากทั่วทุกมุมโลก</p>
+        </div>
+        <button onclick="navigateTo('international')" class="text-secondary hover:text-orange-700 font-medium hidden md:block">ดูทั้งหมด <i class="ph ph-arrow-right inline-block"></i></button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+        <!-- Card Item -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">ญี่ปุ่น</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-secondary transition">ตะลุย Osaka-Kyoto 5 วัน 4 คืน งบ 25,000 บาท</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 20 ม.ค. 2026</div>
+            </div>
+        </article>
+        <!-- Card Item -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">อินเดีย</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-secondary transition">ทัชมาฮาลครั้งหนึ่งในชีวิต แพลน 7 วัน</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 18 ม.ค. 2026</div>
+            </div>
+        </article>
+        <!-- Card Item -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">ตุรกี</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-secondary transition">นอนดูบอลลูนที่ Cappadocia ราคาเท่าไหร่?</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 15 ม.ค. 2026</div>
+            </div>
+        </article>
+        <!-- Card Item -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('single')">
+            <div class="relative h-48 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-white/90 text-dark text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">บาหลี</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-secondary transition">Bali 4 วัน 3 คืน งบประหยัด 15,000 บาท</h3>
+                <div class="flex items-center gap-2 text-gray-400 text-xs mt-3"><i class="ph ph-calendar"></i> 12 ม.ค. 2026</div>
+            </div>
+        </article>
+    </div>
+    
+    <!-- Section 3: ข่าวสารท่องเที่ยว -->
+    <div class="flex justify-between items-end mb-8 border-l-4 border-green-500 pl-4 mt-16">
+        <div>
+            <h2 class="text-3xl font-heading font-bold text-dark">ข่าวสารท่องเที่ยว</h2>
+            <p class="text-gray-500 mt-1">อัพเดทข่าวสาร โปรโมชั่น และข้อมูลสำคัญสำหรับนักเดินทาง</p>
+        </div>
+        <button onclick="navigateTo('news-archive')" class="text-green-600 hover:text-green-700 font-medium hidden md:block">ดูทั้งหมด <i class="ph ph-arrow-right inline-block"></i></button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+        <!-- News Card 1 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('news')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80" alt="ข่าวสารท่องเที่ยว" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">ข่าวด่วน</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-green-600 transition">ญี่ปุ่นประกาศฟรีวีซ่าถาวรสำหรับคนไทยแล้ว!</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">เริ่มต้นวันที่ 1 เมษายน 2026 คนไทยสามารถเดินทางไปญี่ปุ่นได้โดยไม่ต้องขอวีซ่า...</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-calendar"></i> 22 ม.ค. 2026
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-eye"></i> 2.5K views
+                </div>
+            </div>
+        </article>
+        
+        <!-- News Card 2 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('news')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=800&q=80" alt="โปรโมชั่น" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">โปรโมชั่น</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-green-600 transition">AirAsia เปิดขายตั๋ว 0 บาท บินทั่วไทย</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">จองด่วนคืนนี้เท่านั้น! ตั๋วเครื่องบินราคา 0 บาท (ไม่รวมภาษี) สำหรับเที่ยวบินภายในประเทศ...</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-calendar"></i> 21 ม.ค. 2026
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-eye"></i> 1.8K views
+                </div>
+            </div>
+        </article>
+        
+        <!-- News Card 3 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('news')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80" alt="อัพเดท" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">อัพเดท</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-green-600 transition">โรงแรมพัทยาลดราคา 50% ช่วงโลว์ซีซั่น</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">โรงแรมติดทะเลในพัทยาเปิดโปรโมชั่นลดราคา 50% สำหรับการจองล่วงหน้า 30 วัน...</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-calendar"></i> 20 ม.ค. 2026
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-eye"></i> 1.2K views
+                </div>
+            </div>
+        </article>
+        
+        <!-- News Card 4 -->
+        <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden group border border-gray-100 cursor-pointer" onclick="navigateTo('news')">
+            <div class="relative h-40 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="ข่าวสาร" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                <span class="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">ข่าวด่วน</span>
+            </div>
+            <div class="p-5">
+                <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-green-600 transition">เชียงใหม่เปิดสวนดอกไม้ฤดูหนาว 2026</h3>
+                <p class="text-gray-500 text-sm mb-3 line-clamp-2">จังหวัดเชียงใหม่เปิดสวนดอกไม้ฤดูหนาวที่สวยงามที่สุดในปี 2026 พร้อมกิจกรรมพิเศษมากมาย...</p>
+                <div class="flex items-center gap-2 text-gray-400 text-xs">
+                    <i class="ph ph-calendar"></i> 19 ม.ค. 2026
+                    <span class="mx-1">•</span>
+                    <i class="ph ph-eye"></i> 1.5K views
+                </div>
+            </div>
+        </article>
+    </div>
+</main>
+
+<!-- AI-Powered Recommendations Section -->
+<section class="container mx-auto px-4 mt-8 mb-8">
+    <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border border-purple-100">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-gradient-to-br from-purple-500 to-blue-500 p-3 rounded-xl">
+                <i class="ph ph-sparkle text-white text-2xl"></i>
+            </div>
+            <div>
+                <h2 class="font-heading font-bold text-2xl text-dark">แนะนำสำหรับคุณ</h2>
+                <p class="text-sm text-gray-600">เนื้อหาที่คัดสรรมาเป็นพิเศษตามความสนใจของคุณ</p>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('เที่ยวญี่ปุ่น 7 วัน 6 คืน'); navigateTo('single')">
+                <div class="relative h-40 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&w=800&q=80" alt="ญี่ปุ่น" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                    </span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">เที่ยวญี่ปุ่น 7 วัน 6 คืน</h3>
+                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">คู่มือเที่ยวญี่ปุ่นแบบครบวงจร โตเกียว เกียวโต โอซาก้า</p>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs">
+                        <i class="ph ph-calendar"></i> 12 ม.ค. 2026
+                        <span class="mx-1">•</span>
+                        <i class="ph ph-eye"></i> 4.2K views
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('โรงแรมบาหลีติดทะเล'); navigateTo('hotels')">
+                <div class="relative h-40 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="บาหลี" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                    </span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">โรงแรมบาหลีติดทะเล ราคาดี</h3>
+                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">รวมโรงแรมติดทะเลในบาหลี ราคาเริ่มต้น 1,500 บาท/คืน</p>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs">
+                        <i class="ph ph-calendar"></i> 5 ม.ค. 2026
+                        <span class="mx-1">•</span>
+                        <i class="ph ph-eye"></i> 3.5K views
+                    </div>
+                </div>
+            </article>
+
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-gray-100 cursor-pointer group" onclick="addToRecentlyViewed('แพ็คเกจทัวร์ยุโรป'); navigateTo('promotion')">
+                <div class="relative h-40 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="ยุโรป" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                        <i class="ph ph-sparkle text-xs"></i> AI แนะนำ
+                    </span>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-heading font-semibold text-lg text-dark mb-2 leading-snug group-hover:text-purple-600 transition">แพ็คเกจทัวร์ยุโรป 7 วัน 6 คืน</h3>
+                    <p class="text-gray-500 text-sm mb-3 line-clamp-2">เที่ยว 4 ประเทศในยุโรป ราคาเริ่มต้น 89,900 บาท</p>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs">
+                        <i class="ph ph-calendar"></i> 3 ม.ค. 2026
+                        <span class="mx-1">•</span>
+                        <i class="ph ph-eye"></i> 2.8K views
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Social Feed Section -->
+<section class="container mx-auto px-4 mt-8 mb-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-heading font-bold text-dark mb-4">ติดตามเราบน Social Media</h2>
+        <p class="text-gray-600">อัพเดทข่าวสาร โปรโมชั่น และภาพสวยๆ จากนักเดินทาง</p>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Instagram Feed Item 1 -->
+        <div class="relative group cursor-pointer overflow-hidden rounded-xl">
+            <img src="https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=400&q=80" alt="Instagram" class="w-full h-full object-cover aspect-square transition duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                <i class="ph ph-heart text-white text-2xl"></i>
+                <span class="text-white font-semibold">1.2K</span>
+                <i class="ph ph-chat-circle text-white text-2xl ml-4"></i>
+                <span class="text-white font-semibold">89</span>
+            </div>
+        </div>
+        
+        <!-- Instagram Feed Item 2 -->
+        <div class="relative group cursor-pointer overflow-hidden rounded-xl">
+            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80" alt="Instagram" class="w-full h-full object-cover aspect-square transition duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                <i class="ph ph-heart text-white text-2xl"></i>
+                <span class="text-white font-semibold">856</span>
+                <i class="ph ph-chat-circle text-white text-2xl ml-4"></i>
+                <span class="text-white font-semibold">45</span>
+            </div>
+        </div>
+        
+        <!-- Instagram Feed Item 3 -->
+        <div class="relative group cursor-pointer overflow-hidden rounded-xl">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=400&q=80" alt="Instagram" class="w-full h-full object-cover aspect-square transition duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                <i class="ph ph-heart text-white text-2xl"></i>
+                <span class="text-white font-semibold">2.3K</span>
+                <i class="ph ph-chat-circle text-white text-2xl ml-4"></i>
+                <span class="text-white font-semibold">156</span>
+            </div>
+        </div>
+        
+        <!-- Instagram Feed Item 4 -->
+        <div class="relative group cursor-pointer overflow-hidden rounded-xl">
+            <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=400&q=80" alt="Instagram" class="w-full h-full object-cover aspect-square transition duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                <i class="ph ph-heart text-white text-2xl"></i>
+                <span class="text-white font-semibold">1.8K</span>
+                <i class="ph ph-chat-circle text-white text-2xl ml-4"></i>
+                <span class="text-white font-semibold">112</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-8">
+        <a href="https://instagram.com/konderntang" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white font-bold py-3 px-8 rounded-full hover:shadow-lg transition">
+            <i class="ph ph-instagram-logo text-2xl"></i>
+            <span>ติดตาม @konderntang</span>
+        </a>
+    </div>
+</section>
