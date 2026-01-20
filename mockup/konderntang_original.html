@@ -104,6 +104,20 @@
             }
         }
         
+        /* Dropdown Menu Styles */
+        .group:hover .group-hover\:opacity-100 {
+            transition-delay: 0.1s;
+        }
+        
+        /* Mobile Submenu Animation */
+        #travel-submenu {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        #travel-submenu-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        
         /* Toggle Switch Styles */
         input[type="checkbox"]:checked + div {
             background-color: #0ea5e9;
@@ -130,31 +144,61 @@
                     <button onclick="navigateTo('home')" class="px-3 py-2 text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
                         <i class="ph ph-house text-lg"></i> หน้าแรก
                     </button>
-                    <button onclick="navigateTo('archive')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
-                        <i class="ph ph-map-pin text-lg"></i> เที่ยวทั่วไทย
-                    </button>
-                    <button onclick="navigateTo('international')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
-                        <i class="ph ph-globe-hemisphere-east text-lg"></i> เที่ยวต่างประเทศ
-                    </button>
+                    
+                    <!-- Travel Dropdown -->
+                    <div class="relative group">
+                        <button class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
+                            <i class="ph ph-map-trifold text-lg"></i> เที่ยว
+                            <i class="ph ph-caret-down text-xs ml-1"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="p-2">
+                                <a href="#" onclick="navigateTo('archive'); return false;" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition group/item">
+                                    <i class="ph ph-map-pin text-primary text-xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-dark group-hover/item:text-primary">เที่ยวทั่วไทย</div>
+                                        <div class="text-xs text-gray-500">77 จังหวัด</div>
+                                    </div>
+                                </a>
+                                <a href="#" onclick="navigateTo('international'); return false;" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition group/item">
+                                    <i class="ph ph-globe-hemisphere-east text-secondary text-xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-dark group-hover/item:text-secondary">เที่ยวต่างประเทศ</div>
+                                        <div class="text-xs text-gray-500">ทั่วโลก</div>
+                                    </div>
+                                </a>
+                                <a href="#" onclick="navigateTo('seasonal'); return false;" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition group/item">
+                                    <i class="ph ph-sun text-orange-500 text-xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-dark group-hover/item:text-orange-500">เที่ยวตามฤดูกาล</div>
+                                        <div class="text-xs text-gray-500">ร้อน ฝน หนาว</div>
+                                    </div>
+                                </a>
+                                <a href="#" onclick="navigateTo('guide'); return false;" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition group/item">
+                                    <i class="ph ph-book-open text-green-600 text-xl"></i>
+                                    <div>
+                                        <div class="font-semibold text-dark group-hover/item:text-green-600">คู่มือเดินทาง</div>
+                                        <div class="text-xs text-gray-500">เทคนิคและคำแนะนำ</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button onclick="navigateTo('hotels')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5 relative group">
                         <i class="ph ph-bed text-lg"></i> จองที่พัก
                         <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">Hot</span>
                     </button>
                     <button onclick="navigateTo('flights')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5 relative group">
-                        <i class="ph ph-airplane-tilt text-lg"></i> จองตั๋วเครื่องบิน
+                        <i class="ph ph-airplane-tilt text-lg"></i> จองตั๋ว
                         <span class="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">ใหม่</span>
-                    </button>
-                    <button onclick="navigateTo('guide')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
-                        <i class="ph ph-book-open text-lg"></i> คู่มือเดินทาง
-                    </button>
-                    <button onclick="navigateTo('seasonal')" class="px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
-                        <i class="ph ph-sun text-lg"></i> เที่ยวตามฤดูกาล
                     </button>
                     <button onclick="navigateTo('promotion')" class="ml-2 px-4 py-2 bg-secondary text-white rounded-full hover:bg-orange-600 transition shadow-sm flex items-center gap-1.5">
                         <i class="ph ph-tag text-lg"></i> โปรโมชั่น
                     </button>
                     <button onclick="navigateTo('search')" class="ml-2 px-3 py-2 hover:text-white hover:bg-gray-800 rounded-md transition flex items-center gap-1.5">
-                        <i class="ph ph-magnifying-glass text-lg"></i> ค้นหา
+                        <i class="ph ph-magnifying-glass text-lg"></i>
                     </button>
                     
                     <!-- Language Selector -->
@@ -205,25 +249,38 @@
                 <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-2.5 text-white font-medium bg-gray-800 rounded-lg flex items-center gap-2.5 hover:bg-gray-750 transition">
                     <i class="ph ph-house text-lg"></i> หน้าแรก
                 </button>
-                <button onclick="navigateTo('archive')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition">
-                    <i class="ph ph-map-pin text-lg"></i> เที่ยวทั่วไทย
-                </button>
-                <button onclick="navigateTo('international')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition">
-                    <i class="ph ph-globe-hemisphere-east text-lg"></i> เที่ยวต่างประเทศ
-                </button>
+                <!-- Travel Section with Collapsible -->
+                <div class="space-y-1.5">
+                    <button onclick="toggleMobileSubmenu('travel-submenu')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center justify-between transition">
+                        <div class="flex items-center gap-2.5">
+                            <i class="ph ph-map-trifold text-lg"></i>
+                            <span>เที่ยว</span>
+                        </div>
+                        <i class="ph ph-caret-down text-sm transition" id="travel-submenu-icon"></i>
+                    </button>
+                    <div id="travel-submenu" class="hidden pl-6 space-y-1">
+                        <button onclick="navigateTo('archive')" class="block w-full text-left px-3 py-2 text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition text-sm">
+                            <i class="ph ph-map-pin text-base"></i> เที่ยวทั่วไทย
+                        </button>
+                        <button onclick="navigateTo('international')" class="block w-full text-left px-3 py-2 text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition text-sm">
+                            <i class="ph ph-globe-hemisphere-east text-base"></i> เที่ยวต่างประเทศ
+                        </button>
+                        <button onclick="navigateTo('seasonal')" class="block w-full text-left px-3 py-2 text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition text-sm">
+                            <i class="ph ph-sun text-base"></i> เที่ยวตามฤดูกาล
+                        </button>
+                        <button onclick="navigateTo('guide')" class="block w-full text-left px-3 py-2 text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition text-sm">
+                            <i class="ph ph-book-open text-base"></i> คู่มือเดินทาง
+                        </button>
+                    </div>
+                </div>
+                
                 <button onclick="navigateTo('hotels')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 relative transition">
                     <i class="ph ph-bed text-lg"></i> จองที่พัก
                     <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">Hot</span>
                 </button>
                 <button onclick="navigateTo('flights')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 relative transition">
-                    <i class="ph ph-airplane-tilt text-lg"></i> จองตั๋วเครื่องบิน
+                    <i class="ph ph-airplane-tilt text-lg"></i> จองตั๋ว
                     <span class="ml-auto bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">ใหม่</span>
-                </button>
-                <button onclick="navigateTo('guide')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition">
-                    <i class="ph ph-book-open text-lg"></i> คู่มือเดินทาง
-                </button>
-                <button onclick="navigateTo('seasonal')" class="block w-full text-left px-3 py-2.5 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg flex items-center gap-2.5 transition">
-                    <i class="ph ph-sun text-lg"></i> เที่ยวตามฤดูกาล
                 </button>
                 <button onclick="navigateTo('promotion')" class="block w-full text-left px-3 py-2.5 bg-secondary text-white rounded-lg flex items-center gap-2.5 hover:bg-orange-600 transition">
                     <i class="ph ph-tag text-lg"></i> โปรโมชั่น
@@ -5275,6 +5332,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             initErrorPages();
         });
+        
+        // Mobile Submenu Toggle
+        function toggleMobileSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const icon = document.getElementById(submenuId + '-icon');
+            
+            if (submenu && icon) {
+                submenu.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            }
+        }
         
         // Seasonal Travel Functions
         function switchSeason(season) {
