@@ -46,7 +46,17 @@ get_header();
                 <?php endif; ?>
 
                 <h1 class="text-xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6">
-                    <?php the_title(); ?>
+                    <?php
+                    if ( get_the_title() ) {
+                        the_title();
+                    } else {
+                        printf(
+                            '<a href="%1$s" rel="bookmark">%2$s</a>',
+                            esc_url( get_permalink() ),
+                            get_the_date()
+                        );
+                    }
+                    ?>
                 </h1>
 
                 <?php
@@ -173,12 +183,8 @@ get_header();
                 </div>
             <?php endif; ?>
 
-            <!-- Comments -->
-            <?php
-            if ( comments_open() || get_comments_number() ) :
-                comments_template();
-            endif;
-            ?>
+            <!-- Comments (always load on single so "Comments are closed." can display when comments disabled - Theme Unit Test) -->
+            <?php comments_template(); ?>
 
         </article>
 

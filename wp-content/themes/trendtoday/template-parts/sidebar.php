@@ -8,9 +8,9 @@
 ?>
 
 <aside class="lg:w-1/3 space-y-8 sticky-sidebar" aria-label="Sidebar content">
-    <?php 
-    // Popular Posts Widget (only if enabled)
-    if ( trendtoday_is_widget_enabled( 'popular_posts' ) ) :
+    <?php
+    // Popular Posts Widget: only when no widgets in sidebar (Theme Unit Test: default content disappears when widgets enabled).
+    if ( ! is_active_sidebar( 'sidebar-1' ) && trendtoday_is_widget_enabled( 'popular_posts' ) ) :
         // Try views first, fallback to date if no results
         $popular_query = trendtoday_get_popular_posts( 4, 'views' );
         

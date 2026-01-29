@@ -62,8 +62,8 @@ if ( post_password_required() ) {
         <?php
         the_comments_navigation();
 
-        // If comments are closed and there are comments, let's leave a little note, shall we?
-        if ( ! comments_open() ) :
+        // If comments are closed and there are comments, let's leave a little note (single post only; Codex 8.2: no message on pages).
+        if ( is_single() && ! comments_open() ) :
             ?>
             <p class="no-comments text-gray-500 text-center py-8">
                 <?php esc_html_e( 'Comments are closed.', 'trendtoday' ); ?>
@@ -72,6 +72,15 @@ if ( post_password_required() ) {
         endif;
 
     endif; // Check for have_comments().
+
+    // When comments are closed and there are no comments, show notice on single post only (Theme Unit Test: Comments Disabled; Codex 8.2: no message on pages).
+    if ( is_single() && ! have_comments() && ! comments_open() ) :
+        ?>
+        <p class="no-comments text-gray-500 text-center py-8">
+            <?php esc_html_e( 'Comments are closed.', 'trendtoday' ); ?>
+        </p>
+        <?php
+    endif;
 
     comment_form(
         array(

@@ -20,7 +20,7 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
 <article class="article-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition duration-300 flex flex-col cursor-pointer"
          onclick="window.location.href='<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>'"
          role="article"
-         aria-label="<?php echo esc_attr( get_the_title() ); ?>">
+         aria-label="<?php echo esc_attr( get_the_title() ? get_the_title() : get_the_date() ); ?>">
     <div class="relative overflow-hidden h-48">
         <?php if ( has_post_thumbnail() ) : ?>
             <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>">
@@ -33,7 +33,7 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
                         false, 
                         array(
                             'class' => 'article-img w-full h-full object-cover transition duration-500',
-                            'alt'   => esc_attr( get_the_title() ),
+                            'alt'   => esc_attr( get_the_title() ? get_the_title() : get_the_date() ),
                             'loading' => 'lazy',
                             'srcset' => wp_get_attachment_image_srcset( $thumbnail_id, 'trendtoday-card' ),
                             'sizes' => '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw',
@@ -53,7 +53,13 @@ $cat_color  = $category ? ( get_term_meta( $category->term_id, 'category_color',
     <div class="p-5 flex flex-col flex-grow">
         <h3 class="text-lg font-bold text-gray-900 mb-2 leading-snug line-clamp-2 hover:text-accent cursor-pointer transition-colors">
             <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink() ) ); ?>">
-                <?php the_title(); ?>
+                <?php
+                if ( get_the_title() ) {
+                    the_title();
+                } else {
+                    echo esc_html( get_the_date() );
+                }
+                ?>
             </a>
         </h3>
         <?php if ( has_excerpt() || get_the_excerpt() ) : ?>

@@ -63,6 +63,7 @@ function trendtoday_theme_setup() {
         'quote',
         'image',
         'video',
+        'audio',
     ) );
 
     /*
