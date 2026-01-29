@@ -2,6 +2,8 @@
 
 เว็บไซต์ข่าว Trend Today ที่พัฒนาด้วย WordPress พร้อม Theme แบบ Custom ที่ทันสมัยและรองรับการแสดงผลหลายภาษา
 
+**พัฒนาโดย:** [กาเหว่าดอทคอม เว็บข่าวทันทุกเทรนด์](https://gawao.com) · [https://gawao.com](https://gawao.com)
+
 ## 📋 ภาพรวมโปรเจกต์
 
 **Gawao** เป็นโปรเจกต์ WordPress สำหรับเว็บไซต์ข่าว Trend Today ที่ออกแบบมาเพื่อ:
@@ -256,15 +258,16 @@ GNU General Public License v2 or later
 
 ## 👥 Contributors
 
-- Trend Today Team
+- [Gawao](https://gawao.com) — ผู้พัฒนา (Developer)
 
 ## 📞 Support
 
-สำหรับคำถามหรือปัญหาต่างๆ กรุณาเปิด Issue ใน GitHub Repository
+สำหรับคำถามหรือปัญหาต่างๆ กรุณาเปิด Issue ใน [GitHub Repository](https://github.com/BukHUM/gawao) หรือติดต่อผู้พัฒนาผ่าน [Gawao](https://gawao.com)
 
 ## 🔗 Links
 
-- **Repository**: https://github.com/BukHUM/gawao
+- **ผู้พัฒนา / Developer**: [https://gawao.com](https://gawao.com)
+- **Repository**: [https://github.com/BukHUM/gawao](https://github.com/BukHUM/gawao)
 - **Theme Name**: Trend Today
 - **Version**: 1.0.0
 
@@ -272,4 +275,6 @@ GNU General Public License v2 or later
 
 **สร้างเมื่อ**: 2024  
 **เวอร์ชัน**: 1.0.0  
-**สถานะ**: Production Ready
+**สถานะ**: Production Ready  
+
+© [Gawao](https://gawao.com)
