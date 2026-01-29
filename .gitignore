@@ -1,13 +1,11 @@
-# Ignore everything at root
-/*
-!.gitignore
-
-# Only track wp-content/plugins/image-optimization and wp-content/themes
-!wp-content/
-wp-content/*
-!wp-content/plugins/
-!wp-content/themes/
-
-# In plugins, only image-optimization
-wp-content/plugins/*
-!wp-content/plugins/image-optimization/
+# Ignore local/config and third-party content
+wp-content/updraft
+wp-content/plugins/contact-form-7
+wp-content/plugins/cool-timeline
+wp-content/plugins/duplicate-post
+wp-content/plugins/tinymce-advanced
+wp-content/plugins/updraftplus
+wp-content/plugins/wp-links-page
+wp-content/uploads
+wp-config.php
+.htaccess
