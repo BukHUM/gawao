@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Astra package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-12-23 13:17:11+0000\n"
+"PO-Revision-Date: 2026-01-22 12:46:05+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,6 +23,288 @@ msgstr "Le thème WordPress Astra est ultra-rapide et hautement personnalisable.
 #, gp-priority: high
 msgid "Astra"
 msgstr "Astra"
+
+#: inc/core/class-astra-command-palette.php:127
+msgid "WooCommerce, Shop, Store, Products, Single Product, Cart, Checkout, Account, My Account, Orders, Sidebar"
+msgstr "WooCommerce, Boutique, Produits, Produit unique, Panier, Commande, Compte, Mon compte, Commandes, Colonne latérale"
+
+#: inc/core/class-astra-command-palette.php:126
+msgid "Customizer: WooCommerce"
+msgstr "Personnalisation  : WooCommerce"
+
+#: inc/core/class-astra-command-palette.php:116
+msgid "General, Sidebar, Accessibility, Skip to Content, Block Editor, Gutenberg, Misc, Scroll To Top, Back to Top"
+msgstr "Général, Colonne latérale, Accessibilité, Passer au contenu, Éditeur de blocs, Gutenberg, Divers, Aller en haut de la page, Retour en haut de page"
+
+#: inc/core/class-astra-command-palette.php:115
+msgid "Customizer: General"
+msgstr "Personnalisation : Général"
+
+#: inc/core/class-astra-command-palette.php:109
+msgid "Blog, Archive, Single Post, Post, Single Page, Page, Content, Excerpt, Featured Image, Meta, Author, Date, Categories, Tags, Comments"
+msgstr "Blog, Archive, Article unique, Article, Page unique, Page, Contenu, Extrait, Image mise en avant, Méta, Auteur, Date, Catégories, Balises, Commentaires"
+
+#: inc/core/class-astra-command-palette.php:108
+msgid "Customizer: Blog"
+msgstr "Personnalisation : Blog"
+
+#: inc/core/class-astra-command-palette.php:102
+msgid "Footer, Footer Widgets, Footer Bar, Copyright, Primary Footer, Above Footer, Below Footer, Menu, Social, HTML, Widget"
+msgstr "Pied de page, Widgets de pied de page, Barre de pied de page, Copyright, Pied de page principal, Au-dessus du pied de page, En dessous du pied de page, Menu, Réseaux sociaux, HTML, Widget"
+
+#: inc/core/class-astra-command-palette.php:101
+msgid "Customizer: Footer"
+msgstr "Personnalisation : Pied de page"
+
+#: inc/core/class-astra-command-palette.php:95
+msgid "Header, Site Identity, Logo, Site Title, Tagline, Primary Header, Primary Menu, Menu, Navigation, Above Header, Below Header, Mobile Header, Mobile Menu, Search, Button, Social, Account, Cart, Widget, HTML, Off Canvas, Mobile Trigger"
+msgstr "En-tête, identité du site, logo, titre du site, slogan, en-tête principal, menu principal, menu, navigation, au-dessus de l’en-tête, sous l’en-tête, en-tête mobile, menu mobile, recherche, bouton, réseaux sociaux, compte, panier, widget, HTML, hors canevas, déclencheur mobile"
+
+#: inc/core/class-astra-command-palette.php:94
+msgid "Customizer: Header"
+msgstr "Personnalisation : En-tête"
+
+#: inc/core/class-astra-command-palette.php:88
+msgid "Global, Container, Layout, Colors, Color, Background, Base Colors, Typography, Font, Fonts, Headings, Text, Buttons, Button, Style, Base Typography"
+msgstr "Global, Conteneur, Mise en page, Couleurs, Couleur, Arrière-plan, Couleurs de base, Typographie, Police, Polices, Titres, Texte, Boutons, Bouton, Style, Typographie de base"
+
+#: inc/core/class-astra-command-palette.php:87
+msgid "Customizer: Global"
+msgstr "Personnalisation : Global"
+
+#: admin/includes/class-astra-learn.php:317
+#: admin/includes/class-astra-learn.php:323
+msgid "Add your own content and visuals to make your site feel authentic and trustworthy"
+msgstr "Ajoutez votre propre contenu et vos propres visuels pour rendre votre site authentique et digne de confiance"
+
+#: admin/includes/class-astra-learn.php:316
+#: admin/includes/class-astra-learn.php:322
+msgid "Edit Your Homepage"
+msgstr "Modifier votre page d’accueil"
+
+#: admin/includes/class-astra-learn.php:312
+msgid "Set Homepage"
+msgstr "Configurer la page d’accueil"
+
+#: admin/includes/class-astra-learn.php:312
+msgid "Edit Homepage"
+msgstr "Modifier la page d’accueil"
+
+#: admin/includes/class-astra-learn.php:299
+msgid "Customize Products"
+msgstr "Personnaliser les produits"
+
+#: admin/includes/class-astra-learn.php:294
+msgid "Customize Product Page in Astra"
+msgstr "Personnaliser la page produit dans Astra"
+
+#: admin/includes/class-astra-learn.php:287
+msgid "Improve product presentation with better structure and clarity."
+msgstr "Améliorez la présentation de vos produits grâce à une structure plus claire et plus efficace."
+
+#: admin/includes/class-astra-learn.php:286
+msgid "Customize Product Page"
+msgstr "Personnaliser la page produit"
+
+#: admin/includes/class-astra-learn.php:278
+msgid "Customize Shop"
+msgstr "Personnaliser la boutique"
+
+#: admin/includes/class-astra-learn.php:273
+msgid "Customize Shop Page in Astra"
+msgstr "Personnaliser la page Boutique dans Astra"
+
+#: admin/includes/class-astra-learn.php:266
+msgid "Adjust product grid spacing, columns, and visual elements."
+msgstr "Veuillez ajuster l’espacement de la grille des produits, les colonnes et les éléments visuels."
+
+#: admin/includes/class-astra-learn.php:265
+msgid "Customize Shop Page"
+msgstr "Personnaliser la page Boutique"
+
+#: admin/includes/class-astra-learn.php:260
+msgid "Create a clean, trustworthy shopping experience to maximize your sales"
+msgstr "Créez une expérience d’achat claire et fiable afin de maximiser vos ventes"
+
+#: admin/includes/class-astra-learn.php:259
+msgid "WooCommerce Essentials"
+msgstr "Les éléments essentiels de WooCommerce"
+
+#: admin/includes/class-astra-learn.php:245
+msgid "Customize Page"
+msgstr "Personnaliser la page"
+
+#: admin/includes/class-astra-learn.php:240
+msgid "Customize Single Page Layout in Astra"
+msgstr "Personnaliser la mise en page d’une page unique dans Astra"
+
+#: admin/includes/class-astra-learn.php:233
+msgid "Fine-tune individual pages for layout, style to suite your storytelling, SEO, and user experience"
+msgstr "Optimisez chaque page en termes de mise en page et de style afin de l’adapter à votre narration, au SEO et à l’expérience utilisateur"
+
+#: admin/includes/class-astra-learn.php:232
+msgid "Customize Single Page Layout"
+msgstr "Personnaliser la mise en page d’une page unique"
+
+#: admin/includes/class-astra-learn.php:224
+msgid "Customize Blog"
+msgstr "Personnaliser le blog"
+
+#: admin/includes/class-astra-learn.php:219
+msgid "Customize Blog Layout in Astra"
+msgstr "Personnaliser la mise en page du blog dans Astra"
+
+#: admin/includes/class-astra-learn.php:212
+msgid "Choose how your posts appear - customize everything like layout, style, width and much more"
+msgstr "Déterminez l’apparence de vos publications - personnalisez tous les aspects tels que la mise en page, le style, la largeur et bien plus encore"
+
+#: admin/includes/class-astra-learn.php:211
+msgid "Customize Blog Layout"
+msgstr "Personnaliser la mise en page du blog"
+
+#: admin/includes/class-astra-learn.php:203
+msgid "Configure Sidebar"
+msgstr "Configurer la colonne latérale"
+
+#: admin/includes/class-astra-learn.php:198
+msgid "Customize Sidebar Layout in Astra"
+msgstr "Personnaliser la mise en page de la colonne latérale dans Astra"
+
+#: admin/includes/class-astra-learn.php:191
+msgid "Select left, right, or no sidebar depending on your content needs."
+msgstr "Veuillez sélectionner la colonne latérale de gauche, de droite ou aucune colonne latérale en fonction de vos besoins en matière de contenu."
+
+#: admin/includes/class-astra-learn.php:190
+msgid "Choose default sidebar layout and style"
+msgstr "Veuillez sélectionner la mise en page et le style par défaut de la colonne latérale"
+
+#: admin/includes/class-astra-learn.php:185
+msgid "Give your pages a clean, consistent visual flow that feels polished and professional."
+msgstr "Donnez à vos pages un aspect visuel épuré et cohérent, qui inspire le raffinement et le professionnalisme."
+
+#: admin/includes/class-astra-learn.php:184
+msgid "Page & Layout Settings"
+msgstr "Réglages de page et de mise en page"
+
+#: admin/includes/class-astra-learn.php:169
+msgid "Customize Footer Layout in Astra"
+msgstr "Personnaliser la mise en page du pied de page dans Astra"
+
+#: admin/includes/class-astra-learn.php:162
+msgid "Add your social handles, links, contact info, copyrights, or widgets to create a professional closing section."
+msgstr "Veuillez ajouter vos identifiants sociaux, liens, coordonnées, mentions de copyright ou widgets afin de créer une section de conclusion professionnelle."
+
+#: admin/includes/class-astra-learn.php:161
+msgid "Customize Footer Layout"
+msgstr "Personnaliser la mise en page du pied de page"
+
+#: admin/includes/class-astra-learn.php:156
+msgid "Create a clean, modern footer that builds trust and improves browsing."
+msgstr "Créez un pied de page épuré et moderne qui inspire confiance et améliore la navigation."
+
+#: admin/includes/class-astra-learn.php:155
+msgid "Footer Customization"
+msgstr "Personnalisation du pied de page"
+
+#: admin/includes/class-astra-learn.php:144
+msgid "Configure Mobile Menu"
+msgstr "Configurer le menu mobile"
+
+#: admin/includes/class-astra-learn.php:139
+msgid "Set Up Your Mobile Header in Astra"
+msgstr "Configurer votre en-tête mobile dans Astra"
+
+#: admin/includes/class-astra-learn.php:132
+msgid "Optimize the header experience for small screens to ensure a seamless mobile journey."
+msgstr "Optimisez l’expérience de l’en-tête pour les petits écrans afin de garantir une navigation mobile fluide."
+
+#: admin/includes/class-astra-learn.php:131
+msgid "Set Up Your Mobile Header"
+msgstr "Configurer votre en-tête mobile"
+
+#: admin/includes/class-astra-learn.php:123
+msgid "Configure Menu"
+msgstr "Configurer le menu"
+
+#: admin/includes/class-astra-learn.php:118
+msgid "Organize Your Menu in Astra"
+msgstr "Organisez votre menu dans Astra"
+
+#: admin/includes/class-astra-learn.php:111
+msgid "Create a simple, logical menu so visitors can find what they need without friction."
+msgstr "Créez un menu simple et logique afin que les visiteurs puissent trouver facilement ce dont ils ont besoin."
+
+#: admin/includes/class-astra-learn.php:110
+msgid "Organize Your Menu"
+msgstr "Organisez votre menu"
+
+#: admin/includes/class-astra-learn.php:102
+msgid "Customize Header"
+msgstr "Personnaliser l’en-tête"
+
+#: admin/includes/class-astra-learn.php:97
+msgid "Customize Header Layout in Astra"
+msgstr "Personnaliser la mise en page de l’en-tête dans Astra"
+
+#: admin/includes/class-astra-learn.php:90
+msgid "Adjust your header structure: placement of logo, site title, buttons, menu and other elements"
+msgstr "Modifiez la structure de votre en-tête : emplacement du logo, titre du site, boutons, menu et autres éléments"
+
+#: admin/includes/class-astra-learn.php:89
+msgid "Customize Header Layout"
+msgstr "Personnaliser la mise en page de l’en-tête"
+
+#: admin/includes/class-astra-learn.php:84
+msgid "Guide visitors effortlessly with a clear, modern, and intuitive header experience."
+msgstr "Guidez vos visiteurs sans effort grâce à une expérience d’en-tête claire, moderne et intuitive."
+
+#: admin/includes/class-astra-learn.php:83
+msgid "Navigation & Header"
+msgstr "Navigation et en-tête"
+
+#: admin/includes/class-astra-learn.php:73
+msgid "Update Style Guide"
+msgstr "Mise à jour du guide de style"
+
+#: admin/includes/class-astra-learn.php:68
+msgid "Update Brand Style Guide in Astra"
+msgstr "Mettre à jour le guide de style de la marque dans Astra"
+
+#: admin/includes/class-astra-learn.php:61
+msgid "Bring consistency across your entire site by setting your brand colors, fonts, and design rules."
+msgstr "Assurez la cohérence de l’ensemble de votre site en définissant les couleurs, les polices et les règles de design de votre marque."
+
+#: admin/includes/class-astra-learn.php:60
+msgid "Update Brand Style Guide"
+msgstr "Mise à jour du guide de style de la marque"
+
+#: admin/includes/class-astra-learn.php:52
+msgid "Add Branding"
+msgstr "Ajouter une marque"
+
+#: admin/includes/class-astra-learn.php:47
+msgid "Add Logo, Tagline & Site Icon in Astra"
+msgstr "Ajouter un logo, un slogan et une icône de site dans Astra"
+
+#: admin/includes/class-astra-learn.php:40
+msgid "Help visitors identify your brand quickly by personalizing your core brand elements."
+msgstr "Aidez les visiteurs à identifier rapidement votre marque en personnalisant ses éléments de marques."
+
+#: admin/includes/class-astra-learn.php:39
+msgid "Add Logo, Tagline & Site Icon"
+msgstr "Ajouter un logo, un slogan et une icône de site"
+
+#: admin/includes/class-astra-learn.php:34
+msgid "Make your website instantly recognizable and aligned with your brand identity."
+msgstr "Assurez-vous que votre site web soit immédiatement reconnaissable et en accord avec l’identité de votre marque."
+
+#: admin/includes/class-astra-learn.php:33
+msgid "Brand Basics"
+msgstr "Basiques de la marque"
+
+#: admin/includes/class-astra-api-init.php:226
+msgid "Progress saved successfully."
+msgstr "Progrès bien enregistrés."
 
 #: inc/builder/controllers/class-astra-builder-ui-controller.php:290
 msgid "Main menu toggle"
@@ -8669,15 +8951,15 @@ msgstr " Certaines options de la page de panier peuvent ne pas fonctionner corre
 msgid "404 Page"
 msgstr "Page 404"
 
-#: inc/extras.php:1202
+#: inc/extras.php:1211
 msgid "Medium Large"
 msgstr "Moyen grand"
 
-#: inc/extras.php:1203
+#: inc/extras.php:1212
 msgid "Large"
 msgstr "Grand"
 
-#: inc/extras.php:1204 inc/extras.php:1211
+#: inc/extras.php:1213 inc/extras.php:1220
 msgid "Full Size"
 msgstr "Taille réelle"
 
@@ -8833,7 +9115,7 @@ msgstr "Activer la colonne latérale épinglée"
 msgid "Customizing &#9656; %s"
 msgstr "Personnalisation &#9656; %s"
 
-#: inc/extras.php:1200
+#: inc/extras.php:1209
 msgid "Thumbnail"
 msgstr "Miniature"
 
@@ -9612,7 +9894,7 @@ msgstr "GitHub"
 msgid "Patreon"
 msgstr "Patreon"
 
-#: assets/svg/logo-svg-icons/icons-v6-2.php:1943 inc/extras.php:1201
+#: assets/svg/logo-svg-icons/icons-v6-2.php:1943 inc/extras.php:1210
 msgid "Medium"
 msgstr "Moyen"
 
@@ -11825,7 +12107,7 @@ msgstr "La page des derniers articles est la page d’accueil de votre site lors
 msgid "Blog Page is when Latest Posts are selected to be displayed on a particular page."
 msgstr "La page des articles correspond au cas où les derniers articles sont affichés sur une page en particulier."
 
-#: inc/extras.php:545
+#: inc/extras.php:554
 msgid "Menu Toggle"
 msgstr "Permutateur de Menu"
 
@@ -12708,6 +12990,10 @@ msgstr "Sections d’en-tête"
 #: inc/metabox/class-astra-meta-boxes.php:667
 msgid "Sticky Header"
 msgstr "En-tête fixe"
+
+#: admin/includes/class-astra-learn.php:174
+msgid "Customize Footer"
+msgstr "Personnaliser le pied de page"
 
 #: inc/customizer/class-astra-customizer.php:1856
 #: inc/customizer/configurations/typography/class-astra-body-typo-configs.php:72
@@ -13865,7 +14151,7 @@ msgstr "Catégorie"
 #: inc/customizer/configurations/layout/class-astra-blog-layout-configs.php:106
 #: inc/customizer/configurations/layout/class-astra-blog-layout-configs.php:354
 #: inc/customizer/configurations/layout/class-astra-blog-single-layout-configs.php:48
-#: inc/extras.php:1225
+#: inc/extras.php:1234
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:222
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:228
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:343

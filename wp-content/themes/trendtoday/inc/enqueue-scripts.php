@@ -41,7 +41,7 @@ function trendtoday_enqueue_assets() {
         wp_enqueue_style(
             'trendtoday-tailwind',
             get_template_directory_uri() . '/assets/css/tailwind.css',
-            array( 'trendtoday-google-fonts' ),
+            array(),
             filemtime( $tailwind_css )
         );
     }
@@ -170,6 +170,35 @@ function trendtoday_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'trendtoday_enqueue_assets' );
 
 /**
+ * Output early resource hints (preconnect/dns-prefetch) so the browser can connect to third-party origins before CSS/JS requests.
+ * Reduces latency for Google Fonts and Font Awesome CDN – improves PageSpeed "Reduce initial server response time" and LCP.
+ */
+function trendtoday_early_resource_hints() {
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+    echo '<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">' . "\n";
+}
+add_action( 'wp_head', 'trendtoday_early_resource_hints', 0 );
+
+/**
+ * Preload LCP image (hero first slide) on pages that show hero – improves LCP on mobile.
+ */
+function trendtoday_preload_lcp_image() {
+    if ( ! is_front_page() && ! is_home() && ! is_archive() ) {
+        return;
+    }
+    if ( ! function_exists( 'trendtoday_get_first_hero_image_url' ) ) {
+        return;
+    }
+    $url = trendtoday_get_first_hero_image_url();
+    if ( empty( $url ) ) {
+        return;
+    }
+    echo '<link rel="preload" as="image" href="' . esc_url( $url ) . '">' . "\n";
+}
+add_action( 'wp_head', 'trendtoday_preload_lcp_image', 1 );
+
+/**
  * Add defer attribute to non-critical scripts
  *
  * @param string $tag Script tag.
@@ -190,20 +219,60 @@ function trendtoday_add_defer_to_scripts( $tag, $handle ) {
 }
 
 /**
- * Add preconnect for Google Fonts
+ * Add preconnect for Google Fonts (when not loading async).
  *
  * @param string $tag Link tag.
  * @param string $handle Style handle.
  * @return string Modified link tag.
  */
 function trendtoday_add_preconnect_for_fonts( $tag, $handle ) {
+    // Google Fonts: preconnect is added in trendtoday_google_fonts_async (priority 5).
     if ( 'trendtoday-google-fonts' === $handle ) {
-        $preconnect = '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
-        $preconnect .= '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
-        return $preconnect . $tag;
+        return $tag;
     }
     return $tag;
 }
+
+/**
+ * Load Google Fonts CSS asynchronously to reduce render-blocking (~1,200 ms).
+ * Uses font-display: swap (in URL) so text shows immediately with fallback font.
+ *
+ * @param string $tag   Link tag.
+ * @param string $handle Style handle.
+ * @param string $href  Style URL.
+ * @param string $media Media attribute.
+ * @return string Modified link tag.
+ */
+function trendtoday_google_fonts_async( $tag, $handle, $href, $media ) {
+    if ( 'trendtoday-google-fonts' !== $handle ) {
+        return $tag;
+    }
+    $preconnect = '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    $preconnect .= '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+    $async_tag = '<link rel="preload" as="style" href="' . esc_url( $href ) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
+    $async_tag .= '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '" media="' . esc_attr( $media ?: 'all' ) . '"></noscript>';
+    return $preconnect . $async_tag;
+}
+add_filter( 'style_loader_tag', 'trendtoday_google_fonts_async', 5, 4 );
+
+/**
+ * Load Font Awesome asynchronously so it doesn't block FCP (improves mobile PageSpeed).
+ *
+ * @param string $tag   Link tag.
+ * @param string $handle Style handle.
+ * @param string $href  Style URL.
+ * @param string $media Media attribute.
+ * @return string Modified link tag.
+ */
+function trendtoday_font_awesome_async( $tag, $handle, $href, $media ) {
+    if ( 'font-awesome' !== $handle ) {
+        return $tag;
+    }
+    $tag = '<link rel="preload" as="style" href="' . esc_url( $href ) . '" onload="this.onload=null;this.rel=\'stylesheet\'">' . "\n";
+    $tag .= '<noscript><link rel="stylesheet" href="' . esc_url( $href ) . '" media="' . esc_attr( $media ?: 'all' ) . '"></noscript>';
+    return $tag;
+}
+add_filter( 'style_loader_tag', 'trendtoday_font_awesome_async', 10, 4 );
 
 /**
  * Enqueue admin styles and scripts

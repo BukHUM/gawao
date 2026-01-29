@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.9.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-01-15 01:08:34+0000\n"
+"PO-Revision-Date: 2026-01-28 23:17:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -285,6 +285,26 @@ msgstr "Januar"
 #, gp-priority: high
 msgid "Uncategorized"
 msgstr "Allgemein"
+
+#. translators: 1: Style handle, 2: List of missing dependency handles.
+#: wp-includes/class-wp-styles.php:509
+msgid "The style with the handle \"%1$s\" was enqueued with dependencies that are not registered: %2$s."
+msgstr "Der Stil mit dem Handle „%1$s“ wurde mit nicht registrierten Abhängigkeiten in die Warteschlange gestellt: %2$s."
+
+#. translators: 1: Script handle, 2: List of missing dependency handles.
+#: wp-includes/class-wp-scripts.php:1180
+msgid "The script with the handle \"%1$s\" was enqueued with dependencies that are not registered: %2$s."
+msgstr "Das Skript mit dem Handle „%1$s“ wurde mit nicht registrierten Abhängigkeiten in die Warteschlange gestellt: %2$s."
+
+#. translators: 1: Script module ID, 2: List of missing dependency IDs.
+#: wp-includes/class-wp-script-modules.php:743
+msgid "The script module with the ID \"%1$s\" was enqueued with dependencies that are not registered: %2$s."
+msgstr "Das Skriptmodul mit der ID „%1$s“ wurde mit nicht registrierten Abhängigkeiten in die Warteschlange gestellt: %2$s."
+
+#. translators: 1: Handle, 2: List of missing dependency handles.
+#: wp-includes/class-wp-dependencies.php:575
+msgid "The handle \"%1$s\" was enqueued with dependencies that are not registered: %2$s."
+msgstr "Der Handle „%1$s“ wurde mit nicht registrierten Abhängigkeiten in die Warteschlange gestellt: %2$s."
 
 #: wp-includes/blocks/terms-query/block.json
 msgctxt "block keyword"
@@ -669,19 +689,19 @@ msgid "Cannot supply a fetchpriority `%1$s` for script `%2$s` because it is an a
 msgstr "Es kann kein fetchpriority `%1$s` für das Skript `%2$s` angegeben werden, da es ein Alias ist (es fehlt ein `src`-Wert)."
 
 #. translators: %s: Invalid fetchpriority.
-#: wp-includes/class-wp-script-modules.php:214
+#: wp-includes/class-wp-script-modules.php:225
 msgid "Invalid fetchpriority: %s"
 msgstr "Ungültiges fetchpriority: %s"
 
 #. translators: 1: $fetchpriority, 2: $id
 #. translators: 1: $fetchpriority, 2: $handle
-#: wp-includes/class-wp-script-modules.php:150
+#: wp-includes/class-wp-script-modules.php:161
 #: wp-includes/class-wp-scripts.php:888
 msgid "Invalid fetchpriority `%1$s` defined for `%2$s` during script registration."
 msgstr "Ungültiges fetchpriority `%1$s` für `%2$s` während der Skript-Registrierung definiert."
 
-#: wp-includes/class-wp-script-modules.php:113
-#: wp-includes/class-wp-script-modules.php:285
+#: wp-includes/class-wp-script-modules.php:124
+#: wp-includes/class-wp-script-modules.php:296
 msgid "Non-empty string required for id."
 msgstr "Für die ID ist eine nicht leere Zeichenfolge erforderlich."
 
@@ -698,7 +718,7 @@ msgstr "Die Verwendung eines vereinfachten Adressparsers wird nicht empfohlen. I
 msgid "Server does not support SMTPUTF8 needed to send to Unicode addresses"
 msgstr "Der Server unterstützt SMTPUTF8 nicht, das zum Senden an Unicode-Adressen erforderlich ist."
 
-#: wp-includes/class-wp-dependencies.php:296
+#: wp-includes/class-wp-dependencies.php:320
 msgid "IE conditional comments are ignored by all supported browsers."
 msgstr "Conditional Comments für den Internet Explorer werden von allen unterstützten Browsern ignoriert."
 
@@ -1418,7 +1438,7 @@ msgstr "Das Passwort ist ungültig."
 #. algorithms.
 #: wp-includes/pluggable.php:2721
 msgid "Unsupported hashing algorithm: %1$s. Supported algorithms are: %2$s"
-msgstr "Nicht unterstützter Hashing-Algorithmus: %1$s. Die unterstützte Algorithmen sind: %2$s"
+msgstr "Nicht unterstützter Hashing-Algorithmus: %1$s. Die unterstützten Algorithmen sind: %2$s"
 
 #: wp-includes/html-api/class-wp-html-processor.php:5727
 msgid "Cannot set bookmarks on tokens that do no appear in the original HTML text."
@@ -2595,11 +2615,11 @@ msgstr "Unterpunkt"
 msgid "Some of the %1$s %2$s values are invalid"
 msgstr "Einige der %1$s %2$s Werte sind ungültig"
 
-#: wp-includes/class-wp-script-modules.php:135
+#: wp-includes/class-wp-script-modules.php:146
 msgid "Entries in dependencies array must be either strings or arrays with an id key."
 msgstr "Einträge im Abhängigkeitsarray müssen Zeichenfolgen oder Arrays mit einem ID-Schlüssel sein."
 
-#: wp-includes/class-wp-script-modules.php:122
+#: wp-includes/class-wp-script-modules.php:133
 msgid "Missing required id key in entry among dependencies array."
 msgstr "Fehlender erforderlicher ID-Schlüssel in Eintrag unter Abhängigkeitsarray."
 
@@ -7807,7 +7827,7 @@ msgstr "Website"
 msgid "Crop"
 msgstr "Zuschneiden"
 
-#: wp-includes/class-wp-script-modules.php:921 wp-includes/js/dist/a11y.js:89
+#: wp-includes/class-wp-script-modules.php:947 wp-includes/js/dist/a11y.js:89
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -8735,7 +8755,7 @@ msgstr "Der Beitragsstatus %1$s wurde nicht registriert. Es könnte deshalb unzu
 
 #. translators: %s: Comment link.
 #: wp-includes/comment-template.php:1042 wp-admin/comment.php:219
-#: wp-admin/includes/class-wp-comments-list-table.php:959
+#: wp-admin/includes/class-wp-comments-list-table.php:960
 msgid "In reply to %s."
 msgstr "Als Antwort auf %s."
 
@@ -9369,7 +9389,7 @@ msgstr "[%s] Anmeldedaten"
 #: wp-includes/media-template.php:584 wp-includes/media-template.php:751
 #: wp-includes/media.php:5015 wp-admin/comment.php:139
 #: wp-admin/edit-form-comment.php:242
-#: wp-admin/includes/class-wp-comments-list-table.php:391
+#: wp-admin/includes/class-wp-comments-list-table.php:392
 #: wp-admin/includes/class-wp-media-list-table.php:187
 #: wp-admin/includes/class-wp-posts-list-table.php:448
 #: wp-admin/includes/media.php:1746 wp-admin/includes/meta-boxes.php:367
@@ -14308,7 +14328,7 @@ msgstr "<strong>Fehler:</strong> Ungültiger Benutzername, ungültige E-Mail-Adr
 #. singular name.
 #: wp-includes/general-template.php:3315
 msgid "%1$s %2$s %3$s %4$s Feed"
-msgstr "%1$s %2$s %3$s %4$s Feed"
+msgstr "%1$s %2$s %4$s-Feed für %3$s"
 
 #. translators: Hidden accessibility text.
 #: wp-includes/functions.php:7487 wp-includes/media-template.php:203
@@ -15989,7 +16009,7 @@ msgid "Edit Selection"
 msgstr "Auswahl bearbeiten"
 
 #: wp-includes/js/dist/editor.js:5777
-#: wp-admin/includes/class-wp-comments-list-table.php:823
+#: wp-admin/includes/class-wp-comments-list-table.php:824
 #: wp-admin/includes/class-wp-media-list-table.php:797
 #: wp-admin/includes/class-wp-posts-list-table.php:1529
 #: wp-admin/includes/dashboard.php:794
@@ -17526,7 +17546,7 @@ msgstr "Um diese Funktion zu nutzen, muss JavaScript aktiviert sein."
 #: wp-admin/edit-form-advanced.php:662 wp-admin/includes/ajax-actions.php:1643
 #: wp-admin/includes/ajax-actions.php:2892
 #: wp-admin/includes/ajax-actions.php:2895
-#: wp-admin/includes/class-wp-comments-list-table.php:1051
+#: wp-admin/includes/class-wp-comments-list-table.php:1052
 #: wp-admin/includes/class-wp-posts-list-table.php:1205
 #: wp-admin/includes/class-wp-privacy-requests-table.php:496
 #: wp-admin/includes/schema.php:438 wp-admin/options-general.php:522
@@ -17664,7 +17684,7 @@ msgstr "Abwählen"
 
 #: wp-includes/media-template.php:587 wp-includes/media-template.php:754
 #: wp-includes/media.php:5017 wp-includes/js/dist/editor.js:5938
-#: wp-admin/includes/class-wp-comments-list-table.php:389
+#: wp-admin/includes/class-wp-comments-list-table.php:390
 #: wp-admin/includes/class-wp-media-list-table.php:185
 #: wp-admin/includes/class-wp-media-list-table.php:190
 #: wp-admin/includes/class-wp-posts-list-table.php:446
@@ -17815,7 +17835,7 @@ msgstr "Anzeige-Einstellungen für Anhänge"
 
 #: wp-includes/ms-functions.php:2256
 msgid "WordPress &rsaquo; Success"
-msgstr "WordPress &rsaquo; Erfolg"
+msgstr "WordPress &rsaquo; Erfolgreich"
 
 #: wp-includes/media.php:4993
 msgid "Upload files"
@@ -18020,7 +18040,7 @@ msgstr "Alternativer Text"
 #. translators: 1: Site name, 2: Separator (raquo), 3: Post type name.
 #: wp-includes/general-template.php:3321
 msgid "%1$s %2$s %3$s Feed"
-msgstr "%1$s %2$s %3$s-Feed"
+msgstr "%1$s %2$s Feed für %3$s"
 
 #: wp-includes/widgets/class-wp-widget-recent-posts.php:180
 msgid "Display post date?"
@@ -20876,27 +20896,27 @@ msgstr "&laquo; Zurück"
 #. translators: 1: Site name, 2: Separator (raquo), 3: Search query.
 #: wp-includes/general-template.php:3319
 msgid "%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed"
-msgstr "%1$s %2$s Suchergebnisse für &#8222;%3$s&#8220;-Feed"
+msgstr "%1$s %2$s Suchergebnis-Feed für &#8222;%3$s&#8220;"
 
 #. translators: 1: Site name, 2: Separator (raquo), 3: Author name.
 #: wp-includes/general-template.php:3317
 msgid "%1$s %2$s Posts by %3$s Feed"
-msgstr "%1$s %2$s Feed für Beiträge von %3$s"
+msgstr "%1$s %2$s Beitrags-Feed von %3$s"
 
 #. translators: 1: Site name, 2: Separator (raquo), 3: Tag name.
 #: wp-includes/general-template.php:3313
 msgid "%1$s %2$s %3$s Tag Feed"
-msgstr "%1$s %2$s %3$s Schlagwort-Feed"
+msgstr "%1$s %2$s Schlagwort-Feed zu %3$s"
 
 #. translators: 1: Site name, 2: Separator (raquo), 3: Category name.
 #: wp-includes/general-template.php:3311
 msgid "%1$s %2$s %3$s Category Feed"
-msgstr "%1$s %2$s %3$s Kategorie-Feed"
+msgstr "%1$s %2$s Kategorie-Feed für %3$s"
 
 #. translators: 1: Site name, 2: Separator (raquo), 3: Post title.
 #: wp-includes/general-template.php:3309
 msgid "%1$s %2$s %3$s Comments Feed"
-msgstr "%1$s %2$s %3$s-Kommentar-Feed"
+msgstr "%1$s %2$s Kommentar-Feed zu %3$s"
 
 #. translators: 1: Site title, 2: Separator (raquo).
 #: wp-includes/general-template.php:3250
@@ -21366,7 +21386,7 @@ msgstr "(Bearbeiten)"
 #: wp-includes/class-walker-comment.php:353
 #: wp-includes/class-walker-comment.php:453 wp-admin/comment.php:232
 #: wp-admin/edit-form-advanced.php:166 wp-admin/edit-form-comment.php:146
-#: wp-admin/includes/class-wp-comments-list-table.php:1047
+#: wp-admin/includes/class-wp-comments-list-table.php:1048
 #: wp-admin/includes/class-wp-posts-list-table.php:1201
 #: wp-admin/includes/class-wp-privacy-requests-table.php:492
 #: wp-admin/includes/meta-boxes.php:232 wp-admin/includes/meta-boxes.php:438
@@ -22252,7 +22272,7 @@ msgstr "Pingback"
 #: wp-includes/js/dist/block-library.js:8880
 #: wp-includes/js/dist/block-library.js:9756
 #: wp-includes/js/dist/editor.js:29521
-#: wp-admin/includes/class-wp-comments-list-table.php:854
+#: wp-admin/includes/class-wp-comments-list-table.php:855
 #: wp-admin/includes/dashboard.php:768 wp-admin/js/edit-comments.js:373
 #: wp-admin/js/edit-comments.js:1015
 msgid "Reply"
@@ -22609,7 +22629,7 @@ msgstr "Veröffentlichen"
 #: wp-includes/comment.php:3918 wp-includes/link-template.php:3333
 #: wp-includes/js/dist/edit-site.js:21020 wp-includes/js/dist/editor.js:6877
 #: wp-admin/edit-comments.php:199 wp-admin/edit-comments.php:260
-#: wp-admin/includes/class-wp-comments-list-table.php:512
+#: wp-admin/includes/class-wp-comments-list-table.php:513
 #: wp-admin/includes/class-wp-media-list-table.php:373
 #: wp-admin/includes/class-wp-media-list-table.php:375
 #: wp-admin/includes/class-wp-media-list-table.php:403
@@ -22692,8 +22712,8 @@ msgid "View"
 msgstr "Anzeigen"
 
 #: wp-includes/js/dist/editor.js:4982
-#: wp-admin/includes/class-wp-comments-list-table.php:383
-#: wp-admin/includes/class-wp-comments-list-table.php:805
+#: wp-admin/includes/class-wp-comments-list-table.php:384
+#: wp-admin/includes/class-wp-comments-list-table.php:806
 #: wp-admin/includes/class-wp-media-list-table.php:184
 #: wp-admin/includes/class-wp-media-list-table.php:789
 #: wp-admin/includes/class-wp-posts-list-table.php:438
@@ -22722,7 +22742,7 @@ msgstr "Wiederherstellen"
 #: wp-includes/js/dist/edit-site.js:43392 wp-includes/js/dist/editor.js:29575
 #: wp-admin/comment.php:251 wp-admin/edit-form-comment.php:159
 #: wp-admin/includes/class-walker-nav-menu-edit.php:187
-#: wp-admin/includes/class-wp-comments-list-table.php:832
+#: wp-admin/includes/class-wp-comments-list-table.php:833
 #: wp-admin/includes/class-wp-links-list-table.php:351
 #: wp-admin/includes/class-wp-media-list-table.php:778
 #: wp-admin/includes/class-wp-posts-list-table.php:440
@@ -22795,8 +22815,8 @@ msgstr "URL"
 #: wp-admin/comment.php:185 wp-admin/edit-form-comment.php:48
 #: wp-admin/includes/class-plugin-installer-skin.php:224
 #: wp-admin/includes/class-theme-installer-skin.php:257
-#: wp-admin/includes/class-wp-comments-list-table.php:480
-#: wp-admin/includes/class-wp-comments-list-table.php:554
+#: wp-admin/includes/class-wp-comments-list-table.php:481
+#: wp-admin/includes/class-wp-comments-list-table.php:555
 #: wp-admin/includes/class-wp-debug-data.php:1130
 #: wp-admin/includes/class-wp-debug-data.php:1250
 #: wp-admin/includes/class-wp-media-list-table.php:338
@@ -22829,7 +22849,7 @@ msgstr "Website aufrufen"
 #. https://www.php.net/manual/en/datetime.format.php
 #: wp-includes/class-wp-editor.php:1823 wp-admin/comment.php:234
 #: wp-admin/includes/ajax-actions.php:2290
-#: wp-admin/includes/class-wp-comments-list-table.php:1049
+#: wp-admin/includes/class-wp-comments-list-table.php:1050
 #: wp-admin/includes/class-wp-media-list-table.php:556
 #: wp-admin/includes/class-wp-posts-list-table.php:1203
 #: wp-admin/includes/class-wp-privacy-requests-table.php:494

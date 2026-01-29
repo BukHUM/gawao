@@ -61,9 +61,12 @@ if ( $breaking_query->have_posts() ) :
                                  tabindex="0"
                                  aria-label="<?php echo esc_attr( $slide['title'] ); ?>">
                             <?php if ( $slide['thumbnail'] ) : ?>
-                                <img src="<?php echo esc_url( $slide['thumbnail'] ); ?>" 
+                                <img src="<?php echo esc_url( $slide['thumbnail'] ); ?>"
                                      alt="<?php echo esc_attr( $slide['title'] ); ?>"
-                                     class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                                     width="1920"
+                                     height="800"
+                                     class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                                     <?php echo $index === 0 ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"'; ?>>
                             <?php endif; ?>
                             <div class="absolute inset-0 hero-overlay"></div>
                             <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full md:w-3/4">

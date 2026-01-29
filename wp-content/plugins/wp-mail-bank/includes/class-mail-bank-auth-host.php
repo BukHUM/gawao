@@ -168,11 +168,11 @@ if ( ! class_exists( 'Mail_Bank_Auth_Host' ) ) {
 		 * @param Mail_Bank_Manage_Token $to .
 		 * @param Mail_Bank_Manage_Token $subject .
 		 * @param Mail_Bank_Manage_Token $message .
+		 * @param Mail_Bank_Manage_Token $email_configuration_settings .
 		 * @param Mail_Bank_Manage_Token $headers .
 		 * @param Mail_Bank_Manage_Token $attachments .
-		 * @param Mail_Bank_Manage_Token $email_configuration_settings .
 		 */
-		public function send_test_mail_bank( $to, $subject, $message, $headers = '', $attachments = '', $email_configuration_settings ) {
+		public function send_test_mail_bank( $to, $subject, $message, $email_configuration_settings, $headers = '', $attachments = '' ) {
 			if ( file_exists( MAIL_BANK_DIR_PATH . 'includes/class-mail-bank-send-mail.php' ) ) {
 				include_once MAIL_BANK_DIR_PATH . 'includes/class-mail-bank-send-mail.php';
 			}
@@ -191,7 +191,7 @@ if ( ! class_exists( 'Mail_Bank_Auth_Host' ) ) {
 			$obj_transport_registry = new Mail_Bank_Register_Transport();
 			$obj_transport_registry->listing_transport_mail_bank( new Mail_Bank_Smtp_Transport( $email_configuration_settings ) );
 			$obj_wp_mail = new Mail_Bank_Send_Mail();
-			return $obj_wp_mail->send_email_message_mail_bank( $to, $subject, $message, $headers, $attachments, $email_configuration_settings );
+			return $obj_wp_mail->send_email_message_mail_bank( $to, $subject, $message, $email_configuration_settings, $headers, $attachments );
 		}
 		/**
 		 * This function is used for microsoft authentication.
@@ -385,7 +385,7 @@ if ( ! class_exists( 'Mail_Bank_Auth_Host' ) ) {
 
 							global $wpdb, $email_configuration_settings;
 							$obj_send_test_mail = new Mail_Bank_Auth_Host( $email_configuration_settings );
-							$result             = $obj_send_test_mail->send_test_mail_bank( $to, $subject, $message, $headers, $attachments, $email_configuration_settings );
+							$result             = $obj_send_test_mail->send_test_mail_bank( $to, $subject, $message, $email_configuration_settings, $headers, $attachments );
 							return $result;
 						}
 					}

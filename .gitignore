@@ -5,8 +5,24 @@ wp-content/plugins/cool-timeline
 wp-content/plugins/duplicate-post
 wp-content/plugins/tinymce-advanced
 wp-content/plugins/updraftplus
+wp-content/plugins/akismet
+wp-content/plugins/classic-editor
+wp-content/plugins/classic-widgets
+wp-content/plugins/seo-by-rank-math
+wp-content/plugins/website-llms-txt
+wp-content/plugins/wordpress-importer
 wp-content/plugins/wp-links-page
+wp-content/plugins/wp-mail-bank
 wp-content/uploads
+wp-content/themes/konderntang
+wp-content/themes/astra
+wp-content/themes/twentytwentyfive
+
+wp-content/languages
 wp-config.php
 .htaccess
 plan
+# Theme build tools (Tailwind)
+wp-content/themes/trendtoday/node_modules
+wp-content/themes/trendtoday/package-lock.json
+wp-content/themes/trendtoday/package.json

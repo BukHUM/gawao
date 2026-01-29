@@ -10,7 +10,6 @@
 - แสดงข่าวสารและบทความที่ทันสมัย
 - รองรับการแสดงผลหลายภาษา (Multilingual)
 - มีระบบ Custom Post Types สำหรับ Gallery และ Video News
-- มี Automation Scripts สำหรับจัดการข้อมูลเริ่มต้น
 - UI/UX ที่ทันสมัยและ Responsive
 
 ## 🚀 คุณสมบัติหลัก
@@ -28,38 +27,37 @@
 - ✅ Trending Tags/Hashtags
 
 ### Technical Features
-- WordPress 6.0+ Compatible
-- PHP 7.4+ Required
-- Modern CSS Architecture
-- JavaScript ES6+
+- WordPress 6.0+ (ทดสอบถึง 6.9)
+- PHP 7.4+
+- Modern CSS · JavaScript ES6+
 - WordPress Coding Standards
 
 ## 📁 โครงสร้างโปรเจกต์
 
 ```
 gawao/
-├── automate/                    # Automation Scripts
-│   ├── seed-posts.php          # สร้างโพสต์ตัวอย่าง
-│   ├── setup-categories.php    # สร้างหมวดหมู่
-│   └── setup-polylang.php     # ตั้งค่า Polylang
-├── mockup/                      # Mockup HTML Files
+├── .gitignore
+├── README.md
+├── mockup/                      # Mockup HTML
 │   ├── trendtoday_article.html
 │   ├── trendtoday_category.html
 │   ├── trendtoday_landing.html
 │   ├── trendtoday_news.html
 │   └── trendtoday_search.html
-├── plan/                        # เอกสารแผนการพัฒนา
-│   ├── idea.md
-│   └── IMPLEMENTATION_PLAN.md
+├── package-lock.json
 ├── wp-content/
 │   └── themes/
-│       └── trendtoday/          # Custom Theme
-│           ├── assets/          # CSS, JS, Images
+│       └── trendtoday/          # Theme หลัก (Trend Today)
+│           ├── assets/          # CSS, JS
 │           ├── inc/             # PHP Includes
-│           ├── template-parts/  # Reusable Components
+│           ├── template-parts/  # ส่วนประกอบเทมเพลต
 │           └── widgets/         # Custom Widgets
-└── wp-config.php
+├── wp-admin/
+├── wp-includes/
+└── (ไฟล์หลัก WordPress: index.php, wp-config-sample.php ฯลฯ)
 ```
+
+**หมายเหตุ:** `wp-config.php` และ `.htaccess` อยู่ใน `.gitignore` — หลัง clone ให้คัดลอกจาก `wp-config-sample.php` แล้วแก้ค่าตาม environment ของคุณ
 
 ## 🛠️ การติดตั้ง
 
@@ -79,7 +77,7 @@ gawao/
 
 2. **ตั้งค่า Database**
    - สร้าง Database ใหม่ใน MySQL
-   - แก้ไข `wp-config.php` ตามข้อมูล Database ของคุณ:
+   - คัดลอก `wp-config-sample.php` เป็น `wp-config.php` แล้วแก้ค่าตามข้อมูล Database ของคุณ:
      ```php
      define( 'DB_NAME', 'your_database_name' );
      define( 'DB_USER', 'your_username' );
@@ -95,16 +93,10 @@ gawao/
    - ไปที่ `Appearance > Themes`
    - เลือก Theme "Trend Today" และ Activate
 
-5. **ตั้งค่าเริ่มต้น (Optional)**
-   - ไปที่ `http://localhost/gawao/automate/setup-categories.php` (ต้อง Login เป็น Admin)
-   - ไปที่ `http://localhost/gawao/automate/setup-polylang.php` (ถ้าใช้ Polylang)
-   - ไปที่ `http://localhost/gawao/automate/seed-posts.php` (สร้างโพสต์ตัวอย่าง)
-
 ## 📦 Plugins ที่แนะนำ
 
 ### Required Plugins
 - **Polylang** - สำหรับระบบหลายภาษา
-- **Advanced Custom Fields (ACF)** - สำหรับ Custom Fields (ถ้าใช้)
 
 ### Recommended Plugins
 - **Yoast SEO** หรือ **Rank Math** - สำหรับ SEO
@@ -112,70 +104,43 @@ gawao/
 - **Wordfence** - สำหรับ Security
 - **UpdraftPlus** - สำหรับ Backup
 
-## 🎨 Theme Structure
+## 🎨 Theme Structure (trendtoday)
 
 ### Template Files
-- `front-page.php` - หน้าแรก (Landing Page)
-- `home.php` - หน้าข่าวล่าสุด
-- `single.php` - หน้าบทความเดี่ยว
-- `archive.php` - หน้าหมวดหมู่
-- `search.php` - หน้าค้นหา
-- `404.php` - หน้าไม่พบ
-- `header.php` - Header Template
-- `footer.php` - Footer Template
+- `front-page.php` — หน้าแรก (Landing Page)
+- `home.php` — หน้าข่าวล่าสุด
+- `single.php` — หน้าบทความเดี่ยว
+- `page.php` — หน้าเพจ
+- `archive.php` — หน้าหมวดหมู่
+- `search.php` — หน้าค้นหา
+- `404.php` — หน้าไม่พบ
+- `header.php` / `footer.php` — Header & Footer
+- `comments.php` — ความคิดเห็น
 
 ### Custom Post Types
-- `single-gallery.php` - หน้า Gallery เดี่ยว
-- `archive-gallery.php` - Archive Gallery
-- `single-video_news.php` - หน้า Video News เดี่ยว
-- `archive-video_news.php` - Archive Video News
+- `single-gallery.php` / `archive-gallery.php` — Gallery
+- `single-video_news.php` / `archive-video_news.php` — Video News
 
 ### Template Parts
-- `template-parts/navbar.php` - Navigation Bar
-- `template-parts/hero-section.php` - Hero Section
-- `template-parts/news-card.php` - News Card Component
-- `template-parts/sidebar.php` - Sidebar
-- `template-parts/trending-tags.php` - Trending Tags
-- `template-parts/category-filters.php` - Category Filters
-- `template-parts/pagination.php` - Pagination
+- `navbar.php` · `hero-section.php` · `news-card.php` · `sidebar.php` · `sidebar-single.php`
+- `trending-tags.php` · `category-filters.php` · `pagination.php`
+- `breadcrumb.php` · `post-meta.php` · `content-none.php`
+- `search-modal.php` · `social-share.php` · `social-share-floating.php` · `table-of-contents.php`
 
-### Includes
-- `inc/theme-setup.php` - Theme Setup & Configuration
-- `inc/enqueue-scripts.php` - Scripts & Styles Enqueue
-- `inc/custom-post-types.php` - Custom Post Types Registration
-- `inc/custom-fields.php` - Custom Fields
-- `inc/ajax-handlers.php` - AJAX Handlers
-- `inc/theme-helpers.php` - Helper Functions
-- `inc/navigation-functions.php` - Navigation Functions
-- `inc/dynamic-content.php` - Dynamic Content Functions
+### Includes (inc/)
+- `theme-setup.php` · `enqueue-scripts.php` · `custom-post-types.php` · `custom-fields.php`
+- `ajax-handlers.php` · `theme-helpers.php` · `navigation-functions.php` · `dynamic-content.php`
+- `login-customizer.php` · `security.php` · `image-optimization.php`
+- `menu-walker.php` · `menu-icons.php` · `menu-active-states.php` · `search-functions.php`
+- `category-fields.php` · `cpt-helpers.php` · `register-widgets.php` · `widget-helpers.php` · `widget-styling.php`
+
+### Assets
+- **CSS:** `assets/css/` — custom.css, login.css, admin.css, print.css
+- **JS:** `assets/js/` — main.js, custom.js, logo-uploader.js
 
 ### Widgets
-- `widgets/class-popular-posts-widget.php` - Popular Posts Widget
-- `widgets/class-recent-posts-widget.php` - Recent Posts Widget
-- `widgets/class-trending-tags-widget.php` - Trending Tags Widget
-- `widgets/class-newsletter-widget.php` - Newsletter Widget
-
-## 🔧 การใช้งาน Automation Scripts
-
-### 1. Setup Categories
-สร้างหมวดหมู่เริ่มต้นสำหรับเว็บไซต์:
-```
-http://localhost/gawao/automate/setup-categories.php
-```
-
-### 2. Setup Polylang
-ตั้งค่าระบบหลายภาษาด้วย Polylang:
-```
-http://localhost/gawao/automate/setup-polylang.php
-```
-
-### 3. Seed Posts
-สร้างโพสต์ตัวอย่างสำหรับทดสอบ:
-```
-http://localhost/gawao/automate/seed-posts.php
-```
-
-**หมายเหตุ:** Scripts เหล่านี้ต้อง Login เป็น Administrator ก่อนใช้งาน
+- `class-popular-posts-widget.php` · `class-recent-posts-widget.php`
+- `class-trending-tags-widget.php` · `class-newsletter-widget.php`
 
 ## 🎯 Custom Post Types
 
@@ -193,10 +158,8 @@ http://localhost/gawao/automate/seed-posts.php
 
 ### Theme Customizer
 Theme รองรับการปรับแต่งผ่าน WordPress Customizer:
-- Logo
-- Color Scheme
-- Social Media Links
-- และอื่นๆ
+- Logo · Color Scheme · Social Media Links
+- **Login Customizer** — ปรับแต่งหน้าล็อกอิน (สี, ลogo, CSS)
 
 ### Custom Fields
 Theme ใช้ Custom Fields สำหรับ:
@@ -273,8 +236,8 @@ GNU General Public License v2 or later
 
 ---
 
-**สร้างเมื่อ**: 2024  
-**เวอร์ชัน**: 1.0.0  
+**สร้างเมื่อ**: 2025 · **อัปเดต**: 2026  
+**Theme Version**: 1.0.0  
 **สถานะ**: Production Ready  
 
 © [Gawao](https://gawao.com)

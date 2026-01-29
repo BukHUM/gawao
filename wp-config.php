@@ -71,7 +71,7 @@ define( 'NONCE_SALT',       '[1>?0M?{5M?T^VlaS5PzSAscCa~X;(DrVTxzzV>2X~.=;Bf^5[}
  *
  * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
  */
-$table_prefix = 'pplove_';
+$table_prefix = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
@@ -85,7 +85,7 @@ $table_prefix = 'pplove_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', true );
+/*define( 'WP_DEBUG', true );*/
 
 /* Add any custom values between this line and the "stop editing" line. */
 

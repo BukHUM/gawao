@@ -191,6 +191,41 @@ function trendtoday_get_breaking_news( $number = 5, $category_id = null ) {
 }
 
 /**
+ * Get first hero/LCP image URL for preload (same logic as hero section: breaking news or latest).
+ * Used in wp_head for LCP preload to improve mobile PageSpeed.
+ *
+ * @return string|null Image URL or null.
+ */
+function trendtoday_get_first_hero_image_url() {
+    $category_id = null;
+    if ( is_category() ) {
+        $category_id = get_queried_object_id();
+    }
+    $query = trendtoday_get_breaking_news( 1, $category_id );
+    if ( ! $query->have_posts() ) {
+        $args = array(
+            'posts_per_page' => 1,
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'fields'         => 'ids',
+        );
+        if ( $category_id ) {
+            $args['cat'] = $category_id;
+        }
+        $query = new WP_Query( $args );
+    }
+    if ( ! $query->have_posts() ) {
+        return null;
+    }
+    $first = $query->posts[0];
+    $post_id = is_object( $first ) ? $first->ID : (int) $first;
+    $url = get_the_post_thumbnail_url( $post_id, 'trendtoday-hero' );
+    return $url ? $url : null;
+}
+
+/**
  * Get related posts
  *
  * @param int $post_id Post ID.

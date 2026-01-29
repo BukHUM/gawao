@@ -68,11 +68,11 @@ if ( ! class_exists( 'Mail_Bank_Send_Mail' ) ) {
 		 * @param string $to send to field details.
 		 * @param string $subject send subject field details.
 		 * @param string $message send message field details.
+		 * @param string $email_configuration_settings configuration settings.
 		 * @param string $headers send header field details.
 		 * @param array  $attachments send attachments details.
-		 * @param string $email_configuration_settings configuration settings.
 		 */
-		public function send_email_message_mail_bank( $to, $subject, $message, $headers = '', $attachments = array(), $email_configuration_settings ) {
+		public function send_email_message_mail_bank( $to, $subject, $message, $email_configuration_settings, $headers = '', $attachments = array() ) {
 			$mail_bank_manage_email = $this->build_message_mail_bank( $to, $subject, $message, $headers, $attachments );
 
 			$log                = new Mail_Bank_Email_Log();

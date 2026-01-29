@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Astra package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-01-13 21:52:33+0000\n"
+"PO-Revision-Date: 2026-01-20 13:30:03+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4457,7 +4457,7 @@ msgstr "2:1"
 msgid "16:9"
 msgstr "16:9"
 
-#: inc/extras.php:1203
+#: inc/extras.php:1212
 msgid "Large"
 msgstr "Groß"
 
@@ -4467,7 +4467,7 @@ msgstr "Groß"
 msgid "Original"
 msgstr "Original"
 
-#: inc/extras.php:1200
+#: inc/extras.php:1209
 msgid "Thumbnail"
 msgstr "Vorschaubild"
 
@@ -4516,11 +4516,11 @@ msgstr "Oberflächenfarben"
 msgid "Page Background"
 msgstr "Seitenhintergrund"
 
-#: inc/extras.php:1202
+#: inc/extras.php:1211
 msgid "Medium Large"
 msgstr "Mittelgroß"
 
-#: inc/extras.php:1204 inc/extras.php:1211
+#: inc/extras.php:1213 inc/extras.php:1220
 msgid "Full Size"
 msgstr "Volle Größe"
 
@@ -4876,20 +4876,6 @@ msgstr "Logo"
 msgid "Contact"
 msgstr "Kontakt"
 
-#: admin/includes/class-astra-menu.php:380
-msgid "Header Settings"
-msgstr "Header-Einstellungen"
-
-#: admin/includes/class-astra-menu.php:337
-#: admin/includes/class-astra-theme-builder-free.php:103
-msgid "Activated"
-msgstr "Aktiviert"
-
-#: admin/includes/class-astra-menu.php:335
-#: admin/includes/class-astra-theme-builder-free.php:101
-msgid "Installed"
-msgstr "Installiert"
-
 #: admin/includes/class-astra-menu.php:565
 #: admin/includes/class-astra-menu.php:578
 #: admin/includes/class-astra-menu.php:591
@@ -4910,6 +4896,20 @@ msgstr "Installiert"
 #: admin/assets/build/dashboard-app.js:6
 msgid "Documentation"
 msgstr "Dokumentation"
+
+#: admin/includes/class-astra-menu.php:380
+msgid "Header Settings"
+msgstr "Header-Einstellungen"
+
+#: admin/includes/class-astra-menu.php:337
+#: admin/includes/class-astra-theme-builder-free.php:103
+msgid "Activated"
+msgstr "Aktiviert"
+
+#: admin/includes/class-astra-menu.php:335
+#: admin/includes/class-astra-theme-builder-free.php:101
+msgid "Installed"
+msgstr "Installiert"
 
 #: admin/includes/class-astra-menu.php:226
 #: admin/assets/theme-builder/build/index.js:1
@@ -5374,7 +5374,7 @@ msgstr "GitHub"
 msgid "Patreon"
 msgstr "Patreon"
 
-#: assets/svg/logo-svg-icons/icons-v6-2.php:1943 inc/extras.php:1201
+#: assets/svg/logo-svg-icons/icons-v6-2.php:1943 inc/extras.php:1210
 msgid "Medium"
 msgstr "Medium"
 
@@ -5467,10 +5467,6 @@ msgstr "Links"
 #: inc/customizer/configurations/builder/header/configs/woo-cart.php:301
 msgid "Cart Icon"
 msgstr "Warenkorb-Icon"
-
-#: inc/customizer/configurations/colors-background/class-astra-body-colors-configs.php:93
-msgid "Accent"
-msgstr "Akzent"
 
 #: inc/customizer/configurations/colors-background/class-astra-body-colors-configs.php:146
 msgid "Body Text"
@@ -5685,6 +5681,10 @@ msgstr "Position der Warenkorb-Beschriftung"
 #: inc/customizer/configurations/layout/class-astra-blog-single-layout-configs.php:123
 msgid "Outside"
 msgstr "Außerhalb"
+
+#: inc/customizer/configurations/colors-background/class-astra-body-colors-configs.php:93
+msgid "Accent"
+msgstr "Akzentfarbe"
 
 #: inc/addons/breadcrumbs/customizer/class-astra-breadcrumbs-configs.php:131
 msgid "Display Settings"
@@ -7541,7 +7541,7 @@ msgstr "Die Blog-Seite ist die Seite, die in den Einstellungen zur Darstellung d
 msgid "Latest Posts page is your site's front page when the latest posts are displayed on the home page."
 msgstr "Die Seite mit den neuesten Beiträgen ist die Titelseite deiner Website, wenn die neuesten Beiträge auf der Startseite angezeigt werden."
 
-#: inc/extras.php:545
+#: inc/extras.php:554
 msgid "Menu Toggle"
 msgstr "Menü umschalten"
 
@@ -9552,11 +9552,6 @@ msgstr "Container-Breite"
 msgid "Capitalize"
 msgstr "Großschreibung"
 
-#. translators: 1: link to new post
-#: template-parts/content-none.php:23
-msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
-msgstr "Bereit, deinen ersten Beitrag zu veröffentlichen? <a href=\"%1$s\">Starte hier</a>."
-
 #: inc/core/class-theme-strings.php:29
 msgid "Post Comment &raquo;"
 msgstr "Kommentar veröffentlichen"
@@ -9648,6 +9643,10 @@ msgstr "Vor dem Beitragsinhalt"
 msgid "After Post Content"
 msgstr "Nach dem Beitragsinhalt"
 
+#: inc/compatibility/class-astra-beaver-themer.php:387
+msgid "Before Comments"
+msgstr "Vor den Kommentaren"
+
 #: inc/compatibility/edd/customizer/sections/layout/class-astra-edd-archive-layout-configs.php:204
 #: inc/compatibility/woocommerce/customizer/sections/layout/class-astra-woo-shop-layout-configs.php:278
 #: inc/customizer/configurations/block-editor/class-astra-block-editor-configs.php:31
@@ -9656,7 +9655,7 @@ msgstr "Nach dem Beitragsinhalt"
 #: inc/customizer/configurations/layout/class-astra-blog-layout-configs.php:106
 #: inc/customizer/configurations/layout/class-astra-blog-layout-configs.php:354
 #: inc/customizer/configurations/layout/class-astra-blog-single-layout-configs.php:48
-#: inc/extras.php:1225
+#: inc/extras.php:1234
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:222
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:228
 #: inc/modules/posts-structures/customizer/class-astra-posts-archive-structures-configs.php:343
@@ -9669,10 +9668,6 @@ msgstr "Nach dem Beitragsinhalt"
 #: inc/customizer/extend-custom-controls/build/index.js:1
 msgid "Custom"
 msgstr "Individuell"
-
-#: inc/compatibility/class-astra-beaver-themer.php:387
-msgid "Before Comments"
-msgstr "Vor den Kommentaren"
 
 #: inc/compatibility/class-astra-beaver-themer.php:388
 msgid "After Comments"
@@ -9823,6 +9818,11 @@ msgstr[1] "%1$s Gedanken zu „%2$s“"
 #: inc/core/class-theme-strings.php:53
 msgid "Cancel Reply"
 msgstr "Antwort abbrechen"
+
+#. translators: 1: link to new post
+#: template-parts/content-none.php:23
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "Bereit, deinen ersten Beitrag zu veröffentlichen? <a href=\"%1$s\">Jetzt starten</a>."
 
 #. Author URI of the theme
 #: style.css
