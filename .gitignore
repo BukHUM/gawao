@@ -1,0 +1,13 @@
+# Ignore everything at root
+/*
+!.gitignore
+
+# Only track wp-content/plugins/image-optimization and wp-content/themes
+!wp-content/
+wp-content/*
+!wp-content/plugins/
+!wp-content/themes/
+
+# In plugins, only image-optimization
+wp-content/plugins/*
+!wp-content/plugins/image-optimization/
