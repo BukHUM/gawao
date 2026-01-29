@@ -1,0 +1,196 @@
+/**
+ * Login page styles - Trend Today theme
+ * Matches theme: Prompt font, accent #FF4500, gray-50 bg, white card
+ *
+ * @package TrendToday
+ * @since 1.0.0
+ */
+
+body.login {
+	font-family: "Prompt", -apple-system, BlinkMacSystemFont, sans-serif;
+	background-color: #f9fafb;
+	background-image: none;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+
+body.login * {
+	box-sizing: border-box;
+}
+
+/* Main login box - white card like theme */
+#login {
+	width: 100%;
+	max-width: 420px;
+	padding: 0;
+}
+
+#loginform,
+.login form {
+	background: #fff;
+	border: 1px solid #f3f4f6;
+	border-radius: 1rem;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+	padding: 2rem;
+	margin-top: 0;
+	margin-left: 0;
+}
+
+/* Logo area */
+.login h1 {
+	margin-bottom: 1.5rem;
+}
+
+.login h1 a {
+	display: block;
+	text-indent: -9999px;
+	overflow: hidden;
+	margin: 0 auto 1rem;
+}
+
+/* Labels */
+.login label {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #374151;
+}
+
+/* Inputs - rounded, border, focus accent */
+.login input[type="text"],
+.login input[type="password"],
+.login input[type="email"] {
+	width: 100%;
+	padding: 0.625rem 0.875rem;
+	font-size: 1rem;
+	font-family: inherit;
+	line-height: 1.5;
+	color: #111827;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 0.5rem;
+	margin-top: 0.25rem;
+	transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.login input[type="text"]:focus,
+.login input[type="password"]:focus,
+.login input[type="email"]:focus {
+	border-color: #FF4500;
+	outline: 0;
+	box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.15);
+}
+
+.login input[type="checkbox"] {
+	border-radius: 0.25rem;
+}
+
+/* Primary button - accent color */
+.wp-core-ui .button-primary,
+.login .button-primary {
+	width: 100%;
+	display: block;
+	background: #FF4500;
+	border-color: #FF4500;
+	color: #fff;
+	font-family: inherit;
+	font-weight: 600;
+	font-size: 1rem;
+	padding: 0.625rem 1rem;
+	height: auto;
+	line-height: 1.5;
+	border-radius: 0.5rem;
+	text-shadow: none;
+	box-shadow: none;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:focus,
+.login .button-primary:hover,
+.login .button-primary:focus {
+	background: #e63d00;
+	border-color: #e63d00;
+	color: #fff;
+}
+
+.wp-core-ui .button-primary:active {
+	background: #cc3600;
+	border-color: #cc3600;
+}
+
+/* Links - accent */
+.login #nav a,
+.login #backtoblog a {
+	color: #FF4500;
+	text-decoration: none;
+	font-size: 0.875rem;
+}
+
+.login #nav a:hover,
+.login #backtoblog a:hover {
+	color: #e63d00;
+	text-decoration: underline;
+}
+
+/* Message / error */
+.login .message,
+.login .success {
+	border-left: 4px solid #FF4500;
+	background: #fff;
+	padding: 0.875rem 1rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	margin-bottom: 1rem;
+}
+
+.login .message {
+	border-left-color: #3b82f6;
+}
+
+.login #login_error {
+	border-left: 4px solid #dc2626;
+	background: #fef2f2;
+	padding: 0.875rem 1rem;
+	border-radius: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+/* Form row spacing */
+.login form .forgetmenot {
+	margin-top: 0.75rem;
+	margin-bottom: 1rem;
+}
+
+.login .submit {
+	margin-top: 1.25rem;
+}
+
+/* Footer links row */
+.login #nav,
+.login #backtoblog {
+	padding: 0.5rem 0;
+}
+
+.login #backtoblog {
+	margin-bottom: 0.5rem;
+}
+
+/* Language switcher if present */
+.login .language-switcher {
+	margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+	body.login {
+		padding: 16px;
+	}
+
+	#loginform,
+	.login form {
+		padding: 1.5rem;
+	}
+}

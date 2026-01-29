@@ -30,7 +30,7 @@ require_once get_template_directory() . '/inc/widget-helpers.php';
 require_once get_template_directory() . '/inc/widget-styling.php';
 require_once get_template_directory() . '/inc/search-functions.php';
 require_once get_template_directory() . '/inc/security.php';
-require_once get_template_directory() . '/inc/image-optimization.php';
+require_once get_template_directory() . '/inc/login-customizer.php';
 
 // Load widgets (must be loaded before register-widgets.php)
 require_once get_template_directory() . '/widgets/class-popular-posts-widget.php';

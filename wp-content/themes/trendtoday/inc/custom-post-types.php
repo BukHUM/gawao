@@ -60,14 +60,6 @@ function trendtoday_admin_page() {
     $comment_count = wp_count_comments();
     $user_count = count_users();
     
-    // Get image optimization stats
-    $image_stats = function_exists( 'trendtoday_get_image_stats' ) ? trendtoday_get_image_stats() : array(
-        'total_images' => 0,
-        'total_size_mb' => 0,
-        'optimized_images' => 0,
-        'webp_images' => 0,
-    );
-    
     // Get recent posts
     $recent_posts = get_posts( array(
         'post_type' => 'post',
@@ -195,44 +187,6 @@ function trendtoday_admin_page() {
                     </div>
                 </div>
                 
-                <!-- Image Optimization Statistics -->
-                <div class="trendtoday-widget">
-                    <div class="trendtoday-widget-header">
-                        <h3>
-                            <span class="dashicons dashicons-images-alt2"></span>
-                            <?php _e( 'Image Optimization', 'trendtoday' ); ?>
-                        </h3>
-                    </div>
-                    <div class="trendtoday-widget-content">
-                        <ul class="trendtoday-stats-list">
-                            <li>
-                                <span class="dashicons dashicons-format-image"></span>
-                                <strong><?php _e( 'Total Images:', 'trendtoday' ); ?></strong>
-                                <span class="stat-value"><?php echo number_format_i18n( $image_stats['total_images'] ); ?></span>
-                            </li>
-                            <li>
-                                <span class="dashicons dashicons-performance"></span>
-                                <strong><?php _e( 'Optimized:', 'trendtoday' ); ?></strong>
-                                <span class="stat-value"><?php echo number_format_i18n( $image_stats['optimized_images'] ); ?></span>
-                            </li>
-                            <li>
-                                <span class="dashicons dashicons-yes-alt"></span>
-                                <strong><?php _e( 'WebP Images:', 'trendtoday' ); ?></strong>
-                                <span class="stat-value"><?php echo number_format_i18n( $image_stats['webp_images'] ); ?></span>
-                            </li>
-                            <li>
-                                <span class="dashicons dashicons-database"></span>
-                                <strong><?php _e( 'Total Size:', 'trendtoday' ); ?></strong>
-                                <span class="stat-value"><?php echo number_format( $image_stats['total_size_mb'], 2 ); ?> MB</span>
-                            </li>
-                        </ul>
-                        <p style="margin-top: 15px;">
-                            <a href="<?php echo admin_url( 'admin.php?page=trendtoday-settings#image-optimization' ); ?>" class="button button-small">
-                                <?php _e( 'จัดการ Image Optimization', 'trendtoday' ); ?>
-                            </a>
-                        </p>
-                    </div>
-                </div>
             </div>
             
             <!-- Recent Posts & System Info -->
@@ -535,6 +489,12 @@ function trendtoday_settings_page() {
             // Enable/Disable
             $social_sharing_enabled = isset( $_POST['trendtoday_social_sharing_enabled'] ) ? '1' : '0';
             update_option( 'trendtoday_social_sharing_enabled', $social_sharing_enabled );
+
+            // Show share on Post / Page
+            $social_show_on_post = isset( $_POST['trendtoday_social_show_on_post'] ) ? '1' : '0';
+            update_option( 'trendtoday_social_show_on_post', $social_show_on_post );
+            $social_show_on_page = isset( $_POST['trendtoday_social_show_on_page'] ) ? '1' : '0';
+            update_option( 'trendtoday_social_show_on_page', $social_show_on_page );
             
             // Selected platforms
             $available_platforms = array( 'facebook', 'twitter', 'line', 'linkedin', 'whatsapp', 'telegram', 'copy_link' );
@@ -671,6 +631,14 @@ function trendtoday_settings_page() {
                 $enabled_widgets = array();
             }
             update_option( 'trendtoday_enabled_widgets', $enabled_widgets );
+
+            // Sidebar on single post
+            $sidebar_single_post_enabled = isset( $_POST['trendtoday_sidebar_single_post_enabled'] ) ? '1' : '0';
+            update_option( 'trendtoday_sidebar_single_post_enabled', $sidebar_single_post_enabled );
+            // Sidebar on page (static pages)
+            $sidebar_single_page_enabled = isset( $_POST['trendtoday_sidebar_single_page_enabled'] ) ? '1' : '0';
+            update_option( 'trendtoday_sidebar_single_page_enabled', $sidebar_single_page_enabled );
+
             if ( isset( $_POST['trendtoday_search_show_date'] ) ) {
                 $suggestions_display[] = 'date';
             }
@@ -788,65 +756,6 @@ function trendtoday_settings_page() {
                 update_option( 'trendtoday_toc_title', sanitize_text_field( $_POST['trendtoday_toc_title'] ) );
             }
             
-            // Save image optimization settings
-            // Auto resize
-            $image_auto_resize = isset( $_POST['trendtoday_image_auto_resize'] ) ? '1' : '0';
-            update_option( 'trendtoday_image_auto_resize', $image_auto_resize );
-            
-            // Max dimensions
-            if ( isset( $_POST['trendtoday_image_max_width'] ) ) {
-                $max_width = absint( $_POST['trendtoday_image_max_width'] );
-                if ( $max_width > 0 && $max_width <= 10000 ) {
-                    update_option( 'trendtoday_image_max_width', $max_width );
-                }
-            }
-            
-            if ( isset( $_POST['trendtoday_image_max_height'] ) ) {
-                $max_height = absint( $_POST['trendtoday_image_max_height'] );
-                if ( $max_height > 0 && $max_height <= 10000 ) {
-                    update_option( 'trendtoday_image_max_height', $max_height );
-                }
-            }
-            
-            // Maintain aspect ratio
-            $maintain_aspect = isset( $_POST['trendtoday_image_maintain_aspect'] ) ? '1' : '0';
-            update_option( 'trendtoday_image_maintain_aspect', $maintain_aspect );
-            
-            // JPEG Quality
-            if ( isset( $_POST['trendtoday_image_jpeg_quality'] ) ) {
-                $jpeg_quality = absint( $_POST['trendtoday_image_jpeg_quality'] );
-                if ( $jpeg_quality >= 0 && $jpeg_quality <= 100 ) {
-                    update_option( 'trendtoday_image_jpeg_quality', $jpeg_quality );
-                    // Update WordPress default quality
-                    add_filter( 'jpeg_quality', function() use ( $jpeg_quality ) {
-                        return $jpeg_quality;
-                    }, 10 );
-                }
-            }
-            
-            // Max file size before resize
-            if ( isset( $_POST['trendtoday_image_max_file_size'] ) ) {
-                $max_file_size = absint( $_POST['trendtoday_image_max_file_size'] );
-                if ( $max_file_size >= 0 && $max_file_size <= 100 ) {
-                    update_option( 'trendtoday_image_max_file_size', $max_file_size );
-                }
-            }
-            
-            // WebP settings
-            $image_webp_enabled = isset( $_POST['trendtoday_image_webp_enabled'] ) ? '1' : '0';
-            update_option( 'trendtoday_image_webp_enabled', $image_webp_enabled );
-            
-            if ( isset( $_POST['trendtoday_image_webp_quality'] ) ) {
-                $webp_quality = absint( $_POST['trendtoday_image_webp_quality'] );
-                if ( $webp_quality >= 0 && $webp_quality <= 100 ) {
-                    update_option( 'trendtoday_image_webp_quality', $webp_quality );
-                }
-            }
-            
-            // Strip EXIF
-            $strip_exif = isset( $_POST['trendtoday_image_strip_exif'] ) ? '1' : '0';
-            update_option( 'trendtoday_image_strip_exif', $strip_exif );
-            
             echo '<div class="notice notice-success is-dismissible"><p>' . __( 'Settings saved successfully!', 'trendtoday' ) . '</p></div>';
         }
     }
@@ -860,7 +769,7 @@ function trendtoday_settings_page() {
         $active_tab = sanitize_text_field( $_GET['tab'] );
     }
     
-    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'image-optimization', 'widgets' ), true ) ) {
+    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'widgets' ), true ) ) {
         $active_tab = 'general';
     }
     
@@ -870,6 +779,8 @@ function trendtoday_settings_page() {
     
     // Get social sharing settings
     $social_sharing_enabled = get_option( 'trendtoday_social_sharing_enabled', '1' );
+    $social_show_on_post = get_option( 'trendtoday_social_show_on_post', '1' );
+    $social_show_on_page = get_option( 'trendtoday_social_show_on_page', '1' );
     $selected_platforms = get_option( 'trendtoday_social_platforms', array( 'facebook', 'twitter', 'line' ) );
     $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
     $button_style = get_option( 'trendtoday_social_button_style', 'icon_only' );
@@ -929,23 +840,16 @@ function trendtoday_settings_page() {
     $toc_min_headings = get_option( 'trendtoday_toc_min_headings', 2 );
     $toc_title = get_option( 'trendtoday_toc_title', __( 'สารบัญ', 'trendtoday' ) );
     
-    // Get Image Optimization settings
-    $image_auto_resize = get_option( 'trendtoday_image_auto_resize', '1' );
-    $image_max_width = get_option( 'trendtoday_image_max_width', 1920 );
-    $image_max_height = get_option( 'trendtoday_image_max_height', 1080 );
-    $image_maintain_aspect = get_option( 'trendtoday_image_maintain_aspect', '1' );
-    $image_jpeg_quality = get_option( 'trendtoday_image_jpeg_quality', 85 );
-    $image_max_file_size = get_option( 'trendtoday_image_max_file_size', 0 );
-    $image_webp_enabled = get_option( 'trendtoday_image_webp_enabled', '1' );
-    $image_webp_quality = get_option( 'trendtoday_image_webp_quality', 85 );
-    $image_strip_exif = get_option( 'trendtoday_image_strip_exif', '1' );
-    
     // Get Widget visibility settings
     $available_widgets = array(
         'popular_posts' => __( 'Popular Posts Widget', 'trendtoday' ),
         'recent_posts' => __( 'Recent Posts Widget', 'trendtoday' ),
         'trending_tags' => __( 'Trending Tags Widget', 'trendtoday' ),
     );
+    // Sidebar on single post / page (default: show both)
+    $sidebar_single_post_enabled = get_option( 'trendtoday_sidebar_single_post_enabled', '1' );
+    $sidebar_single_page_enabled  = get_option( 'trendtoday_sidebar_single_page_enabled', '1' );
+
     // Get enabled widgets - default to all enabled only if option doesn't exist
     $saved_widgets = get_option( 'trendtoday_enabled_widgets' );
     if ( $saved_widgets === false ) {
@@ -956,19 +860,6 @@ function trendtoday_settings_page() {
         $enabled_widgets = is_array( $saved_widgets ) ? $saved_widgets : array();
     }
     
-    // Get image statistics
-    if ( function_exists( 'trendtoday_get_image_stats' ) ) {
-        $image_stats = trendtoday_get_image_stats();
-    } else {
-        $image_stats = array(
-            'total_images' => 0,
-            'total_size_mb' => 0,
-            'webp_images' => 0,
-        );
-    }
-    
-    // Check WebP support
-    $webp_supported = function_exists( 'trendtoday_webp_supported' ) ? trendtoday_webp_supported() : false;
     ?>
     <div class="wrap trendtoday-settings-wrap">
         <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -992,9 +883,6 @@ function trendtoday_settings_page() {
                 </a>
                 <a href="#toc" class="nav-tab <?php echo $active_tab === 'toc' ? 'nav-tab-active' : ''; ?>" data-tab="toc">
                     <span class="dashicons dashicons-list-view"></span> <?php _e( 'Table of Contents', 'trendtoday' ); ?>
-                </a>
-                <a href="#image-optimization" class="nav-tab <?php echo $active_tab === 'image-optimization' ? 'nav-tab-active' : ''; ?>" data-tab="image-optimization">
-                    <span class="dashicons dashicons-images-alt2"></span> <?php _e( 'Image Optimization', 'trendtoday' ); ?>
                 </a>
                 <a href="#widgets" class="nav-tab <?php echo $active_tab === 'widgets' ? 'nav-tab-active' : ''; ?>" data-tab="widgets">
                     <span class="dashicons dashicons-welcome-widgets-menus"></span> <?php _e( 'Widgets', 'trendtoday' ); ?>
@@ -1097,6 +985,36 @@ function trendtoday_settings_page() {
                                     <span class="toggle-slider"></span>
                                     <span class="toggle-label"><?php _e( 'เปิดใช้งานการแชร์เนื้อหาไปยัง Social Media', 'trendtoday' ); ?></span>
                                 </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'แสดงปุ่มแชร์ในหน้าบทความ', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="checkbox" name="trendtoday_social_show_on_post" value="1" <?php checked( $social_show_on_post, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดงปุ่มแชร์ในหน้าบทความ (Single Post)', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าไม่ต้องการให้มีปุ่มแชร์ในหน้าบทความ', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'แสดงปุ่มแชร์ในหน้าคงที่', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="checkbox" name="trendtoday_social_show_on_page" value="1" <?php checked( $social_show_on_page, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดงปุ่มแชร์ในหน้าคงที่ (Page เช่น Privacy Policy)', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าไม่ต้องการให้มีปุ่มแชร์ในหน้าคงที่', 'trendtoday' ); ?>
+                                </p>
                             </td>
                         </tr>
                         <tr>
@@ -1734,347 +1652,6 @@ function trendtoday_settings_page() {
                 </div>
             </div>
             
-            <!-- Image Optimization Tab -->
-            <div id="image-optimization-tab" class="trendtoday-tab-content <?php echo $active_tab === 'image-optimization' ? 'active' : ''; ?>">
-                <div class="trendtoday-settings-section">
-                    <h2 class="trendtoday-section-title">
-                        <span class="dashicons dashicons-images-alt2"></span>
-                        <?php _e( 'Image Optimization Settings', 'trendtoday' ); ?>
-                    </h2>
-                    <p class="trendtoday-section-description">
-                        <?php _e( 'ตั้งค่าการปรับขนาดภาพและแปลงเป็น WebP อัตโนมัติเพื่อเพิ่มประสิทธิภาพ', 'trendtoday' ); ?>
-                    </p>
-                    
-                    <!-- Statistics -->
-                    <div class="trendtoday-stats-box" style="background: #f0f6fc; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2271b1;">
-                        <h3 style="margin-top: 0;">
-                            <span class="dashicons dashicons-chart-bar"></span>
-                            <?php _e( 'Image Statistics', 'trendtoday' ); ?>
-                        </h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div>
-                                <strong><?php _e( 'Total Images:', 'trendtoday' ); ?></strong>
-                                <span style="font-size: 24px; color: #2271b1; display: block;"><?php echo number_format( $image_stats['total_images'] ); ?></span>
-                            </div>
-                            <div>
-                                <strong><?php _e( 'Total Size:', 'trendtoday' ); ?></strong>
-                                <span style="font-size: 24px; color: #2271b1; display: block;"><?php echo number_format( $image_stats['total_size_mb'], 2 ); ?> MB</span>
-                            </div>
-                            <div>
-                                <strong><?php _e( 'Optimized Images:', 'trendtoday' ); ?></strong>
-                                <span style="font-size: 24px; color: #00a32a; display: block;">
-                                    <?php echo number_format( $image_stats['optimized_images'] ); ?>
-                                    <?php if ( $image_stats['total_images'] > 0 ) : ?>
-                                        <small style="font-size: 14px; color: #646970;">
-                                            (<?php echo number_format( $image_stats['optimization_percentage'], 1 ); ?>%)
-                                        </small>
-                                    <?php endif; ?>
-                                </span>
-                            </div>
-                            <div>
-                                <strong><?php _e( 'WebP Images:', 'trendtoday' ); ?></strong>
-                                <span style="font-size: 24px; color: #2271b1; display: block;">
-                                    <?php echo number_format( $image_stats['webp_images'] ); ?>
-                                    <?php if ( $image_stats['total_images'] > 0 ) : ?>
-                                        <small style="font-size: 14px; color: #646970;">
-                                            (<?php echo number_format( $image_stats['webp_percentage'], 1 ); ?>%)
-                                        </small>
-                                    <?php endif; ?>
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <!-- Settings Status -->
-                        <div style="background: #fff; padding: 15px; border-radius: 6px; margin-top: 15px;">
-                            <h4 style="margin-top: 0; margin-bottom: 10px;">
-                                <span class="dashicons dashicons-admin-settings"></span>
-                                <?php _e( 'Current Settings Status', 'trendtoday' ); ?>
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; font-size: 13px;">
-                                <div>
-                                    <strong><?php _e( 'Auto Resize:', 'trendtoday' ); ?></strong>
-                                    <?php if ( $image_stats['settings_status']['auto_resize'] ) : ?>
-                                        <span style="color: #00a32a;">
-                                            <span class="dashicons dashicons-yes-alt"></span> <?php _e( 'Enabled', 'trendtoday' ); ?>
-                                        </span>
-                                        <br><small style="color: #646970;">
-                                            <?php echo esc_html( $image_stats['settings_status']['max_width'] ); ?> × <?php echo esc_html( $image_stats['settings_status']['max_height'] ); ?> px
-                                        </small>
-                                    <?php else : ?>
-                                        <span style="color: #d63638;">
-                                            <span class="dashicons dashicons-dismiss"></span> <?php _e( 'Disabled', 'trendtoday' ); ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-                                <div>
-                                    <strong><?php _e( 'WebP Conversion:', 'trendtoday' ); ?></strong>
-                                    <?php if ( $image_stats['settings_status']['webp_enabled'] && $webp_supported ) : ?>
-                                        <span style="color: #00a32a;">
-                                            <span class="dashicons dashicons-yes-alt"></span> <?php _e( 'Enabled', 'trendtoday' ); ?>
-                                        </span>
-                                        <br><small style="color: #646970;">
-                                            <?php _e( 'Quality:', 'trendtoday' ); ?> <?php echo esc_html( $image_stats['settings_status']['webp_quality'] ); ?>%
-                                        </small>
-                                    <?php else : ?>
-                                        <span style="color: #d63638;">
-                                            <span class="dashicons dashicons-dismiss"></span> <?php _e( 'Disabled', 'trendtoday' ); ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-                                <div>
-                                    <strong><?php _e( 'JPEG Quality:', 'trendtoday' ); ?></strong>
-                                    <span><?php echo esc_html( $image_stats['settings_status']['jpeg_quality'] ); ?>%</span>
-                                </div>
-                                <div>
-                                    <strong><?php _e( 'Strip EXIF:', 'trendtoday' ); ?></strong>
-                                    <?php if ( $image_stats['settings_status']['strip_exif'] ) : ?>
-                                        <span style="color: #00a32a;">
-                                            <span class="dashicons dashicons-yes-alt"></span> <?php _e( 'Enabled', 'trendtoday' ); ?>
-                                        </span>
-                                    <?php else : ?>
-                                        <span style="color: #d63638;">
-                                            <span class="dashicons dashicons-dismiss"></span> <?php _e( 'Disabled', 'trendtoday' ); ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Recent Optimized Images -->
-                        <?php if ( ! empty( $image_stats['recent_optimized'] ) ) : ?>
-                            <div style="background: #fff; padding: 15px; border-radius: 6px; margin-top: 15px;">
-                                <h4 style="margin-top: 0; margin-bottom: 15px;">
-                                    <span class="dashicons dashicons-images-alt2"></span>
-                                    <?php _e( 'Recent Optimized Images', 'trendtoday' ); ?>
-                                </h4>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
-                                    <?php foreach ( $image_stats['recent_optimized'] as $img ) : ?>
-                                        <div style="border: 1px solid #ddd; border-radius: 6px; overflow: hidden; background: #fff;">
-                                            <div style="position: relative; padding-bottom: 75%; background: #f0f0f1;">
-                                                <?php if ( $img['url'] ) : ?>
-                                                    <img src="<?php echo esc_url( $img['url'] ); ?>" 
-                                                         alt="<?php echo esc_attr( $img['title'] ); ?>"
-                                                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-                                                <?php endif; ?>
-                                                <?php if ( $img['has_webp'] ) : ?>
-                                                    <span style="position: absolute; top: 5px; right: 5px; background: #00a32a; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: bold;">
-                                                        WebP
-                                                    </span>
-                                                <?php endif; ?>
-                                            </div>
-                                            <div style="padding: 8px; font-size: 11px;">
-                                                <div style="font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<?php echo esc_attr( $img['title'] ); ?>">
-                                                    <?php echo esc_html( wp_trim_words( $img['title'], 5 ) ); ?>
-                                                </div>
-                                                <div style="color: #646970; font-size: 10px;">
-                                                    <?php if ( $img['width'] > 0 && $img['height'] > 0 ) : ?>
-                                                        <?php echo esc_html( $img['width'] ); ?> × <?php echo esc_html( $img['height'] ); ?> px
-                                                    <?php endif; ?>
-                                                    <br>
-                                                    <?php echo esc_html( $img['size'] ); ?> KB
-                                                    <?php if ( $img['is_resized'] ) : ?>
-                                                        <span style="color: #00a32a;" title="<?php _e( 'Resized', 'trendtoday' ); ?>">
-                                                            <span class="dashicons dashicons-yes-alt" style="font-size: 12px; width: 12px; height: 12px;"></span>
-                                                        </span>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    
-                    <table class="form-table">
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'Auto Resize on Upload', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <label class="trendtoday-toggle">
-                                    <input type="checkbox" name="trendtoday_image_auto_resize" value="1" <?php checked( $image_auto_resize, '1' ); ?> />
-                                    <span class="toggle-slider"></span>
-                                    <span class="toggle-label"><?php _e( 'ปรับขนาดภาพอัตโนมัติเมื่ออัพโหลด', 'trendtoday' ); ?></span>
-                                </label>
-                                <p class="description">
-                                    <?php _e( 'ภาพจะถูกปรับขนาดตาม Max Width/Height ที่ตั้งค่าไว้', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label for="trendtoday_image_max_width"><?php _e( 'Max Width (px)', 'trendtoday' ); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" name="trendtoday_image_max_width" id="trendtoday_image_max_width" 
-                                       value="<?php echo esc_attr( $image_max_width ); ?>" 
-                                       min="100" max="10000" step="10" class="small-text" />
-                                <p class="description">
-                                    <?php _e( 'ความกว้างสูงสุดของภาพ (แนะนำ: 1920px สำหรับ Full HD)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label for="trendtoday_image_max_height"><?php _e( 'Max Height (px)', 'trendtoday' ); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" name="trendtoday_image_max_height" id="trendtoday_image_max_height" 
-                                       value="<?php echo esc_attr( $image_max_height ); ?>" 
-                                       min="100" max="10000" step="10" class="small-text" />
-                                <p class="description">
-                                    <?php _e( 'ความสูงสูงสุดของภาพ (แนะนำ: 1080px สำหรับ Full HD)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'Maintain Aspect Ratio', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <label class="trendtoday-toggle">
-                                    <input type="checkbox" name="trendtoday_image_maintain_aspect" value="1" <?php checked( $image_maintain_aspect, '1' ); ?> />
-                                    <span class="toggle-slider"></span>
-                                    <span class="toggle-label"><?php _e( 'รักษาสัดส่วนภาพ', 'trendtoday' ); ?></span>
-                                </label>
-                                <p class="description">
-                                    <?php _e( 'ภาพจะถูกปรับขนาดโดยรักษาสัดส่วนเดิม', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label for="trendtoday_image_jpeg_quality"><?php _e( 'JPEG Quality', 'trendtoday' ); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" name="trendtoday_image_jpeg_quality" id="trendtoday_image_jpeg_quality" 
-                                       value="<?php echo esc_attr( $image_jpeg_quality ); ?>" 
-                                       min="0" max="100" class="small-text" />
-                                <p class="description">
-                                    <?php _e( 'คุณภาพของภาพ JPEG (0-100, แนะนำ: 85 สำหรับสมดุลระหว่างคุณภาพและขนาดไฟล์)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label for="trendtoday_image_max_file_size"><?php _e( 'Max File Size Before Resize (MB)', 'trendtoday' ); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" name="trendtoday_image_max_file_size" id="trendtoday_image_max_file_size" 
-                                       value="<?php echo esc_attr( $image_max_file_size ); ?>" 
-                                       min="0" max="100" step="0.5" class="small-text" />
-                                <p class="description">
-                                    <?php _e( 'ปรับขนาดเฉพาะภาพที่ใหญ่กว่าขนาดนี้ (0 = ปรับทุกภาพ)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" colspan="2">
-                                <h3 style="margin: 20px 0 10px 0; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                                    <?php _e( 'WebP Conversion', 'trendtoday' ); ?>
-                                </h3>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'WebP Support', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <?php if ( $webp_supported ) : ?>
-                                    <span style="color: #00a32a; font-weight: bold;">
-                                        <span class="dashicons dashicons-yes-alt"></span>
-                                        <?php _e( 'WebP is supported on this server', 'trendtoday' ); ?>
-                                    </span>
-                                <?php else : ?>
-                                    <span style="color: #d63638; font-weight: bold;">
-                                        <span class="dashicons dashicons-warning"></span>
-                                        <?php _e( 'WebP is NOT supported on this server', 'trendtoday' ); ?>
-                                    </span>
-                                    <p class="description">
-                                        <?php _e( 'Please install GD Library with WebP support or Imagick extension', 'trendtoday' ); ?>
-                                    </p>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'Enable WebP Conversion', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <label class="trendtoday-toggle">
-                                    <input type="checkbox" name="trendtoday_image_webp_enabled" value="1" 
-                                           <?php checked( $image_webp_enabled, '1' ); ?>
-                                           <?php echo ! $webp_supported ? 'disabled' : ''; ?> />
-                                    <span class="toggle-slider"></span>
-                                    <span class="toggle-label"><?php _e( 'แปลงภาพเป็น WebP อัตโนมัติ', 'trendtoday' ); ?></span>
-                                </label>
-                                <p class="description">
-                                    <?php _e( 'สร้างไฟล์ WebP พร้อมกับไฟล์ต้นฉบับ (ลดขนาดไฟล์ 30-50%)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label for="trendtoday_image_webp_quality"><?php _e( 'WebP Quality', 'trendtoday' ); ?></label>
-                            </th>
-                            <td>
-                                <input type="number" name="trendtoday_image_webp_quality" id="trendtoday_image_webp_quality" 
-                                       value="<?php echo esc_attr( $image_webp_quality ); ?>" 
-                                       min="0" max="100" 
-                                       class="small-text"
-                                       <?php echo ! $webp_supported ? 'disabled' : ''; ?> />
-                                <p class="description">
-                                    <?php _e( 'คุณภาพของภาพ WebP (0-100, แนะนำ: 85)', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" colspan="2">
-                                <h3 style="margin: 20px 0 10px 0; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
-                                    <?php _e( 'Additional Options', 'trendtoday' ); ?>
-                                </h3>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'Strip EXIF Data', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <label class="trendtoday-toggle">
-                                    <input type="checkbox" name="trendtoday_image_strip_exif" value="1" <?php checked( $image_strip_exif, '1' ); ?> />
-                                    <span class="toggle-slider"></span>
-                                    <span class="toggle-label"><?php _e( 'ลบ EXIF metadata ออกจากภาพ', 'trendtoday' ); ?></span>
-                                </label>
-                                <p class="description">
-                                    <?php _e( 'ลบข้อมูล EXIF (เช่น GPS, Camera info) เพื่อลดขนาดไฟล์และความเป็นส่วนตัว', 'trendtoday' ); ?>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <?php _e( 'Regenerate Images', 'trendtoday' ); ?>
-                            </th>
-                            <td>
-                                <button type="button" id="trendtoday-regenerate-images" class="button button-secondary">
-                                    <span class="dashicons dashicons-update" style="vertical-align: middle;"></span>
-                                    <?php _e( 'Regenerate All Images', 'trendtoday' ); ?>
-                                </button>
-                                <p class="description">
-                                    <?php _e( 'ปรับขนาดและแปลงเป็น WebP สำหรับภาพที่มีอยู่แล้วทั้งหมด (อาจใช้เวลานาน)', 'trendtoday' ); ?>
-                                </p>
-                                <div id="trendtoday-regenerate-progress" style="display: none; margin-top: 10px;">
-                                    <div style="background: #f0f0f1; height: 20px; border-radius: 10px; overflow: hidden;">
-                                        <div id="trendtoday-regenerate-progress-bar" style="background: #2271b1; height: 100%; width: 0%; transition: width 0.3s;"></div>
-                                    </div>
-                                    <p id="trendtoday-regenerate-status" style="margin-top: 5px; font-size: 12px;"></p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            
             <!-- Widgets Tab -->
             <div id="widgets-tab" class="trendtoday-tab-content <?php echo $active_tab === 'widgets' ? 'active' : ''; ?>">
                 <div class="trendtoday-settings-section">
@@ -2087,6 +1664,36 @@ function trendtoday_settings_page() {
                     </p>
                     
                     <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'Sidebar on Single Post', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="checkbox" name="trendtoday_sidebar_single_post_enabled" value="1" <?php checked( $sidebar_single_post_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดง sidebar ในหน้าบทความ (Single Post)', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าต้องการให้บทความเต็มความกว้างโดยไม่มี sidebar ด้านขวา', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'Sidebar on Page', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="checkbox" name="trendtoday_sidebar_single_page_enabled" value="1" <?php checked( $sidebar_single_page_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดง sidebar ในหน้าคงที่ (Page เช่น Privacy Policy, เกี่ยวกับเรา)', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าต้องการให้หน้าคงที่เต็มความกว้างโดยไม่มี sidebar ด้านขวา', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
                         <tr>
                             <th scope="row">
                                 <?php _e( 'Available Widgets', 'trendtoday' ); ?>
@@ -2606,99 +2213,6 @@ function trendtoday_settings_page() {
                         tabElement.trigger('click');
                     }
                 }
-            });
-            
-            // Regenerate Images Handler
-            $('#trendtoday-regenerate-images').on('click', function(e) {
-                e.preventDefault();
-                
-                if (!confirm('<?php echo esc_js( __( 'This will regenerate all images. This may take a long time. Continue?', 'trendtoday' ) ); ?>')) {
-                    return;
-                }
-                
-                var $button = $(this);
-                var $progress = $('#trendtoday-regenerate-progress');
-                var $progressBar = $('#trendtoday-regenerate-progress-bar');
-                var $status = $('#trendtoday-regenerate-status');
-                
-                $button.prop('disabled', true).text('<?php echo esc_js( __( 'Processing...', 'trendtoday' ) ); ?>');
-                $progress.show();
-                $progressBar.css('width', '0%');
-                $status.text('<?php echo esc_js( __( 'Initializing...', 'trendtoday' ) ); ?>');
-                
-                // Get total images
-                $.ajax({
-                    url: (typeof trendtodayAdmin !== 'undefined' && trendtodayAdmin.ajaxurl) ? trendtodayAdmin.ajaxurl : ajaxurl,
-                    type: 'POST',
-                    data: {
-                        action: 'regenerate_images',
-                        action_type: 'get_total',
-                        nonce: (typeof trendtodayAdmin !== 'undefined' && trendtodayAdmin.nonce) ? trendtodayAdmin.nonce : '<?php echo wp_create_nonce( 'trendtoday_settings_nonce' ); ?>'
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            var total = response.data.total;
-                            var processed = 0;
-                            var offset = 0;
-                            var batchSize = 5;
-                            
-                            function processBatch() {
-                                $.ajax({
-                                    url: (typeof trendtodayAdmin !== 'undefined' && trendtodayAdmin.ajaxurl) ? trendtodayAdmin.ajaxurl : ajaxurl,
-                                    type: 'POST',
-                                    data: {
-                                        action: 'regenerate_images',
-                                        action_type: 'regenerate',
-                                        offset: offset,
-                                        batch_size: batchSize,
-                                        nonce: (typeof trendtodayAdmin !== 'undefined' && trendtodayAdmin.nonce) ? trendtodayAdmin.nonce : '<?php echo wp_create_nonce( 'trendtoday_settings_nonce' ); ?>'
-                                    },
-                                    success: function(response) {
-                                        if (response.success) {
-                                            processed += response.data.processed;
-                                            offset = response.data.offset;
-                                            
-                                            var percent = Math.round((processed / total) * 100);
-                                            $progressBar.css('width', percent + '%');
-                                            $status.text('<?php echo esc_js( __( 'Processing', 'trendtoday' ) ); ?>: ' + processed + ' / ' + total);
-                                            
-                                            if (offset < total) {
-                                                // Continue processing
-                                                setTimeout(processBatch, 500);
-                                            } else {
-                                                // Done
-                                                $progressBar.css('width', '100%');
-                                                $status.text('<?php echo esc_js( __( 'Completed! Processed', 'trendtoday' ) ); ?> ' + processed + ' <?php echo esc_js( __( 'images', 'trendtoday' ) ); ?>');
-                                                $button.prop('disabled', false).html('<span class="dashicons dashicons-update" style="vertical-align: middle;"></span> <?php echo esc_js( __( 'Regenerate All Images', 'trendtoday' ) ); ?>');
-                                                
-                                                // Show errors if any
-                                                if (response.data.errors && response.data.errors.length > 0) {
-                                                    alert('<?php echo esc_js( __( 'Some errors occurred:', 'trendtoday' ) ); ?>\n' + response.data.errors.join('\n'));
-                                                }
-                                            }
-                                        } else {
-                                            alert('<?php echo esc_js( __( 'Error:', 'trendtoday' ) ); ?> ' + response.data.message);
-                                            $button.prop('disabled', false).html('<span class="dashicons dashicons-update" style="vertical-align: middle;"></span> <?php echo esc_js( __( 'Regenerate All Images', 'trendtoday' ) ); ?>');
-                                        }
-                                    },
-                                    error: function() {
-                                        alert('<?php echo esc_js( __( 'An error occurred while processing images.', 'trendtoday' ) ); ?>');
-                                        $button.prop('disabled', false).html('<span class="dashicons dashicons-update" style="vertical-align: middle;"></span> <?php echo esc_js( __( 'Regenerate All Images', 'trendtoday' ) ); ?>');
-                                    }
-                                });
-                            }
-                            
-                            processBatch();
-                        } else {
-                            alert('<?php echo esc_js( __( 'Error:', 'trendtoday' ) ); ?> ' + response.data.message);
-                            $button.prop('disabled', false).html('<span class="dashicons dashicons-update" style="vertical-align: middle;"></span> <?php echo esc_js( __( 'Regenerate All Images', 'trendtoday' ) ); ?>');
-                        }
-                    },
-                    error: function() {
-                        alert('<?php echo esc_js( __( 'An error occurred while getting image count.', 'trendtoday' ) ); ?>');
-                        $button.prop('disabled', false).html('<span class="dashicons dashicons-update" style="vertical-align: middle;"></span> <?php echo esc_js( __( 'Regenerate All Images', 'trendtoday' ) ); ?>');
-                    }
-                });
             });
         });
     })(jQuery);

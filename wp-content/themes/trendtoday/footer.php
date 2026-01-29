@@ -275,14 +275,18 @@
     ?>
 
     <?php
-    // Floating Social Share Buttons
+    // Floating Social Share Buttons (respect show on post/page settings)
+    $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+    $show_floating_share = in_array( 'floating', $display_positions );
+    if ( is_single() && get_option( 'trendtoday_social_show_on_post', '1' ) === '1' && $show_floating_share ) {
+        get_template_part( 'template-parts/social-share-floating' );
+    }
+    if ( is_page() && get_option( 'trendtoday_social_show_on_page', '1' ) === '1' && $show_floating_share ) {
+        get_template_part( 'template-parts/social-share-floating' );
+    }
+
+    // Table of Contents - Floating (single post only)
     if ( is_single() ) {
-        $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
-        if ( in_array( 'floating', $display_positions ) ) {
-            get_template_part( 'template-parts/social-share-floating' );
-        }
-        
-        // Table of Contents - Floating
         $toc_enabled = get_option( 'trendtoday_toc_enabled', '1' );
         $toc_position = get_option( 'trendtoday_toc_position', 'top' );
         if ( $toc_enabled === '1' && $toc_position === 'floating' ) {

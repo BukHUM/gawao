@@ -19,10 +19,11 @@ get_header();
     <!-- Breadcrumb -->
     <?php get_template_part( 'template-parts/breadcrumb' ); ?>
 
+    <?php $show_sidebar_single = ( get_option( 'trendtoday_sidebar_single_post_enabled', '1' ) === '1' ); ?>
     <div class="flex flex-col lg:flex-row gap-10">
 
-        <!-- Article Content -->
-        <article class="lg:w-2/3 overflow-hidden">
+        <!-- Article Content (white card like sidebar widget) -->
+        <article class="<?php echo $show_sidebar_single ? 'lg:w-2/3' : 'lg:w-full'; ?> overflow-hidden bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-100">
 
             <!-- Article Header -->
             <header class="mb-8">
@@ -49,14 +50,15 @@ get_header();
                 </h1>
 
                 <?php
-                // Social Share Buttons - Top
-                $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
-                if ( in_array( 'single_top', $display_positions ) ) :
+                // Social Share Buttons - Top (only if enabled for post)
+                if ( get_option( 'trendtoday_social_show_on_post', '1' ) === '1' ) :
+                    $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+                    if ( in_array( 'single_top', $display_positions ) ) :
                 ?>
                     <div class="mb-6">
                         <?php get_template_part( 'template-parts/social-share' ); ?>
                     </div>
-                <?php endif; ?>
+                <?php endif; endif; ?>
 
                 <?php if ( has_excerpt() ) : ?>
                     <p class="text-xl text-gray-600 leading-relaxed font-light mb-6 border-l-4 border-accent pl-4">
@@ -103,14 +105,15 @@ get_header();
             </div>
 
             <?php
-            // Social Share Buttons - Bottom
-            $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
-            if ( in_array( 'single_bottom', $display_positions ) ) :
+            // Social Share Buttons - Bottom (only if enabled for post)
+            if ( get_option( 'trendtoday_social_show_on_post', '1' ) === '1' ) :
+                $display_positions = get_option( 'trendtoday_social_display_positions', array( 'single_bottom' ) );
+                if ( in_array( 'single_bottom', $display_positions ) ) :
             ?>
                 <div class="mt-8 pt-6 border-t border-gray-200">
                     <?php get_template_part( 'template-parts/social-share' ); ?>
                 </div>
-            <?php endif; ?>
+            <?php endif; endif; ?>
 
             <!-- Tags -->
             <?php
@@ -179,8 +182,10 @@ get_header();
 
         </article>
 
-        <!-- Sidebar (different for single post) -->
-        <?php get_template_part( 'template-parts/sidebar-single' ); ?>
+        <?php if ( $show_sidebar_single ) : ?>
+            <!-- Sidebar (different for single post) -->
+            <?php get_template_part( 'template-parts/sidebar-single' ); ?>
+        <?php endif; ?>
 
     </div>
 </main>
