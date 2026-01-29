@@ -59,7 +59,30 @@ class TrendToday_Walker_Nav_Menu extends Walker_Nav_Menu {
                      || in_array( 'current-menu-ancestor', $classes )
                      || in_array( 'current-menu-parent', $classes );
         
-        // Also check for category/subcategory relationship
+        // Only one category nav item active: single post or category archive (no underline on all)
+        static $category_match_used = false;
+        if ( ! is_single() && ! is_category() ) {
+            $category_match_used = false;
+        }
+        $is_category_link = strpos( $item->url, '/category/' ) !== false;
+        if ( is_category() && $is_current && $is_category_link ) {
+            // On category page: highlight only the exact category, not parent (e.g. คริปโต not ไอที)
+            if ( in_array( 'current-menu-ancestor', $classes ) && ! in_array( 'current-menu-item', $classes ) ) {
+                $is_current = false;
+            } elseif ( $category_match_used ) {
+                $is_current = false;
+            } else {
+                $category_match_used = true;
+            }
+        } elseif ( is_single() && $is_current && $is_category_link ) {
+            if ( $category_match_used ) {
+                $is_current = false;
+            } else {
+                $category_match_used = true;
+            }
+        }
+        
+        // Also check for category/subcategory relationship (when not already set by WordPress)
         if ( ! $is_current && ( is_single() || is_category() ) ) {
             $menu_url = $item->url;
             
@@ -78,24 +101,43 @@ class TrendToday_Walker_Nav_Menu extends Walker_Nav_Menu {
                             $menu_category_id = $menu_category->term_id;
                             
                             if ( is_single() ) {
-                                $post_categories = get_the_category();
-                            } elseif ( is_category() ) {
-                                $current_category = get_queried_object();
-                                $post_categories = array( $current_category );
-                            } else {
-                                $post_categories = array();
-                            }
-                            
-                            foreach ( $post_categories as $post_category ) {
-                                if ( $post_category->term_id == $menu_category_id ) {
-                                    $is_current = true;
-                                    break;
+                                if ( $category_match_used ) {
+                                    $is_current = false;
+                                } else {
+                                    $post_categories = get_the_category();
+                                    foreach ( $post_categories as $post_category ) {
+                                        if ( $post_category->term_id == $menu_category_id ) {
+                                            $is_current = true;
+                                            $category_match_used = true;
+                                            break;
+                                        }
+                                        $category_ancestors = get_ancestors( $post_category->term_id, 'category' );
+                                        if ( in_array( $menu_category_id, $category_ancestors ) ) {
+                                            $is_current = true;
+                                            $category_match_used = true;
+                                            break;
+                                        }
+                                    }
                                 }
-                                
-                                $category_ancestors = get_ancestors( $post_category->term_id, 'category' );
-                                if ( in_array( $menu_category_id, $category_ancestors ) ) {
-                                    $is_current = true;
-                                    break;
+                            } elseif ( is_category() ) {
+                                if ( $category_match_used ) {
+                                    $is_current = false;
+                                } else {
+                                    $current_category = get_queried_object();
+                                    $post_categories = array( $current_category );
+                                    foreach ( $post_categories as $post_category ) {
+                                        if ( $post_category->term_id == $menu_category_id ) {
+                                            $is_current = true;
+                                            $category_match_used = true;
+                                            break;
+                                        }
+                                        $category_ancestors = get_ancestors( $post_category->term_id, 'category' );
+                                        if ( in_array( $menu_category_id, $category_ancestors ) ) {
+                                            $is_current = true;
+                                            $category_match_used = true;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -104,15 +146,22 @@ class TrendToday_Walker_Nav_Menu extends Walker_Nav_Menu {
             }
         }
         
+        // Link: no border on <a>. Underline only on text span (not icon).
         $link_classes = $is_current 
-            ? 'text-gray-900 font-medium border-b-2 border-accent pb-1' 
-            : 'text-gray-500 hover:text-gray-900 transition font-medium';
+            ? 'text-gray-900 font-medium text-lg inline-flex items-center' 
+            : 'text-gray-500 hover:text-gray-900 transition font-medium text-lg inline-flex items-center';
+        
+        $text_span_classes = $is_current 
+            ? 'nav-link-text border-b-2 border-accent pb-0.5' 
+            : 'nav-link-text';
         
         // Add custom classes for styling
         $item_output = isset( $args->before ) ? $args->before : '';
         $item_output .= '<a' . $attributes . ' class="' . esc_attr( $link_classes ) . '">';
         $item_output .= $icon_html;
+        $item_output .= '<span class="' . esc_attr( $text_span_classes ) . '">';
         $item_output .= ( isset( $args->link_before ) ? $args->link_before : '' ) . apply_filters( 'the_title', $item->title, $item->ID ) . ( isset( $args->link_after ) ? $args->link_after : '' );
+        $item_output .= '</span>';
         $item_output .= '</a>';
         $item_output .= isset( $args->after ) ? $args->after : '';
 
@@ -161,8 +210,8 @@ class TrendToday_Walker_Nav_Menu_Mobile extends Walker_Nav_Menu {
         // Check if current menu item is active
         $is_current = in_array( 'current-menu-item', $classes ) || in_array( 'current_page_item', $classes );
         $link_classes = $is_current 
-            ? 'block px-3 py-2 rounded-md text-base font-medium text-black bg-gray-50' 
-            : 'block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50';
+            ? 'block px-3 py-2 rounded-md text-lg font-medium text-black bg-gray-50' 
+            : 'block px-3 py-2 rounded-md text-lg font-medium text-gray-600 hover:bg-gray-50';
         
         $item_output = isset( $args->before ) ? $args->before : '';
         $item_output .= '<a' . $attributes . ' class="' . esc_attr( $link_classes ) . '" role="menuitem">';

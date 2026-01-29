@@ -27,32 +27,35 @@ function trendtoday_enqueue_assets() {
     // Add preconnect for Google Fonts
     add_filter( 'style_loader_tag', 'trendtoday_add_preconnect_for_fonts', 10, 2 );
 
-    // Font Awesome (with preload)
+    // Font Awesome
     wp_enqueue_style(
         'font-awesome',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
         array(),
         '6.4.0'
     );
-    
-    // Add preload for Font Awesome
-    add_filter( 'style_loader_tag', function( $tag, $handle ) {
-        if ( 'font-awesome' === $handle ) {
-            $preload = '<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">' . "\n";
-            return $preload . $tag;
-        }
-        return $tag;
-    }, 10, 2 );
 
-    // Tailwind CSS is now loaded directly in header.php before wp_head()
-    // This ensures it loads before all other styles
+    // Tailwind CSS (local build – no CDN)
+    $tailwind_css = get_template_directory() . '/assets/css/tailwind.css';
+    if ( file_exists( $tailwind_css ) ) {
+        wp_enqueue_style(
+            'trendtoday-tailwind',
+            get_template_directory_uri() . '/assets/css/tailwind.css',
+            array( 'trendtoday-google-fonts' ),
+            filemtime( $tailwind_css )
+        );
+    }
 
     // Theme stylesheet (style.css in theme root)
     $style_uri = get_stylesheet_uri();
+    $style_deps = array( 'trendtoday-google-fonts', 'font-awesome' );
+    if ( file_exists( $tailwind_css ) ) {
+        $style_deps[] = 'trendtoday-tailwind';
+    }
     wp_enqueue_style(
         'trendtoday-style',
         $style_uri,
-        array( 'trendtoday-google-fonts', 'font-awesome' ),
+        $style_deps,
         $version
     );
 
@@ -251,8 +254,9 @@ function trendtoday_enqueue_admin_styles( $hook ) {
         // Enqueue WordPress media uploader with proper dependencies
         wp_enqueue_media();
         
-        // Enqueue jQuery for admin scripts
+        // Enqueue jQuery and jQuery UI Sortable for widget order
         wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'jquery-ui-sortable' );
         
         // Localize script for AJAX (must be array)
         wp_localize_script( 'jquery', 'trendtodayAdmin', array(
@@ -263,37 +267,3 @@ function trendtoday_enqueue_admin_styles( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'trendtoday_enqueue_admin_styles' );
 
-/**
- * Add Tailwind CSS CDN to head
- * Must be added early in head before other styles
- */
-function trendtoday_add_tailwind_cdn() {
-    // Only add once
-    static $added = false;
-    if ( $added ) {
-        return;
-    }
-    $added = true;
-    ?>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                fontFamily: {
-                    sans: ["Prompt", "sans-serif"],
-                },
-                colors: {
-                    primary: "#1a1a1a",
-                    accent: "#FF4500",
-                    "news-tech": "#3B82F6",
-                    "news-ent": "#EC4899",
-                    "news-fin": "#10B981",
-                    "news-sport": "#F59E0B",
-                }
-            }
-        }
-    }
-    </script>
-    <?php
-}

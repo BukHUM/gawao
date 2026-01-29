@@ -42,7 +42,7 @@ class TrendToday_Recent_Posts_Widget extends WP_Widget {
         echo $args['before_widget'];
 
         if ( $title ) {
-            echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
+            echo $args['before_title'] . '<i class="fas fa-newspaper text-accent"></i> ' . esc_html( $title ) . $args['after_title'];
         }
 
         $query = new WP_Query( array(

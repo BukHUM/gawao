@@ -165,9 +165,10 @@ function trendtoday_nav_menu_link_active_class( $atts, $item, $args ) {
         }
     }
     
+    // Don't add border here – walker puts underline only on text span (.nav-link-text), not on <a>
     if ( $is_active ) {
         $existing_class = isset( $atts['class'] ) ? $atts['class'] : '';
-        $atts['class'] = trim( $existing_class . ' active text-gray-900 font-medium border-b-2 border-accent pb-1' );
+        $atts['class'] = trim( $existing_class . ' active text-gray-900 font-medium' );
     }
     
     return $atts;

@@ -29,6 +29,27 @@ function trendtoday_register_widgets() {
     if ( in_array( 'trending_tags', $enabled_widgets, true ) ) {
         register_widget( 'TrendToday_Trending_Tags_Widget' );
     }
+    if ( in_array( 'related_posts', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Related_Posts_Widget' );
+    }
+    if ( in_array( 'categories', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Categories_Widget' );
+    }
+    if ( in_array( 'search', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Search_Widget' );
+    }
+    if ( in_array( 'social_follow', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Social_Follow_Widget' );
+    }
+    if ( in_array( 'most_commented', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Most_Commented_Widget' );
+    }
+    if ( in_array( 'archive', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Archive_Widget' );
+    }
+    if ( in_array( 'custom_html', $enabled_widgets, true ) ) {
+        register_widget( 'TrendToday_Custom_HTML_Widget' );
+    }
     
     // Note: Newsletter widget is removed - newsletter is now in footer only
 }

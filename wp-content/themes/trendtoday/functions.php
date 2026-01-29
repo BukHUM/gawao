@@ -37,6 +37,13 @@ require_once get_template_directory() . '/widgets/class-popular-posts-widget.php
 require_once get_template_directory() . '/widgets/class-recent-posts-widget.php';
 require_once get_template_directory() . '/widgets/class-newsletter-widget.php';
 require_once get_template_directory() . '/widgets/class-trending-tags-widget.php';
+require_once get_template_directory() . '/widgets/class-related-posts-widget.php';
+require_once get_template_directory() . '/widgets/class-categories-widget.php';
+require_once get_template_directory() . '/widgets/class-search-widget.php';
+require_once get_template_directory() . '/widgets/class-social-follow-widget.php';
+require_once get_template_directory() . '/widgets/class-most-commented-widget.php';
+require_once get_template_directory() . '/widgets/class-archive-widget.php';
+require_once get_template_directory() . '/widgets/class-custom-html-widget.php';
 
 // Register widgets (after widget classes are loaded)
 require_once get_template_directory() . '/inc/register-widgets.php';

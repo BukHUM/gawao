@@ -219,7 +219,7 @@ function trendtoday_widgets_init() {
         'description'   => esc_html__( 'Add widgets here to appear after post content.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s my-8">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h3 class="widget-title font-bold text-xl mb-4">',
+        'before_title'  => '<h3 class="widget-title font-bold text-xl mb-4 flex items-center gap-2">',
         'after_title'   => '</h3>',
     ) );
 
@@ -230,7 +230,7 @@ function trendtoday_widgets_init() {
         'description'   => esc_html__( 'Add widgets here to appear in the first footer column.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4">',
+        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
@@ -241,7 +241,7 @@ function trendtoday_widgets_init() {
         'description'   => esc_html__( 'Add widgets here to appear in the second footer column.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4">',
+        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
@@ -252,7 +252,7 @@ function trendtoday_widgets_init() {
         'description'   => esc_html__( 'Add widgets here to appear in the third footer column.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4">',
+        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
@@ -263,7 +263,7 @@ function trendtoday_widgets_init() {
         'description'   => esc_html__( 'Add widgets here to appear in the fourth footer column.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
-        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4">',
+        'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 }

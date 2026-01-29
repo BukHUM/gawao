@@ -7,6 +7,8 @@
  */
 
 get_header();
+
+$show_sidebar_home = ( get_option( 'trendtoday_sidebar_home_enabled', '1' ) === '1' );
 ?>
 
 <main id="main-content" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -18,7 +20,7 @@ get_header();
     <div class="flex flex-col lg:flex-row gap-10">
 
         <!-- Main Feed -->
-        <div class="lg:w-2/3">
+        <div class="<?php echo $show_sidebar_home ? 'lg:w-2/3' : 'lg:w-full'; ?>">
             <div class="flex justify-between items-end mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 border-l-4 border-accent pl-3">
                     <?php _e( 'ข่าวล่าสุด', 'trendtoday' ); ?>
@@ -29,7 +31,7 @@ get_header();
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="news-grid">
+            <div class="<?php echo esc_attr( trendtoday_get_home_news_grid_class() ); ?>" id="news-grid">
                 <?php
                 if ( have_posts() ) :
                     while ( have_posts() ) :
@@ -69,8 +71,10 @@ get_header();
             ?>
         </div>
 
-        <!-- Sidebar -->
-        <?php get_template_part( 'template-parts/sidebar' ); ?>
+        <?php if ( $show_sidebar_home ) : ?>
+            <!-- Sidebar -->
+            <?php get_template_part( 'template-parts/sidebar' ); ?>
+        <?php endif; ?>
 
     </div>
 

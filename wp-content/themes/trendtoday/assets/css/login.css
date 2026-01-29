@@ -12,6 +12,7 @@ body.login {
 	background-image: none;
 	min-height: 100vh;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	padding: 24px;
@@ -178,9 +179,52 @@ body.login * {
 	margin-bottom: 0.5rem;
 }
 
-/* Language switcher if present */
-.login .language-switcher {
+/* Language switcher - sibling of #login, keep below form and centered */
+body.login .language-switcher {
+	width: 100%;
+	max-width: 420px;
+	margin-top: 1.5rem;
+	padding: 1rem 0;
+	text-align: center;
+}
+
+body.login .language-switcher form {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+body.login .language-switcher label,
+body.login .language-switcher select,
+body.login .language-switcher .button {
+	margin: 0;
+	vertical-align: middle;
+}
+
+body.login .language-switcher .dashicons-translation {
+	color: #6b7280;
+	font-size: 1.25rem;
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+/* Privacy link - keep centered below form */
+body.login .privacy-policy-page-link {
+	text-align: center;
 	margin-top: 1rem;
+	font-size: 0.875rem;
+	color: #6b7280;
+}
+
+body.login .privacy-policy-page-link a {
+	color: #FF4500;
+	text-decoration: none;
+}
+
+body.login .privacy-policy-page-link a:hover {
+	text-decoration: underline;
 }
 
 /* Responsive */

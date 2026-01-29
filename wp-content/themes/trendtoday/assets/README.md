@@ -18,61 +18,25 @@ assets/
 └── README.md               # This file
 ```
 
-## Development vs Production
+## Tailwind CSS (Local Build)
 
-### Development Mode
+The theme uses **Tailwind CSS built locally** (no CDN). Built file: `assets/css/tailwind.css`.
 
-Currently, the theme uses Tailwind CSS via CDN for development. This is configured in `inc/enqueue-scripts.php` and only loads when `WP_DEBUG` is enabled.
+### Build commands (from theme root)
 
-### Production Mode
+```bash
+# One-off build (e.g. before deploy)
+npm run build:css
 
-For production, you should build Tailwind CSS as a static file:
+# Watch mode during development
+npm run watch:css
+```
 
-1. **Install Tailwind CSS CLI:**
-   ```bash
-   npm install -D tailwindcss
-   ```
+- **Source:** `assets/css/tailwind-src.css`
+- **Config:** `tailwind.config.js` (theme root)
+- **Output:** `assets/css/tailwind.css` (enqueued by the theme)
 
-2. **Create `tailwind.config.js`:**
-   ```js
-   module.exports = {
-     content: [
-       './**/*.php',
-       './template-parts/**/*.php',
-       './assets/js/**/*.js',
-     ],
-     theme: {
-       extend: {
-         fontFamily: {
-           sans: ['Prompt', 'sans-serif'],
-         },
-         colors: {
-           primary: '#1a1a1a',
-           accent: '#FF4500',
-           'news-tech': '#3B82F6',
-           'news-ent': '#EC4899',
-           'news-fin': '#10B981',
-           'news-sport': '#F59E0B',
-         },
-       },
-     },
-     plugins: [],
-   }
-   ```
-
-3. **Create `input.css`:**
-   ```css
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-   ```
-
-4. **Build Tailwind CSS:**
-   ```bash
-   npx tailwindcss -i ./input.css -o ./assets/css/tailwind.css --minify
-   ```
-
-5. **The theme will automatically use the built file when `WP_DEBUG` is false.**
+Before first use or after adding new Tailwind classes in PHP/JS, run `npm run build:css`. Commit `tailwind.css` so production works without Node.
 
 ## Asset Versioning
 

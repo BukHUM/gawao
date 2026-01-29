@@ -32,6 +32,52 @@
             }
         };
 
+        // Categories widget: collapsible + remember open state (localStorage)
+        (function() {
+            var STORAGE_KEY = 'trendtoday_cat_open';
+            function getOpenIds() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+            function setOpenIds(ids) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+                } catch (e) {}
+            }
+            function applySavedState() {
+                var ids = getOpenIds();
+                ids.forEach(function(id) {
+                    var wrap = document.querySelector('.trendtoday-categories-collapsible .trendtoday-cat-item-wrap[data-term-id="' + id + '"]');
+                    if (wrap && wrap.querySelector('.trendtoday-categories-children')) {
+                        wrap.classList.add('open');
+                        var btn = wrap.querySelector('.trendtoday-cat-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            }
+            applySavedState();
+            $(document).on('click', '.trendtoday-cat-toggle', function(e) {
+                e.preventDefault();
+                var btn = this;
+                var tid = parseInt($(btn).data('term-id'), 10);
+                var wrap = $(btn).closest('.trendtoday-cat-item-wrap')[0];
+                if (!wrap) return;
+                var isOpen = wrap.classList.toggle('open');
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                var ids = getOpenIds();
+                if (isOpen) {
+                    if (ids.indexOf(tid) === -1) ids.push(tid);
+                } else {
+                    ids = ids.filter(function(i) { return i !== tid; });
+                }
+                setOpenIds(ids);
+            });
+        })();
+
         // Category Filtering
         $('.category-filter').on('click', function() {
             const category = $(this).data('category');

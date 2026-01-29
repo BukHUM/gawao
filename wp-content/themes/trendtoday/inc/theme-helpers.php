@@ -16,7 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array Array of enabled widget keys
  */
 function trendtoday_get_enabled_widgets() {
-    $available_widgets = array( 'popular_posts', 'recent_posts', 'trending_tags' );
+    $available_widgets = array(
+        'popular_posts', 'recent_posts', 'trending_tags',
+        'related_posts', 'categories', 'search', 'social_follow',
+        'most_commented', 'archive', 'custom_html',
+    );
     $saved_widgets = get_option( 'trendtoday_enabled_widgets' );
     
     if ( $saved_widgets === false ) {
@@ -29,6 +33,29 @@ function trendtoday_get_enabled_widgets() {
 }
 
 /**
+ * Get display order of widget keys (for settings UI and default sidebar blocks)
+ *
+ * @return array Ordered array of widget keys.
+ */
+function trendtoday_get_widgets_order() {
+    $default_order = array(
+        'popular_posts', 'recent_posts', 'trending_tags', 'related_posts',
+        'categories', 'search', 'social_follow', 'most_commented', 'archive', 'custom_html',
+    );
+    $saved = get_option( 'trendtoday_widgets_order' );
+    if ( ! is_array( $saved ) || empty( $saved ) ) {
+        return $default_order;
+    }
+    $result = array_values( array_intersect( $saved, $default_order ) );
+    foreach ( $default_order as $key ) {
+        if ( ! in_array( $key, $result, true ) ) {
+            $result[] = $key;
+        }
+    }
+    return $result;
+}
+
+/**
  * Check if a specific widget is enabled
  *
  * @param string $widget_key Widget key to check (popular_posts, recent_posts, trending_tags).
@@ -37,6 +64,72 @@ function trendtoday_get_enabled_widgets() {
 function trendtoday_is_widget_enabled( $widget_key ) {
     $enabled_widgets = trendtoday_get_enabled_widgets();
     return in_array( $widget_key, $enabled_widgets, true );
+}
+
+/**
+ * Widget key to WP widget id_base mapping (for programmatic render)
+ *
+ * @return array Associative array widget_key => id_base
+ */
+function trendtoday_get_widget_id_bases() {
+    return array(
+        'categories'     => 'trendtoday_categories',
+        'search'        => 'trendtoday_search',
+        'social_follow' => 'trendtoday_social_follow',
+        'most_commented' => 'trendtoday_most_commented',
+        'archive'       => 'trendtoday_archive',
+        'custom_html'   => 'trendtoday_custom_html',
+    );
+}
+
+/**
+ * Render a theme widget by key in sidebar style (for default blocks when sidebar-1 is empty)
+ *
+ * @param string $widget_key One of categories, search, social_follow, most_commented, archive, custom_html.
+ * @return void
+ */
+function trendtoday_render_sidebar_widget_by_key( $widget_key ) {
+    $id_bases = trendtoday_get_widget_id_bases();
+    if ( ! isset( $id_bases[ $widget_key ] ) ) {
+        return;
+    }
+    $id_base = $id_bases[ $widget_key ];
+    global $wp_widget_factory;
+    $widget = $wp_widget_factory->get_widget_object( $id_base );
+    if ( ! $widget ) {
+        return;
+    }
+    $before_widget = '<section id="%1$s" class="widget %2$s bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 mb-6">';
+    $after_widget  = '</section>';
+    $before_title  = '<h3 class="widget-title font-bold text-xl mb-5 flex items-center gap-2">';
+    $after_title   = '</h3>';
+    $args = array(
+        'before_widget' => $before_widget,
+        'after_widget'  => $after_widget,
+        'before_title'  => $before_title,
+        'after_title'   => $after_title,
+        'widget_id'     => $id_base . '-sidebar-single',
+        'widget_name'   => $widget->name,
+    );
+    $instance = array();
+    $widget->widget( $args, $instance );
+}
+
+/**
+ * Get Tailwind grid class for homepage/archive news grid by column count
+ *
+ * @return string CSS classes for grid (e.g. grid grid-cols-1 md:grid-cols-2 gap-6)
+ */
+function trendtoday_get_home_news_grid_class() {
+    $cols = (int) get_option( 'trendtoday_home_news_columns', '2' );
+    $cols = max( 1, min( 4, $cols ) );
+    $classes = array(
+        1 => 'grid grid-cols-1 md:grid-cols-1 gap-6',
+        2 => 'grid grid-cols-1 md:grid-cols-2 gap-6',
+        3 => 'grid grid-cols-1 md:grid-cols-3 gap-6',
+        4 => 'grid grid-cols-1 md:grid-cols-4 gap-6',
+    );
+    return isset( $classes[ $cols ] ) ? $classes[ $cols ] : $classes[2];
 }
 
 /**

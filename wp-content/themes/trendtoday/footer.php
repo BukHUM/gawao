@@ -293,6 +293,11 @@
             get_template_part( 'template-parts/table-of-contents' );
         }
     }
+
+    // Floating Left Ad (skyscraper 120x600 / 160x600, single post only)
+    if ( is_single() ) {
+        get_template_part( 'template-parts/floating-left-ad' );
+    }
     
     // Search Modal
     get_template_part( 'template-parts/search-modal' );

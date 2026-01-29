@@ -7,6 +7,8 @@
  */
 
 get_header();
+
+$show_sidebar_archive = ( get_option( 'trendtoday_sidebar_archive_enabled', '1' ) === '1' );
 ?>
 
 <!-- Category Header -->
@@ -74,14 +76,14 @@ get_header();
     <div class="flex flex-col lg:flex-row gap-10">
 
         <!-- Main Feed -->
-        <div class="lg:w-2/3">
+        <div class="<?php echo $show_sidebar_archive ? 'lg:w-2/3' : 'lg:w-full'; ?>">
             <div class="flex justify-between items-end mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 border-l-4 border-accent pl-3">
                     <?php _e( 'ข่าวล่าสุด', 'trendtoday' ); ?>
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="news-grid">
+            <div class="<?php echo esc_attr( trendtoday_get_home_news_grid_class() ); ?>" id="news-grid">
                 <?php
                 if ( have_posts() ) :
                     while ( have_posts() ) :
@@ -126,8 +128,10 @@ get_header();
             ?>
         </div>
 
-        <!-- Sidebar -->
-        <?php get_template_part( 'template-parts/sidebar' ); ?>
+        <?php if ( $show_sidebar_archive ) : ?>
+            <!-- Sidebar -->
+            <?php get_template_part( 'template-parts/sidebar' ); ?>
+        <?php endif; ?>
 
     </div>
 </main>

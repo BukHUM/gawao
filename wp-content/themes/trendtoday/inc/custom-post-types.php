@@ -484,6 +484,13 @@ function trendtoday_settings_page() {
                     update_option( 'trendtoday_pagination_type', $pagination_type );
                 }
             }
+            // Save homepage news grid columns (1–4)
+            if ( isset( $_POST['trendtoday_home_news_columns'] ) ) {
+                $cols = absint( $_POST['trendtoday_home_news_columns'] );
+                if ( $cols >= 1 && $cols <= 4 ) {
+                    update_option( 'trendtoday_home_news_columns', $cols );
+                }
+            }
             
             // Save social sharing settings
             // Enable/Disable
@@ -623,7 +630,11 @@ function trendtoday_settings_page() {
             }
             
             // Save widget visibility settings
-            $available_widgets = array( 'popular_posts', 'recent_posts', 'trending_tags' );
+            $available_widgets = array(
+                'popular_posts', 'recent_posts', 'trending_tags',
+                'related_posts', 'categories', 'search', 'social_follow',
+                'most_commented', 'archive', 'custom_html',
+            );
             if ( isset( $_POST['trendtoday_enabled_widgets'] ) && is_array( $_POST['trendtoday_enabled_widgets'] ) ) {
                 $enabled_widgets = array_intersect( $_POST['trendtoday_enabled_widgets'], $available_widgets );
             } else {
@@ -631,6 +642,16 @@ function trendtoday_settings_page() {
                 $enabled_widgets = array();
             }
             update_option( 'trendtoday_enabled_widgets', $enabled_widgets );
+            // Widget display order (comma-separated from hidden input)
+            if ( isset( $_POST['trendtoday_widgets_order'] ) && is_string( $_POST['trendtoday_widgets_order'] ) ) {
+                $order_raw = sanitize_text_field( $_POST['trendtoday_widgets_order'] );
+                $order_keys = array_filter( array_map( 'trim', explode( ',', $order_raw ) ) );
+                $allowed = array( 'popular_posts', 'recent_posts', 'trending_tags', 'related_posts', 'categories', 'search', 'social_follow', 'most_commented', 'archive', 'custom_html' );
+                $order_keys = array_values( array_intersect( $order_keys, $allowed ) );
+                if ( ! empty( $order_keys ) ) {
+                    update_option( 'trendtoday_widgets_order', $order_keys );
+                }
+            }
 
             // Sidebar on single post
             $sidebar_single_post_enabled = isset( $_POST['trendtoday_sidebar_single_post_enabled'] ) ? '1' : '0';
@@ -638,6 +659,27 @@ function trendtoday_settings_page() {
             // Sidebar on page (static pages)
             $sidebar_single_page_enabled = isset( $_POST['trendtoday_sidebar_single_page_enabled'] ) ? '1' : '0';
             update_option( 'trendtoday_sidebar_single_page_enabled', $sidebar_single_page_enabled );
+            // Sidebar on homepage (hidden=0 when unchecked; when checked both sent, last wins or use array)
+            $sidebar_home_raw = isset( $_POST['trendtoday_sidebar_home_enabled'] ) ? $_POST['trendtoday_sidebar_home_enabled'] : '0';
+            $is_home_enabled = ( $sidebar_home_raw === '1' ) || ( is_array( $sidebar_home_raw ) && in_array( '1', $sidebar_home_raw, true ) );
+            update_option( 'trendtoday_sidebar_home_enabled', $is_home_enabled ? '1' : '0' );
+            // Sidebar on archive (category, tag, author, date archives)
+            $sidebar_archive_raw = isset( $_POST['trendtoday_sidebar_archive_enabled'] ) ? $_POST['trendtoday_sidebar_archive_enabled'] : '0';
+            $is_archive_enabled = ( $sidebar_archive_raw === '1' ) || ( is_array( $sidebar_archive_raw ) && in_array( '1', $sidebar_archive_raw, true ) );
+            update_option( 'trendtoday_sidebar_archive_enabled', $is_archive_enabled ? '1' : '0' );
+
+            // Floating Left Ad (skyscraper 120x600 or 160x600)
+            $floating_left_ad_enabled = isset( $_POST['trendtoday_floating_left_ad_enabled'] ) ? '1' : '0';
+            update_option( 'trendtoday_floating_left_ad_enabled', $floating_left_ad_enabled );
+            if ( isset( $_POST['trendtoday_floating_left_ad_size'] ) ) {
+                $size = sanitize_text_field( $_POST['trendtoday_floating_left_ad_size'] );
+                if ( in_array( $size, array( '120x600', '160x600' ), true ) ) {
+                    update_option( 'trendtoday_floating_left_ad_size', $size );
+                }
+            }
+            if ( isset( $_POST['trendtoday_floating_left_ad_content'] ) ) {
+                update_option( 'trendtoday_floating_left_ad_content', wp_kses_post( $_POST['trendtoday_floating_left_ad_content'] ) );
+            }
 
             if ( isset( $_POST['trendtoday_search_show_date'] ) ) {
                 $suggestions_display[] = 'date';
@@ -776,6 +818,8 @@ function trendtoday_settings_page() {
     $logo_id = get_option( 'trendtoday_logo', '' );
     $logo_url = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
     $pagination_type = get_option( 'trendtoday_pagination_type', 'load_more' ); // Default to load_more
+    $home_news_columns = (int) get_option( 'trendtoday_home_news_columns', '2' );
+    $home_news_columns = max( 1, min( 4, $home_news_columns ) );
     
     // Get social sharing settings
     $social_sharing_enabled = get_option( 'trendtoday_social_sharing_enabled', '1' );
@@ -842,13 +886,22 @@ function trendtoday_settings_page() {
     
     // Get Widget visibility settings
     $available_widgets = array(
-        'popular_posts' => __( 'Popular Posts Widget', 'trendtoday' ),
-        'recent_posts' => __( 'Recent Posts Widget', 'trendtoday' ),
-        'trending_tags' => __( 'Trending Tags Widget', 'trendtoday' ),
+        'popular_posts'   => __( 'Popular Posts Widget', 'trendtoday' ),
+        'recent_posts'    => __( 'Recent Posts Widget', 'trendtoday' ),
+        'trending_tags'   => __( 'Trending Tags Widget', 'trendtoday' ),
+        'related_posts'   => __( 'Related Posts Widget', 'trendtoday' ),
+        'categories'     => __( 'Categories Widget', 'trendtoday' ),
+        'search'         => __( 'Search Widget', 'trendtoday' ),
+        'social_follow'  => __( 'Social Follow Widget', 'trendtoday' ),
+        'most_commented' => __( 'Most Commented Widget', 'trendtoday' ),
+        'archive'        => __( 'Archive Widget', 'trendtoday' ),
+        'custom_html'    => __( 'Custom HTML / Ad Widget', 'trendtoday' ),
     );
-    // Sidebar on single post / page (default: show both)
+    // Sidebar on single post / page / homepage / archive (default: show all)
     $sidebar_single_post_enabled = get_option( 'trendtoday_sidebar_single_post_enabled', '1' );
     $sidebar_single_page_enabled  = get_option( 'trendtoday_sidebar_single_page_enabled', '1' );
+    $sidebar_home_enabled         = get_option( 'trendtoday_sidebar_home_enabled', '1' );
+    $sidebar_archive_enabled      = get_option( 'trendtoday_sidebar_archive_enabled', '1' );
 
     // Get enabled widgets - default to all enabled only if option doesn't exist
     $saved_widgets = get_option( 'trendtoday_enabled_widgets' );
@@ -956,6 +1009,21 @@ function trendtoday_settings_page() {
                                 </fieldset>
                                 <p class="description">
                                     <?php _e( 'เลือกวิธีการแสดงผลบทความในหน้าแรก: แสดง pagination หรือปุ่มโหลดข่าวเพิ่มเติม', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="trendtoday_home_news_columns"><?php _e( 'จำนวนคอลัมน์ข่าวล่าสุด (หน้าแรก)', 'trendtoday' ); ?></label>
+                            </th>
+                            <td>
+                                <select name="trendtoday_home_news_columns" id="trendtoday_home_news_columns">
+                                    <?php for ( $n = 1; $n <= 4; $n++ ) : ?>
+                                        <option value="<?php echo (int) $n; ?>" <?php selected( $home_news_columns, $n ); ?>><?php echo (int) $n; ?> <?php _e( 'คอลัมน์', 'trendtoday' ); ?></option>
+                                    <?php endfor; ?>
+                                </select>
+                                <p class="description">
+                                    <?php _e( 'เลือกว่าจะให้กริดข่าวล่าสุดในหน้าแรกและหน้าอาร์คิฟแสดงกี่คอลัมน์ (จอขนาดกลางขึ้นไป)', 'trendtoday' ); ?>
                                 </p>
                             </td>
                         </tr>
@@ -1696,35 +1764,77 @@ function trendtoday_settings_page() {
                         </tr>
                         <tr>
                             <th scope="row">
+                                <?php _e( 'Sidebar on Homepage', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="hidden" name="trendtoday_sidebar_home_enabled" value="0" />
+                                    <input type="checkbox" name="trendtoday_sidebar_home_enabled" value="1" <?php checked( $sidebar_home_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดง sidebar (widget) ในหน้าแรก', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าต้องการให้หน้าแรกเต็มความกว้างโดยไม่มี widget ด้านขวา (Popular Posts, Recent Posts, Trending Tags)', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <?php _e( 'Sidebar on Archive', 'trendtoday' ); ?>
+                            </th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="hidden" name="trendtoday_sidebar_archive_enabled" value="0" />
+                                    <input type="checkbox" name="trendtoday_sidebar_archive_enabled" value="1" <?php checked( $sidebar_archive_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดง sidebar (widget) ในหน้า Archive', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิดใช้ถ้าต้องการให้หน้า Archive (หมวดหมู่, แท็ก, ผู้เขียน ฯลฯ) เต็มความกว้างโดยไม่มี widget ด้านขวา', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
                                 <?php _e( 'Available Widgets', 'trendtoday' ); ?>
                             </th>
                             <td>
-                                <fieldset>
-                                    <legend class="screen-reader-text">
-                                        <span><?php _e( 'Select widgets to enable', 'trendtoday' ); ?></span>
-                                    </legend>
-                                    <?php foreach ( $available_widgets as $widget_key => $widget_name ) : ?>
-                                        <label style="display: block; margin-bottom: 12px; padding: 10px; background: #f9f9f9; border-radius: 4px; border-left: 3px solid #2271b1;">
-                                            <input type="checkbox" 
-                                                   name="trendtoday_enabled_widgets[]" 
-                                                   value="<?php echo esc_attr( $widget_key ); ?>"
-                                                   <?php checked( in_array( $widget_key, $enabled_widgets, true ) ); ?> />
-                                            <strong><?php echo esc_html( $widget_name ); ?></strong>
-                                            <p class="description" style="margin: 5px 0 0 25px; color: #646970;">
-                                                <?php
-                                                switch ( $widget_key ) {
-                                                    case 'popular_posts':
-                                                        _e( 'แสดงบทความยอดนิยมตามจำนวน views', 'trendtoday' );
-                                                        break;
-                                                    case 'recent_posts':
-                                                        _e( 'แสดงบทความล่าสุด', 'trendtoday' );
-                                                        break;
-                                                    case 'trending_tags':
-                                                        _e( 'แสดง tags ที่มาแรง (Trending tags)', 'trendtoday' );
-                                                        break;
-                                                }
-                                                ?>
-                                            </p>
+                                <p class="description" style="margin-bottom: 10px;"><?php _e( 'ลากเพื่อเรียงลำดับการแสดงผล • เลือกติ๊กเพื่อเปิดใช้', 'trendtoday' ); ?></p>
+                                <input type="hidden" name="trendtoday_widgets_order" id="trendtoday_widgets_order" value="<?php echo esc_attr( implode( ',', trendtoday_get_widgets_order() ) ); ?>" />
+                                <fieldset id="trendtoday-widgets-sortable" class="trendtoday-widgets-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 800px;">
+                                    <legend class="screen-reader-text"><span><?php _e( 'Select widgets to enable', 'trendtoday' ); ?></span></legend>
+                                    <?php
+                                    $widget_descriptions = array(
+                                        'popular_posts'   => __( 'แสดงบทความยอดนิยมตามจำนวน views', 'trendtoday' ),
+                                        'recent_posts'    => __( 'แสดงบทความล่าสุด', 'trendtoday' ),
+                                        'trending_tags'   => __( 'แสดง tags ที่มาแรง (Trending tags)', 'trendtoday' ),
+                                        'related_posts'   => __( 'บทความที่เกี่ยวข้องตามหมวดหมู่/แท็ก (เหมาะกับหน้า single)', 'trendtoday' ),
+                                        'categories'     => __( 'รายการหมวดหมู่พร้อมจำนวนบทความ', 'trendtoday' ),
+                                        'search'         => __( 'ช่องค้นหาใน sidebar', 'trendtoday' ),
+                                        'social_follow'  => __( 'ปุ่มติดตาม Facebook, Twitter, Line, YouTube ฯลฯ', 'trendtoday' ),
+                                        'most_commented' => __( 'บทความที่มีความเห็นมากที่สุด', 'trendtoday' ),
+                                        'archive'        => __( 'อาร์คิฟแยกตามเดือน', 'trendtoday' ),
+                                        'custom_html'    => __( 'พื้นที่โฆษณาหรือ HTML กำหนดเอง', 'trendtoday' ),
+                                    );
+                                    foreach ( trendtoday_get_widgets_order() as $widget_key ) :
+                                        if ( ! isset( $available_widgets[ $widget_key ] ) ) {
+                                            continue;
+                                        }
+                                        $widget_name = $available_widgets[ $widget_key ];
+                                        $desc = isset( $widget_descriptions[ $widget_key ] ) ? $widget_descriptions[ $widget_key ] : '';
+                                    ?>
+                                        <label class="trendtoday-widget-item" data-widget-key="<?php echo esc_attr( $widget_key ); ?>" style="display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 12px; background: #f9f9f9; border-radius: 4px; border-left: 3px solid #2271b1; cursor: move;">
+                                            <span class="dashicons dashicons-move" style="color: #72777c; flex-shrink: 0; margin-top: 2px;" aria-hidden="true"></span>
+                                            <span style="flex: 1;">
+                                                <input type="checkbox" 
+                                                       name="trendtoday_enabled_widgets[]" 
+                                                       value="<?php echo esc_attr( $widget_key ); ?>"
+                                                       <?php checked( in_array( $widget_key, $enabled_widgets, true ) ); ?> />
+                                                <strong><?php echo esc_html( $widget_name ); ?></strong>
+                                                <?php if ( $desc ) : ?>
+                                                    <p class="description" style="margin: 5px 0 0 25px; color: #646970;"><?php echo esc_html( $desc ); ?></p>
+                                                <?php endif; ?>
+                                            </span>
                                         </label>
                                     <?php endforeach; ?>
                                 </fieldset>
@@ -1734,6 +1844,34 @@ function trendtoday_settings_page() {
                                     <?php _e( '• Widgets ที่ไม่ถูกเลือกจะไม่แสดงใน Widgets area แต่โค้ดยังคงทำงานอยู่', 'trendtoday' ); ?><br>
                                     <?php _e( '• การเปลี่ยนแปลงจะมีผลหลังจากบันทึกการตั้งค่า', 'trendtoday' ); ?>
                                 </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'Floating Left Ad (Skyscraper)', 'trendtoday' ); ?></th>
+                            <?php
+                            $floating_left_ad_enabled = get_option( 'trendtoday_floating_left_ad_enabled', '0' );
+                            $floating_left_ad_size    = get_option( 'trendtoday_floating_left_ad_size', '160x600' );
+                            $floating_left_ad_content = get_option( 'trendtoday_floating_left_ad_content', '' );
+                            ?>
+                            <td>
+                                <p>
+                                    <label>
+                                        <input type="checkbox" name="trendtoday_floating_left_ad_enabled" value="1" <?php checked( $floating_left_ad_enabled, '1' ); ?> />
+                                        <?php _e( 'เปิดใช้โฆษณาแบบลอยติดด้านซ้าย (ขนาด 120x600 หรือ 160x600) แสดงเฉพาะหน้า single post', 'trendtoday' ); ?>
+                                    </label>
+                                </p>
+                                <p style="margin-top: 10px;">
+                                    <label for="trendtoday_floating_left_ad_size"><?php _e( 'ขนาด:', 'trendtoday' ); ?></label>
+                                    <select name="trendtoday_floating_left_ad_size" id="trendtoday_floating_left_ad_size">
+                                        <option value="120x600" <?php selected( $floating_left_ad_size, '120x600' ); ?>>120 × 600</option>
+                                        <option value="160x600" <?php selected( $floating_left_ad_size, '160x600' ); ?>>160 × 600</option>
+                                    </select>
+                                </p>
+                                <p style="margin-top: 10px;">
+                                    <label for="trendtoday_floating_left_ad_content"><?php _e( 'โค้ดโฆษณา (HTML / สคริปต์ AdSense):', 'trendtoday' ); ?></label><br>
+                                    <textarea name="trendtoday_floating_left_ad_content" id="trendtoday_floating_left_ad_content" class="large-text code" rows="6" style="width: 100%; max-width: 500px;"><?php echo esc_textarea( $floating_left_ad_content ); ?></textarea>
+                                </p>
+                                <p class="description"><?php _e( 'ถ้าไม่ใส่โค้ด จะแสดงกรอบ placeholder โฆษณา', 'trendtoday' ); ?></p>
                             </td>
                         </tr>
                     </table>
@@ -2102,6 +2240,17 @@ function trendtoday_settings_page() {
             flex-direction: column;
         }
     }
+    .trendtoday-widgets-grid .trendtoday-widget-item-placeholder {
+        min-height: 52px;
+        background: #f0f0f1;
+        border: 1px dashed #c3c4c7;
+        border-radius: 4px;
+    }
+    @media (max-width: 782px) {
+        .trendtoday-widgets-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
     </style>
     
     <script type="text/javascript">
@@ -2214,6 +2363,24 @@ function trendtoday_settings_page() {
                     }
                 }
             });
+            
+            // Widget list: sortable and sync order to hidden input
+            if ($('#trendtoday-widgets-sortable').length && $.fn.sortable) {
+                $('#trendtoday-widgets-sortable').sortable({
+                    items: 'label.trendtoday-widget-item',
+                    placeholder: 'trendtoday-widget-item-placeholder',
+                    tolerance: 'pointer',
+                    opacity: 0.8,
+                    update: function() {
+                        var order = [];
+                        $('#trendtoday-widgets-sortable .trendtoday-widget-item').each(function() {
+                            var key = $(this).data('widget-key');
+                            if (key) order.push(key);
+                        });
+                        $('#trendtoday_widgets_order').val(order.join(','));
+                    }
+                });
+            }
         });
     })(jQuery);
     </script>

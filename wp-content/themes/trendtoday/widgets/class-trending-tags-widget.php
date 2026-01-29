@@ -41,7 +41,7 @@ class TrendToday_Trending_Tags_Widget extends WP_Widget {
         echo $args['before_widget'];
 
         if ( $title ) {
-            echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
+            echo $args['before_title'] . '<i class="fas fa-hashtag text-accent"></i> ' . esc_html( $title ) . $args['after_title'];
         }
 
         $tags = trendtoday_get_trending_tags( $number );

@@ -19,94 +19,197 @@
         </div>
     <?php endif; ?>
     
-    <?php 
-    // Display widgets from sidebar-1 if any are active
-    if ( is_active_sidebar( 'sidebar-1' ) ) {
-        dynamic_sidebar( 'sidebar-1' );
-    } else {
-        // Only show default sidebar content if no widgets are active
-        // Check if Recent Posts widget is enabled in settings
-        if ( trendtoday_is_widget_enabled( 'recent_posts' ) ) :
-            ?>
-            
-            <!-- Latest News Sidebar (for single post pages) -->
-        <?php
-        // Get latest posts excluding current post
-        $current_post_id = get_the_ID();
-        $latest_query = new WP_Query( array(
-            'post_type'      => 'post',
-            'posts_per_page' => 3,
-            'post_status'    => 'publish',
-            'post__not_in'   => array( $current_post_id ),
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-            'ignore_sticky_posts' => true,
-        ) );
-        
-        if ( $latest_query->have_posts() ) :
-        ?>
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-24">
-            <h3 class="font-bold text-xl mb-4 border-l-4 border-accent pl-3">
-                <?php _e( 'ข่าวน่าสนใจ', 'trendtoday' ); ?>
-            </h3>
-            <div class="space-y-6">
-                <?php
-                while ( $latest_query->have_posts() ) :
-                    $latest_query->the_post();
-                    $post_obj = $latest_query->post;
-                    $post_title = $post_obj->post_title;
-                    $post_permalink = trendtoday_fix_url( get_permalink( $post_obj->ID ) );
-                    $post_date = get_post_time( 'U', false, $post_obj->ID );
-                    $thumbnail_id = get_post_thumbnail_id( $post_obj->ID );
-                    
-                    // Get first category
-                    $categories = get_the_category( $post_obj->ID );
-                    $category_name = ! empty( $categories ) ? $categories[0]->name : '';
-                    
-                    // Skip if no title
-                    if ( empty( $post_title ) ) {
-                        continue;
-                    }
-                    ?>
-                    <a href="<?php echo esc_url( $post_permalink ); ?>" 
-                       class="flex gap-4 group cursor-pointer">
-                        <?php if ( $thumbnail_id ) : ?>
-                            <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
-                                <?php echo get_the_post_thumbnail( $post_obj->ID, 'trendtoday-thumbnail', array(
-                                    'class' => 'w-full h-full object-cover group-hover:scale-110 transition',
-                                    'alt'   => esc_attr( $post_title ),
-                                    'loading' => 'lazy',
-                                ) ); ?>
-                            </div>
-                        <?php else : ?>
-                            <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
-                                <i class="fas fa-image text-gray-400 text-2xl"></i>
-                            </div>
-                        <?php endif; ?>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900 group-hover:text-accent transition line-clamp-2 mb-1">
-                                <?php echo esc_html( $post_title ); ?>
-                            </h4>
-                            <span class="text-xs text-gray-400">
-                                <?php if ( $category_name ) : ?>
-                                    <?php echo esc_html( $category_name ); ?> • 
-                                <?php endif; ?>
-                                <?php 
-                                $time_diff = human_time_diff( $post_date, current_time( 'timestamp' ) );
-                                // Convert to Thai format if needed
-                                echo esc_html( $time_diff ); ?> <?php _e( 'ที่แล้ว', 'trendtoday' ); ?>
-                            </span>
-                        </div>
-                    </a>
-                <?php
-                endwhile;
-                wp_reset_postdata();
+    <?php
+    // Single post sidebar: always use Theme Settings (order + enabled widgets), not Appearance > Widgets
+    foreach ( trendtoday_get_widgets_order() as $widget_key ) {
+            if ( ! trendtoday_is_widget_enabled( $widget_key ) ) {
+                continue;
+            }
+            switch ( $widget_key ) {
+                case 'popular_posts':
+            $popular_query = trendtoday_get_popular_posts( 4, 'views' );
+            if ( ! $popular_query->have_posts() ) {
+                $popular_query = trendtoday_get_popular_posts( 4, 'date' );
+            }
+            if ( $popular_query->have_posts() ) :
+                global $post;
+                $current_post = $post;
                 ?>
-            </div>
-        </div>
-        <?php 
-        endif; // End check for have_posts
-        endif; // End check for recent_posts_enabled
-    } // End check for is_active_sidebar
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <h3 class="font-bold text-xl mb-5 flex items-center gap-2">
+                        <i class="fas fa-fire text-accent"></i>
+                        <?php _e( 'ยอดนิยม', 'trendtoday' ); ?>
+                    </h3>
+                    <div class="space-y-4" role="list" aria-label="<?php _e( 'Popular articles', 'trendtoday' ); ?>">
+                        <?php
+                        $index = 0;
+                        while ( $popular_query->have_posts() ) :
+                            $popular_query->the_post();
+                            $post_obj = $popular_query->post;
+                            $post_title = $post_obj->post_title;
+                            if ( empty( $post_title ) ) {
+                                continue;
+                            }
+                            $index++;
+                            ?>
+                            <a href="<?php echo esc_url( trendtoday_fix_url( get_permalink( $post_obj->ID ) ) ); ?>" 
+                               class="popular-item flex gap-4 items-start group p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                               role="listitem">
+                                <span class="text-2xl font-bold text-gray-200 group-hover:text-accent transition-all flex-shrink-0"><?php echo str_pad( $index, 2, '0', STR_PAD_LEFT ); ?></span>
+                                <h4 class="text-sm font-medium text-gray-700 group-hover:text-accent transition line-clamp-2 leading-snug"><?php echo esc_html( $post_title ); ?></h4>
+                            </a>
+                        <?php
+                        endwhile;
+                        $post = $current_post;
+                        wp_reset_postdata();
+                        ?>
+                    </div>
+                </div>
+                <?php
+            endif;
+                    break;
+                case 'recent_posts':
+            $current_post_id = get_the_ID();
+            $latest_query = new WP_Query( array(
+                'post_type'      => 'post',
+                'posts_per_page' => 4,
+                'post_status'    => 'publish',
+                'post__not_in'   => array( $current_post_id ),
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'ignore_sticky_posts' => true,
+            ) );
+            if ( $latest_query->have_posts() ) :
+                ?>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <h3 class="font-bold text-xl mb-4 flex items-center gap-2">
+                        <i class="fas fa-newspaper text-accent"></i>
+                        <?php _e( 'ข่าวน่าสนใจ', 'trendtoday' ); ?>
+                    </h3>
+                    <div class="space-y-6">
+                        <?php
+                        while ( $latest_query->have_posts() ) :
+                            $latest_query->the_post();
+                            $post_obj = $latest_query->post;
+                            $post_title = $post_obj->post_title;
+                            $post_permalink = trendtoday_fix_url( get_permalink( $post_obj->ID ) );
+                            $post_date = get_post_time( 'U', false, $post_obj->ID );
+                            $thumbnail_id = get_post_thumbnail_id( $post_obj->ID );
+                            $categories = get_the_category( $post_obj->ID );
+                            $category_name = ! empty( $categories ) ? $categories[0]->name : '';
+                            if ( empty( $post_title ) ) {
+                                continue;
+                            }
+                            ?>
+                            <a href="<?php echo esc_url( $post_permalink ); ?>" class="flex gap-4 group cursor-pointer">
+                                <?php if ( $thumbnail_id ) : ?>
+                                    <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+                                        <?php echo get_the_post_thumbnail( $post_obj->ID, 'trendtoday-thumbnail', array( 'class' => 'w-full h-full object-cover group-hover:scale-110 transition', 'alt' => esc_attr( $post_title ), 'loading' => 'lazy' ) ); ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400 text-2xl"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <div>
+                                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-accent transition line-clamp-2 mb-1"><?php echo esc_html( $post_title ); ?></h4>
+                                    <span class="text-xs text-gray-400">
+                                        <?php if ( $category_name ) : ?><?php echo esc_html( $category_name ); ?> • <?php endif; ?>
+                                        <?php echo esc_html( human_time_diff( $post_date, current_time( 'timestamp' ) ) ); ?> <?php _e( 'ที่แล้ว', 'trendtoday' ); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        <?php
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
+                    </div>
+                </div>
+                <?php
+            endif;
+                    break;
+                case 'related_posts':
+            $current_id = get_the_ID();
+            $cat_ids = wp_get_post_categories( $current_id );
+            $tag_ids = wp_get_post_tags( $current_id, array( 'fields' => 'ids' ) );
+            $rel_args = array(
+                'post_type'      => 'post',
+                'posts_per_page' => 4,
+                'post__not_in'   => array( $current_id ),
+                'post_status'    => 'publish',
+                'orderby'        => 'rand',
+            );
+            if ( ! empty( $cat_ids ) ) {
+                $rel_args['category__in'] = $cat_ids;
+            }
+            if ( ! empty( $tag_ids ) ) {
+                $rel_args['tag__in'] = $tag_ids;
+            }
+            if ( empty( $cat_ids ) && empty( $tag_ids ) ) {
+                $rel_args['orderby'] = 'date';
+                $rel_args['order']   = 'DESC';
+            }
+            $rel_query = new WP_Query( $rel_args );
+            if ( $rel_query->have_posts() ) :
+                ?>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <h3 class="font-bold text-xl mb-4 flex items-center gap-2">
+                        <i class="fas fa-link text-accent"></i>
+                        <?php _e( 'บทความที่เกี่ยวข้อง', 'trendtoday' ); ?>
+                    </h3>
+                    <div class="space-y-6" role="list">
+                        <?php
+                        while ( $rel_query->have_posts() ) :
+                            $rel_query->the_post();
+                            $post_obj   = $rel_query->post;
+                            $post_title = $post_obj->post_title;
+                            if ( empty( $post_title ) ) {
+                                continue;
+                            }
+                            $post_permalink = trendtoday_fix_url( get_permalink( $post_obj->ID ) );
+                            $post_date      = get_post_time( 'U', false, $post_obj->ID );
+                            $thumbnail_id  = get_post_thumbnail_id( $post_obj->ID );
+                            $categories    = get_the_category( $post_obj->ID );
+                            $category_name = ! empty( $categories ) ? $categories[0]->name : '';
+                            ?>
+                            <a href="<?php echo esc_url( $post_permalink ); ?>" class="flex gap-4 group cursor-pointer">
+                                <?php if ( $thumbnail_id ) : ?>
+                                    <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+                                        <?php echo get_the_post_thumbnail( $post_obj->ID, 'trendtoday-thumbnail', array( 'class' => 'w-full h-full object-cover group-hover:scale-110 transition', 'alt' => esc_attr( $post_title ), 'loading' => 'lazy' ) ); ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-image text-gray-400 text-2xl"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <div>
+                                    <h4 class="text-sm font-bold text-gray-900 group-hover:text-accent transition line-clamp-2 mb-1"><?php echo esc_html( $post_title ); ?></h4>
+                                    <span class="text-xs text-gray-400">
+                                        <?php if ( $category_name ) : ?><?php echo esc_html( $category_name ); ?> • <?php endif; ?>
+                                        <?php echo esc_html( human_time_diff( $post_date, current_time( 'timestamp' ) ) ); ?> <?php _e( 'ที่แล้ว', 'trendtoday' ); ?>
+                                    </span>
+                                </div>
+                            </a>
+                        <?php
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
+                    </div>
+                </div>
+                <?php
+            endif;
+                    break;
+                case 'trending_tags':
+                    ?>
+                    <div class="mb-6">
+                        <?php get_template_part( 'template-parts/trending-tags' ); ?>
+                    </div>
+                    <?php
+                    break;
+                default:
+                    trendtoday_render_sidebar_widget_by_key( $widget_key );
+                    break;
+            }
+        }
     ?>
 </aside>
