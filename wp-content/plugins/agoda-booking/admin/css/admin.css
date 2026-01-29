@@ -1,0 +1,1276 @@
+/**
+ * Admin styles for Agoda Booking plugin
+ *
+ * @package Agoda_Booking
+ */
+
+/* ============================================
+   Settings Page Styling
+   ============================================ */
+
+.agoda-booking-settings {
+	max-width: 1200px;
+}
+
+.agoda-booking-settings h1 {
+	margin-bottom: 20px;
+	padding-bottom: 15px;
+	border-bottom: 2px solid #e0e0e0;
+}
+
+.agoda-booking-settings .form-table {
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	padding: 20px;
+	margin-top: 20px;
+}
+
+.agoda-booking-settings .form-table th {
+	padding: 15px 20px 15px 0;
+	width: 200px;
+	font-weight: 600;
+	vertical-align: top;
+}
+
+.agoda-booking-settings .form-table td {
+	padding: 15px 0;
+}
+
+.agoda-booking-settings .form-table input[type="text"],
+.agoda-booking-settings .form-table input[type="password"],
+.agoda-booking-settings .form-table input[type="number"],
+.agoda-booking-settings .form-table select {
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+	transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.agoda-booking-settings .form-table input:focus,
+.agoda-booking-settings .form-table select:focus {
+	outline: none;
+	border-color: #0073aa;
+	box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.1);
+}
+
+.agoda-booking-settings .form-table input[readonly],
+.agoda-booking-settings .form-table input[disabled] {
+	background-color: #f5f5f5;
+	color: #666;
+	cursor: not-allowed;
+}
+
+.agoda-booking-settings .form-table .description {
+	margin-top: 8px;
+	font-size: 13px;
+	color: #666;
+	line-height: 1.6;
+	font-style: normal;
+}
+
+.agoda-booking-settings .form-table .description strong {
+	color: #333;
+}
+
+/* ============================================
+   Help Text & Tooltips
+   ============================================ */
+
+.agoda-booking-settings .help-tip {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-left: 5px;
+	vertical-align: middle;
+	cursor: help;
+	color: #666;
+	font-size: 14px;
+	line-height: 16px;
+	text-align: center;
+	border-radius: 50%;
+	background: #e0e0e0;
+	position: relative;
+}
+
+.agoda-booking-settings .help-tip:hover {
+	background: #0073aa;
+	color: #fff;
+}
+
+.agoda-booking-settings .help-tip::after {
+	content: "?";
+	font-weight: bold;
+}
+
+/* ============================================
+   Success/Error Messages
+   ============================================ */
+
+.agoda-booking-settings .notice {
+	margin: 20px 0;
+	padding: 12px 15px;
+	border-left-width: 4px;
+	border-radius: 4px;
+}
+
+.agoda-booking-settings .notice.notice-success {
+	background: #f0f9f4;
+	border-left-color: #46b450;
+	color: #155724;
+}
+
+.agoda-booking-settings .notice.notice-error {
+	background: #fef2f2;
+	border-left-color: #dc3232;
+	color: #721c24;
+}
+
+.agoda-booking-settings .notice.notice-warning {
+	background: #fffbf0;
+	border-left-color: #ffb900;
+	color: #856404;
+}
+
+.agoda-booking-settings .notice.notice-info {
+	background: #f0f6fc;
+	border-left-color: #0073aa;
+	color: #004085;
+}
+
+.agoda-booking-settings .notice p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+/* ============================================
+   Test Connection Section
+   ============================================ */
+
+.agoda-booking-test-connection {
+	margin-top: 30px;
+	padding: 25px;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.agoda-booking-test-connection h2 {
+	margin-top: 0;
+	margin-bottom: 15px;
+	font-size: 18px;
+	font-weight: 600;
+	color: #333;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.agoda-booking-test-connection .description {
+	margin-bottom: 15px;
+	font-size: 14px;
+	color: #666;
+	line-height: 1.6;
+}
+
+.agoda-booking-test-connection .button {
+	margin-right: 10px;
+	padding: 10px 20px;
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 4px;
+	transition: all 0.3s ease;
+}
+
+.agoda-booking-test-connection .button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.agoda-booking-test-connection .button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.agoda-booking-test-connection .spinner {
+	float: none;
+	margin: 0 10px;
+	vertical-align: middle;
+}
+
+.agoda-booking-test-connection .spinner.is-active {
+	visibility: visible;
+}
+
+/* ============================================
+   Test Result Display
+   ============================================ */
+
+#agoda-test-result {
+	margin-top: 15px;
+	min-height: 30px;
+}
+
+#agoda-test-result .notice {
+	margin: 0;
+	padding: 12px 15px;
+	border-radius: 4px;
+	animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+#agoda-test-result .notice p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+#agoda-test-result .notice-success {
+	background: #f0f9f4;
+	border: 1px solid #46b450;
+	color: #155724;
+}
+
+#agoda-test-result .notice-error {
+	background: #fef2f2;
+	border: 1px solid #dc3232;
+	color: #721c24;
+}
+
+/* ============================================
+   Rate Limiting Settings
+   ============================================ */
+
+.agoda-rate-limit-settings {
+	transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.agoda-rate-limit-settings[style*="display: none"] {
+	display: none !important;
+}
+
+/* ============================================
+   Form Layout Improvements
+   ============================================ */
+
+.agoda-booking-settings .form-table tr {
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.agoda-booking-settings .form-table tr:last-child {
+	border-bottom: none;
+}
+
+.agoda-booking-settings .form-table input[type="checkbox"] {
+	margin-right: 8px;
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+}
+
+.agoda-booking-settings .form-table input[type="checkbox"]:checked {
+	background-color: #0073aa;
+	border-color: #0073aa;
+}
+
+/* ============================================
+   Submit Button
+   ============================================ */
+
+.agoda-booking-settings .submit {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid #e0e0e0;
+}
+
+.agoda-booking-settings .button-primary {
+	padding: 10px 25px;
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 4px;
+	transition: all 0.3s ease;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.agoda-booking-settings .button-primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.agoda-booking-settings .button-primary:active {
+	transform: translateY(0);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 782px) {
+	.agoda-booking-settings .form-table th,
+	.agoda-booking-settings .form-table td {
+		display: block;
+		width: 100%;
+		padding: 10px 0;
+	}
+
+	.agoda-booking-settings .form-table th {
+		padding-bottom: 5px;
+		font-size: 14px;
+	}
+
+	.agoda-booking-settings .form-table input[type="text"],
+	.agoda-booking-settings .form-table input[type="password"],
+	.agoda-booking-settings .form-table input[type="number"],
+	.agoda-booking-settings .form-table select {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+/* ============================================
+   Settings Sections
+   ============================================ */
+
+.agoda-booking-settings .settings-section {
+	margin-bottom: 30px;
+	padding: 20px;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+}
+
+.agoda-booking-settings .settings-section h2 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/* ============================================
+   Loading States
+   ============================================ */
+
+.agoda-booking-settings .loading-overlay {
+	position: relative;
+}
+
+.agoda-booking-settings .loading-overlay::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+}
+
+/* ============================================
+   Field Groups
+   ============================================ */
+
+.agoda-booking-settings .field-group {
+	margin-bottom: 20px;
+}
+
+.agoda-booking-settings .field-group label {
+	display: block;
+	margin-bottom: 8px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.agoda-booking-settings .field-group .field-description {
+	margin-top: 5px;
+	font-size: 13px;
+	color: #666;
+}
+
+/* ============================================
+   Dashboard Styles
+   ============================================ */
+
+.agoda-booking-dashboard {
+	margin-top: 20px;
+}
+
+.agoda-dashboard-widgets {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 20px;
+	margin-top: 20px;
+}
+
+.agoda-widget {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	border-radius: 4px;
+}
+
+.agoda-widget h2 {
+	margin-top: 0;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.agoda-widget-content {
+	margin-top: 15px;
+}
+
+/* API Status Widget */
+.agoda-status-indicator {
+	margin-bottom: 15px;
+}
+
+.agoda-status-badge {
+	display: inline-block;
+	padding: 6px 12px;
+	border-radius: 3px;
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.agoda-status-badge.status-connected {
+	background: #00a32a;
+	color: #fff;
+}
+
+.agoda-status-badge.status-disconnected {
+	background: #d63638;
+	color: #fff;
+}
+
+.agoda-status-details p {
+	margin: 10px 0;
+	line-height: 1.8;
+}
+
+.agoda-stat-value {
+	font-size: 18px;
+	font-weight: 600;
+	color: #2271b1;
+	margin-left: 10px;
+}
+
+/* Quick Stats Widget */
+.agoda-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 15px;
+}
+
+.agoda-stat-item {
+	text-align: center;
+	padding: 15px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.agoda-stat-label {
+	font-size: 12px;
+	color: #646970;
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.agoda-stat-item .agoda-stat-value {
+	display: block;
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	color: #1d2327;
+}
+
+/* Quick Actions Widget */
+.agoda-actions-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 10px;
+}
+
+.agoda-actions-grid .button {
+	width: 100%;
+	text-align: center;
+	justify-content: center;
+}
+
+#agoda-dashboard-actions-result {
+	margin-top: 15px;
+}
+
+#agoda-dashboard-actions-result .notice {
+	margin: 0;
+}
+
+/* ============================================
+   Hotel Search Preview Styles
+   ============================================ */
+
+.agoda-booking-hotel-search {
+	margin-top: 20px;
+}
+
+.agoda-hotel-search-container {
+	max-width: 1400px;
+}
+
+.agoda-search-form-wrapper {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-search-form-wrapper h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-admin-search-form .agoda-form-row {
+	margin-bottom: 15px;
+}
+
+.agoda-admin-search-form .agoda-form-row label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+.agoda-admin-search-form .agoda-form-row-group {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 15px;
+	margin-bottom: 15px;
+}
+
+.agoda-admin-search-form .agoda-form-section {
+	margin-top: 25px;
+	padding-top: 20px;
+	border-top: 1px solid #eee;
+}
+
+.agoda-admin-search-form .agoda-form-section h3 {
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+.agoda-children-age-input {
+	display: inline-block;
+	margin-right: 15px;
+	margin-bottom: 10px;
+}
+
+.agoda-children-age-input label {
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+.agoda-results-wrapper {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 4px;
+}
+
+.agoda-results-info {
+	margin-bottom: 15px;
+	padding: 10px;
+	background: #f0f0f1;
+	border-radius: 4px;
+}
+
+.agoda-error-container {
+	margin-top: 20px;
+}
+
+/* Modal Styles */
+.agoda-modal {
+	display: none;
+	position: fixed;
+	z-index: 100000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0,0,0,0.4);
+}
+
+.agoda-modal-content {
+	background-color: #fefefe;
+	margin: 5% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 800px;
+	border-radius: 4px;
+	position: relative;
+}
+
+.agoda-modal-close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+	position: absolute;
+	right: 15px;
+	top: 10px;
+}
+
+.agoda-modal-close:hover,
+.agoda-modal-close:focus {
+	color: #000;
+	text-decoration: none;
+}
+
+#agoda-hotel-modal-body {
+	margin-top: 20px;
+}
+
+#agoda-hotel-modal-body .form-table {
+	margin-top: 0;
+}
+
+#agoda-hotel-modal-body .form-table th {
+	width: 150px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-admin-search-form .agoda-form-row-group {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-modal-content {
+		width: 95%;
+		margin: 10% auto;
+	}
+}
+
+/* ============================================
+   Cache Management Styles
+   ============================================ */
+
+.agoda-booking-cache {
+	margin-top: 20px;
+}
+
+.agoda-cache-container {
+	max-width: 1400px;
+}
+
+.agoda-cache-overview,
+.agoda-cache-operations,
+.agoda-cache-pattern,
+.agoda-cache-preview {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-cache-overview h2,
+.agoda-cache-operations h2,
+.agoda-cache-pattern h2,
+.agoda-cache-preview h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-cache-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px;
+	margin-top: 15px;
+}
+
+.agoda-cache-stat-card {
+	text-align: center;
+	padding: 20px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.agoda-cache-stat-card .agoda-stat-label {
+	font-size: 12px;
+	color: #646970;
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.agoda-cache-stat-card .agoda-stat-value {
+	font-size: 24px;
+	font-weight: 700;
+	color: #1d2327;
+}
+
+.agoda-cache-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 15px;
+	flex-wrap: wrap;
+}
+
+#agoda-cache-operations-result {
+	margin-top: 15px;
+}
+
+#agoda-cache-operations-result .notice {
+	margin: 0;
+}
+
+.agoda-cache-pattern-form {
+	margin-top: 15px;
+}
+
+.agoda-cache-pattern-form .agoda-form-row {
+	margin-bottom: 15px;
+}
+
+.agoda-cache-pattern-form label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+.agoda-time-left {
+	color: #2271b1;
+	font-size: 12px;
+}
+
+.agoda-expired {
+	color: #d63638;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.agoda-cache-entry-content {
+	margin-top: 20px;
+}
+
+.agoda-cache-entry-content pre {
+	background: #f6f7f7;
+	padding: 15px;
+	border-radius: 4px;
+	overflow-x: auto;
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+.agoda-cache-entry-content h4 {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-cache-stats-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-cache-actions {
+		flex-direction: column;
+	}
+
+	.agoda-cache-actions .button {
+		width: 100%;
+	}
+}
+
+/* ============================================
+   API Logs Styles
+   ============================================ */
+
+.agoda-booking-logs {
+	margin-top: 20px;
+}
+
+.agoda-logs-container {
+	max-width: 1400px;
+}
+
+.agoda-logs-settings,
+.agoda-logs-filters,
+.agoda-logs-list {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-logs-settings h2,
+.agoda-logs-filters h2,
+.agoda-logs-list h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-logs-filter-controls {
+	margin-top: 15px;
+}
+
+.agoda-logs-filter-form .agoda-filter-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px;
+	align-items: end;
+}
+
+.agoda-filter-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.agoda-filter-group label {
+	margin-bottom: 5px;
+}
+
+.agoda-logs-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 15px;
+	flex-wrap: wrap;
+}
+
+.agoda-logs-loading {
+	text-align: center;
+	padding: 20px;
+}
+
+.agoda-log-badge {
+	display: inline-block;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.agoda-log-level-error {
+	background: #d63638;
+	color: #fff;
+}
+
+.agoda-log-level-warning {
+	background: #dba617;
+	color: #fff;
+}
+
+.agoda-log-level-info {
+	background: #2271b1;
+	color: #fff;
+}
+
+.agoda-log-level-debug {
+	background: #646970;
+	color: #fff;
+}
+
+.agoda-pagination {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #eee;
+}
+
+.agoda-page-info {
+	margin: 0 10px;
+}
+
+.agoda-log-modal-content {
+	max-width: 900px;
+}
+
+.agoda-log-modal-content .form-table th {
+	width: 150px;
+	vertical-align: top;
+}
+
+.agoda-log-modal-content pre {
+	background: #f6f7f7;
+	padding: 10px;
+	border-radius: 4px;
+	overflow-x: auto;
+	max-height: 400px;
+	overflow-y: auto;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-logs-filter-form .agoda-filter-row {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-logs-actions {
+		flex-direction: column;
+	}
+
+	.agoda-logs-actions .button {
+		width: 100%;
+	}
+}
+
+/* ============================================
+   Statistics & Analytics Styles
+   ============================================ */
+
+.agoda-booking-statistics {
+	margin-top: 20px;
+}
+
+.agoda-statistics-container {
+	max-width: 1400px;
+}
+
+.agoda-statistics-period {
+	margin-bottom: 20px;
+	padding: 15px;
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	border-radius: 4px;
+}
+
+.agoda-statistics-period label {
+	margin-right: 10px;
+}
+
+.agoda-statistics-section {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-statistics-section h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-statistics-section h3 {
+	margin-top: 20px;
+	margin-bottom: 15px;
+}
+
+.agoda-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 15px;
+	margin-top: 15px;
+}
+
+.agoda-stat-card {
+	text-align: center;
+	padding: 20px;
+	background: #f6f7f7;
+	border-radius: 4px;
+}
+
+.agoda-stat-card .agoda-stat-label {
+	font-size: 12px;
+	color: #646970;
+	margin-bottom: 8px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.agoda-stat-card .agoda-stat-value {
+	font-size: 28px;
+	font-weight: 700;
+	color: #1d2327;
+}
+
+.agoda-chart-container {
+	margin-top: 25px;
+	padding: 15px;
+	background: #f9f9f9;
+	border-radius: 4px;
+}
+
+.agoda-chart-container canvas {
+	max-width: 100%;
+	height: auto;
+}
+
+.agoda-popular-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	gap: 20px;
+	margin-top: 15px;
+}
+
+.agoda-popular-cities h2,
+.agoda-popular-hotels h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-statistics-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+	flex-wrap: wrap;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-stats-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-popular-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-statistics-actions {
+		flex-direction: column;
+	}
+
+	.agoda-statistics-actions .button {
+		width: 100%;
+	}
+}
+
+/* ============================================
+   Bulk Operations Styles
+   ============================================ */
+
+.agoda-booking-bulk-operations {
+	margin-top: 20px;
+}
+
+.agoda-bulk-operations-container {
+	max-width: 1400px;
+}
+
+.agoda-bulk-section {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-bulk-section h2 {
+	margin-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+.agoda-bulk-form .agoda-form-row {
+	margin-bottom: 15px;
+}
+
+.agoda-bulk-form .agoda-form-row label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+.agoda-bulk-form .agoda-form-row-group {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 15px;
+	margin-bottom: 15px;
+}
+
+.agoda-bulk-results {
+	margin-top: 25px;
+	padding-top: 20px;
+	border-top: 1px solid #eee;
+}
+
+.agoda-bulk-results h3 {
+	margin-top: 0;
+}
+
+.agoda-bulk-actions {
+	margin-top: 15px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-bulk-form .agoda-form-row-group {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ============================================
+   City Management Styles
+   ============================================ */
+
+.agoda-booking-city-management {
+	margin-top: 20px;
+}
+
+.agoda-city-management-container {
+	max-width: 1400px;
+}
+
+.agoda-city-filters {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+}
+
+.agoda-city-search-form .agoda-filter-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px;
+	align-items: end;
+}
+
+.agoda-filter-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.agoda-filter-group label {
+	margin-bottom: 5px;
+}
+
+.agoda-city-actions {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 20px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.agoda-cities-list {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 20px;
+	border-radius: 4px;
+}
+
+.agoda-cities-loading {
+	text-align: center;
+	padding: 20px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+	.agoda-city-search-form .agoda-filter-row {
+		grid-template-columns: 1fr;
+	}
+
+	.agoda-city-actions {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.agoda-city-actions .button {
+		width: 100%;
+	}
+}
+
+/* City Search Autocomplete Styles (for Hotel Search page) */
+.agoda-city-search-wrapper {
+	position: relative;
+}
+
+.agoda-city-autocomplete {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	z-index: 1000;
+	max-height: 300px;
+	overflow-y: auto;
+	margin-top: -1px;
+}
+
+.agoda-city-result-item {
+	padding: 10px 15px;
+	cursor: pointer;
+	border-bottom: 1px solid #f0f0f0;
+	transition: background-color 0.2s;
+}
+
+.agoda-city-result-item:hover {
+	background-color: #f5f5f5;
+}
+
+.agoda-city-result-item:last-child {
+	border-bottom: none;
+}
+
+.agoda-city-no-results,
+.agoda-city-error {
+	padding: 10px 15px;
+	color: #666;
+	font-style: italic;
+}
+
+.agoda-city-error {
+	color: #d63638;
+}
+
+.agoda-selected-city {
+	margin-top: 10px;
+	padding: 10px;
+	background: #f0f0f0;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+}
+
+.agoda-selected-city strong {
+	display: block;
+	margin-bottom: 5px;
+}

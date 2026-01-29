@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gawao.com - Trend Today</title>
+    
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1a1a1a',
+                        accent: '#FF4500', // สีส้มแดง
+                        'news-tech': '#3B82F6',
+                        'news-ent': '#EC4899',
+                        'news-fin': '#10B981',
+                        'news-sport': '#F59E0B',
+                        'news-pol': '#DC2626',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .article-card:hover .article-img { transform: scale(1.05); }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                
+                <!-- LOGO DESIGN -->
+                <div class="flex items-center">
+                    <a href="Gawao_Home.html" class="flex-shrink-0 flex items-center gap-3 group">
+                        <!-- Icon G -->
+                        <div class="w-10 h-10 bg-black group-hover:bg-accent transition duration-300 text-white flex items-center justify-center rounded-lg font-bold text-2xl shadow-sm">
+                            G
+                        </div>
+                        <!-- Text Block -->
+                        <div class="flex flex-col justify-center -space-y-1">
+                            <span class="font-bold text-2xl text-gray-900 tracking-tight leading-none group-hover:text-gray-700 transition">Gawao<span class="text-gray-400 text-sm font-normal">.com</span></span>
+                            <span class="text-[10px] font-bold text-accent uppercase tracking-[0.2em] leading-tight">Trend Today</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="Gawao_Home.html" class="text-gray-900 font-medium border-b-2 border-accent pb-1">หน้าแรก</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition font-medium">การเมือง</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition font-medium">เศรษฐกิจ</a>
+                    <a href="Gawao_Category.html" class="text-gray-500 hover:text-gray-900 transition font-medium">เทคโนโลยี</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition font-medium">บันเทิง</a>
+                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-accent hover:text-white transition">
+                        <i class="fas fa-search text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-900 focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="Gawao_Home.html" class="block px-3 py-2 rounded-md text-base font-medium text-black bg-gray-50">หน้าแรก</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">การเมือง</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">เศรษฐกิจ</a>
+                <a href="Gawao_Category.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">เทคโนโลยี</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Trending Tags -->
+    <div class="bg-white shadow-sm py-3 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1 text-accent font-bold whitespace-nowrap text-sm bg-orange-50 px-2 py-1 rounded">
+                    <i class="fas fa-fire-alt"></i> มาแรง
+                </span>
+                <div class="flex overflow-x-auto hide-scroll gap-2 pb-1" id="trending-tags">
+                    <!-- Tags injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Hero Section -->
+        <section class="mb-12">
+            <a href="Gawao_Article.html" class="block relative rounded-2xl overflow-hidden shadow-lg group cursor-pointer h-96 md:h-[500px]">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop" 
+                     alt="Breaking News" 
+                     onerror="this.src='https://via.placeholder.com/800x400?text=No+Image'"
+                     class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full md:w-3/4">
+                    <span class="bg-accent text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Breaking News</span>
+                    <h1 class="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3 group-hover:text-orange-200 transition">
+                        สรุปสถานการณ์ล่าสุด: ความเปลี่ยนแปลงครั้งใหญ่ของวงการ AI โลก
+                    </h1>
+                    <div class="flex items-center text-gray-400 text-xs md:text-sm gap-4">
+                        <span><i class="far fa-clock mr-1"></i> 2 ชั่วโมงที่แล้ว</span>
+                        <span><i class="far fa-user mr-1"></i> กองบรรณาธิการ</span>
+                    </div>
+                </div>
+            </a>
+        </section>
+
+        <!-- Layout Grid -->
+        <div class="flex flex-col lg:flex-row gap-10">
+            <!-- News Feed -->
+            <div class="lg:w-2/3">
+                <div class="flex justify-between items-end mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <span class="w-2 h-8 bg-accent rounded-full"></span>
+                        ข่าวล่าสุด
+                    </h2>
+                    <a href="#" class="text-sm text-gray-500 hover:text-accent">ดูทั้งหมด <i class="fas fa-arrow-right ml-1"></i></a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="news-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+                
+                 <!-- Load More Button -->
+                 <div class="mt-10 text-center">
+                    <button class="bg-white border border-gray-300 text-gray-700 font-medium py-3 px-8 rounded-full hover:bg-gray-50 hover:text-black transition shadow-sm w-full md:w-auto text-sm">
+                        โหลดข่าวเพิ่มเติม
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:w-1/3 space-y-8">
+                <!-- Popular Widget -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-gray-900">ยอดนิยมบน Gawao 🔥</h3>
+                    <div class="space-y-4" id="popular-list"></div>
+                </div>
+                
+                <!-- Ad / Newsletter -->
+                <div class="bg-gradient-to-br from-gray-900 to-black text-white p-6 rounded-2xl relative overflow-hidden text-center">
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">G</div>
+                        <h3 class="font-bold text-xl mb-2">ไม่พลาดทุกเทรนด์</h3>
+                        <p class="text-gray-400 text-sm mb-4">รับข่าวสารรายวันจาก Gawao ส่งตรงถึงอีเมล</p>
+                        <input type="email" placeholder="ใส่อีเมลของคุณ" class="w-full px-4 py-2 rounded-lg text-black mb-2 text-center text-sm focus:outline-none focus:ring-2 focus:ring-accent">
+                        <button class="w-full bg-accent hover:bg-orange-600 text-white font-bold py-2 rounded-lg text-sm transition">ติดตามเลย</button>
+                    </div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent opacity-20 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div class="flex items-center gap-3 mb-4 md:mb-0">
+                    <div class="w-8 h-8 bg-black text-white flex items-center justify-center rounded font-bold">G</div>
+                    <span class="font-bold text-xl text-gray-900">Gawao<span class="text-accent">.com</span></span>
+                </div>
+                <div class="flex space-x-6 text-sm font-medium text-gray-500">
+                    <a href="#" class="hover:text-accent">เกี่ยวกับเรา</a>
+                    <a href="#" class="hover:text-accent">ติดต่อโฆษณา</a>
+                    <a href="#" class="hover:text-accent">นโยบายความเป็นส่วนตัว</a>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-400">
+                &copy; 2024 Gawao.com - Trend Today. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data Models - Expanded with Images
+        const trendingTags = ["#ดิจิทัลวอลเล็ต", "#AIครองโลก", "#ทองคำขึ้น", "#เลือกตั้ง66", "#SoftPower", "#Crypto"];
+        
+        const newsData = [
+            { 
+                cat: "Technology", 
+                color: "bg-news-tech", 
+                title: "เปิดตัวชิปประมวลผลรุ่นใหม่ เร็วขึ้น 50% ประหยัดพลังงานกว่าเดิม", 
+                img: "https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?q=80&w=2070&auto=format&fit=crop", // Microchip image
+                date: "30 นาทีที่แล้ว"
+            },
+            { 
+                cat: "Finance", 
+                color: "bg-news-fin", 
+                title: "ราคาทองคำพุ่งสูงสุดในรอบ 5 ปี นักวิเคราะห์แนะจับตาสถานการณ์โลก", 
+                img: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop", // Gold bars
+                date: "1 ชั่วโมงที่แล้ว"
+            },
+            { 
+                cat: "Politics", 
+                color: "bg-news-pol", 
+                title: "สภาเดือด! อภิปรายงบประมาณวันแรก ฝ่ายค้านจัดหนัก", 
+                img: "https://images.unsplash.com/photo-1541872703-74c5963631df?q=80&w=2070&auto=format&fit=crop", // Parliament/Meeting
+                date: "1 ชั่วโมงที่แล้ว"
+            },
+            { 
+                cat: "Entertainment", 
+                color: "bg-news-ent", 
+                title: "ศิลปิน K-POP ชื่อดังประกาศเวิลด์ทัวร์ แฟนคลับไทยเตรียมกดบัตร", 
+                img: "https://images.unsplash.com/photo-1459749411177-0473ef71607b?q=80&w=2070&auto=format&fit=crop", // Concert
+                date: "2 ชั่วโมงที่แล้ว"
+            },
+            { 
+                cat: "Sports", 
+                color: "bg-news-sport", 
+                title: "พรีเมียร์ลีกเดือด! ศึกชิงจ่าฝูงโค้งสุดท้าย ใครจะคว้าถ้วยแชมป์", 
+                img: "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?q=80&w=2223&auto=format&fit=crop", // Football stadium
+                date: "3 ชั่วโมงที่แล้ว"
+            },
+            { 
+                cat: "Technology", 
+                color: "bg-news-tech", 
+                title: "ระวังภัยไซเบอร์รูปแบบใหม่ แฝงมากับแอปพลิเคชันยอดฮิต", 
+                img: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2069&auto=format&fit=crop", // Cyber security
+                date: "5 ชั่วโมงที่แล้ว"
+            }
+        ];
+
+        // Render Tags
+        const tagContainer = document.getElementById('trending-tags');
+        trendingTags.forEach(tag => {
+            tagContainer.innerHTML += `<a href="#" class="inline-block bg-white border border-gray-200 hover:border-accent hover:text-accent text-gray-600 text-xs px-3 py-1.5 rounded-full whitespace-nowrap transition">${tag}</a>`;
+        });
+
+        // Render News Grid
+        const gridContainer = document.getElementById('news-grid');
+        newsData.forEach(news => {
+            gridContainer.innerHTML += `
+                <article class="article-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition duration-300 flex flex-col h-full group">
+                    <div class="relative overflow-hidden h-48 cursor-pointer" onclick="window.location.href='Gawao_Article.html'">
+                        <img src="${news.img}" 
+                             alt="${news.title}"
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x400/e2e8f0/475569?text=No+Image';"
+                             class="article-img w-full h-full object-cover transition duration-500">
+                        <span class="absolute top-3 left-3 ${news.color} text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm z-10">${news.cat}</span>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <a href="Gawao_Article.html" class="text-lg font-bold text-gray-900 mb-2 leading-snug hover:text-accent transition line-clamp-2">${news.title}</a>
+                        <div class="mt-auto pt-4 flex items-center text-xs text-gray-400 border-t border-gray-50">
+                            <span><i class="far fa-clock mr-1"></i> ${news.date}</span>
+                            <span class="mx-2">•</span>
+                            <span>2.4k อ่าน</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        });
+
+        // Render Popular
+        const popContainer = document.getElementById('popular-list');
+        [1,2,3,4].forEach(i => {
+            const titles = [
+                "สรุปดราม่าดาราวัยรุ่น แฮชแท็กพุ่งติดเทรนด์ทวิตเตอร์",
+                "วิธีลงทะเบียนรับเงินดิจิทัล 10,000 บาท ฉบับเข้าใจง่าย",
+                "รีวิวร้านลับย่านบรรทัดทอง อร่อยจนต้องต่อคิว",
+                "อัปเดต iOS เวอร์ชั่นใหม่ มีฟีเจอร์อะไรน่าสนใจบ้าง"
+            ];
+            popContainer.innerHTML += `
+                <a href="#" class="flex gap-4 items-start group">
+                    <span class="text-3xl font-bold text-gray-100 group-hover:text-accent transition font-serif italic leading-none">0${i}</span>
+                    <h4 class="text-sm font-medium text-gray-700 group-hover:text-accent transition line-clamp-2 pt-1">${titles[i-1]}</h4>
+                </a>
+            `;
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
