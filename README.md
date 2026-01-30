@@ -1,30 +1,31 @@
 # Gawao - Trend Today WordPress Theme
 
-เว็บไซต์ข่าว Trend Today ที่พัฒนาด้วย WordPress พร้อม Theme แบบ Custom ที่ทันสมัยและรองรับการแสดงผลหลายภาษา
+เว็บไซต์ข่าว Trend Today ที่พัฒนาด้วย WordPress พร้อม Theme แบบ Custom ที่ทันสมัยและรองรับการแสดงผลหลายภาษา (ไทย/อังกฤษ)
 
-**พัฒนาโดย:** [กาเหว่าดอทคอม เว็บข่าวทันทุกเทรนด์](https://gawao.com) · [https://gawao.com](https://gawao.com)
+**ทีมผู้พัฒนา:** [ต้นกล้าไอที (Tonkla IT)](https://tonkla.co)  
+**เว็บตัวอย่าง:** [กาเหว่า (Gawao)](https://gawao.com) — เว็บข่าวทันทุกเทรนด์
 
 ## 📋 ภาพรวมโปรเจกต์
 
 **Gawao** เป็นโปรเจกต์ WordPress สำหรับเว็บไซต์ข่าว Trend Today ที่ออกแบบมาเพื่อ:
 - แสดงข่าวสารและบทความที่ทันสมัย
-- รองรับการแสดงผลหลายภาษา (Multilingual)
-- มีระบบ Custom Post Types สำหรับ Gallery และ Video News
+- รองรับการแสดงผลหลายภาษา (Theme translation-ready: ไทย/อังกฤษ ผ่าน `languages/en_US.mo`)
+- มีระบบ Custom Post Types: Video News, Gallery, Featured Story
+- Theme Settings แบบครบ (Logo, Pagination, Footer, Social Sharing, Search, TOC, Widgets)
 - UI/UX ที่ทันสมัยและ Responsive
 
 ## 🚀 คุณสมบัติหลัก
 
 ### Theme Features
+- ✅ **Theme Settings** (เมนู Trend Today) — Logo, ประเภท Pagination, จำนวนคอลัมน์ข่าวล่าสุด, หน้า Login แบบธีม, Footer (Newsletter/Tags, คอลัมน์ Footer1–4, Copyright), Social Sharing, Search, Table of Contents, Widgets
 - ✅ Responsive Design (รองรับ Mobile, Tablet, Desktop)
-- ✅ Custom Post Types: Gallery, Video News
-- ✅ Custom Widgets: Popular Posts, Recent Posts, Trending Tags, Newsletter
-- ✅ AJAX Functionality: Load More, Category Filtering
-- ✅ SEO Optimized
-- ✅ Multilingual Support (Polylang)
-- ✅ Custom Fields สำหรับบทความ
-- ✅ Hero Section สำหรับข่าวด่วน
-- ✅ Category Filtering
-- ✅ Trending Tags/Hashtags
+- ✅ Custom Post Types: **Video News**, **Gallery**, **Featured Story**
+- ✅ Custom Widgets: Popular Posts, Recent Posts, Trending Tags, Related Posts, Newsletter, Social Follow, Search, Archive, Categories, Custom HTML/Ad
+- ✅ AJAX: Load More, Category Filtering, Live Search, Search Suggestions
+- ✅ SEO Optimized · Custom Fields (Breaking News, Excerpt, Reading Time, Author, SEO Meta)
+- ✅ **Translation ready** (ไทย/อังกฤษ) — ตั้ง Site Language เป็น English ได้
+- ✅ Hero Section · Category Filtering · Trending Tags/Hashtags
+- ✅ Login Customizer (ใช้สไตล์ธีมที่ wp-login) · Menu locations: Primary, Footer, Footer Copyright
 
 ### Technical Features
 - WordPress 6.0+ (ทดสอบถึง 6.9)
@@ -95,8 +96,8 @@ gawao/
 
 ## 📦 Plugins ที่แนะนำ
 
-### Required Plugins
-- **Polylang** - สำหรับระบบหลายภาษา
+### Optional
+- **Polylang** — ถ้าต้องการหลายภาษามากกว่า 2 ภาษา (Theme มีภาษาไทย/อังกฤษในตัวแล้ว)
 
 ### Recommended Plugins
 - **Yoast SEO** หรือ **Rank Math** - สำหรับ SEO
@@ -107,8 +108,8 @@ gawao/
 ## 🎨 Theme Structure (trendtoday)
 
 ### Template Files
-- `front-page.php` — หน้าแรก (Landing Page)
-- `home.php` — หน้าข่าวล่าสุด
+- `home.php` — หน้าข่าวล่าสุด (หน้าแรก)
+- `index.php` — Fallback
 - `single.php` — หน้าบทความเดี่ยว
 - `page.php` — หน้าเพจ
 - `archive.php` — หน้าหมวดหมู่
@@ -128,10 +129,10 @@ gawao/
 - `search-modal.php` · `social-share.php` · `social-share-floating.php` · `table-of-contents.php`
 
 ### Includes (inc/)
-- `theme-setup.php` · `enqueue-scripts.php` · `custom-post-types.php` · `custom-fields.php`
+- `theme-setup.php` · `enqueue-scripts.php` · `custom-post-types.php` (Theme Settings + CPT) · `custom-fields.php`
 - `ajax-handlers.php` · `theme-helpers.php` · `navigation-functions.php` · `dynamic-content.php`
-- `login-customizer.php` · `security.php` · `image-optimization.php`
-- `menu-walker.php` · `menu-icons.php` · `menu-active-states.php` · `search-functions.php`
+- `login-customizer.php` · `security.php` · `search-functions.php`
+- `menu-walker.php` · `menu-icons.php` · `menu-active-states.php`
 - `category-fields.php` · `cpt-helpers.php` · `register-widgets.php` · `widget-helpers.php` · `widget-styling.php`
 
 ### Assets
@@ -139,27 +140,35 @@ gawao/
 - **JS:** `assets/js/` — main.js, custom.js, logo-uploader.js
 
 ### Widgets
-- `class-popular-posts-widget.php` · `class-recent-posts-widget.php`
-- `class-trending-tags-widget.php` · `class-newsletter-widget.php`
+- `class-popular-posts-widget.php` · `class-recent-posts-widget.php` · `class-related-posts-widget.php`
+- `class-trending-tags-widget.php` · `class-newsletter-widget.php` · `class-social-follow-widget.php`
+- `class-search-widget.php` · `class-archive-widget.php` · `class-categories-widget.php` · `class-custom-html-widget.php` · `class-most-commented-widget.php`
 
 ## 🎯 Custom Post Types
-
-### Gallery
-- Post Type: `gallery`
-- Template: `single-gallery.php`, `archive-gallery.php`
-- ใช้สำหรับแสดงรูปภาพ Gallery
 
 ### Video News
 - Post Type: `video_news`
 - Template: `single-video_news.php`, `archive-video_news.php`
 - ใช้สำหรับแสดงข่าววิดีโอ
 
+### Gallery
+- Post Type: `gallery`
+- Template: `single-gallery.php`, `archive-gallery.php`
+- ใช้สำหรับแสดงรูปภาพ Gallery
+
+### Featured Story
+- Post Type: `featured_story`
+- ใช้สำหรับข่าวเด่น/ฟีเจอร์
+
 ## 🎨 Customization
 
-### Theme Customizer
-Theme รองรับการปรับแต่งผ่าน WordPress Customizer:
-- Logo · Color Scheme · Social Media Links
-- **Login Customizer** — ปรับแต่งหน้าล็อกอิน (สี, ลogo, CSS)
+### Theme Settings (Trend Today เมนูในแอดมิน)
+- **General** — Logo, Pagination (หมายเลขหน้า / โหลดข่าวเพิ่มเติม), จำนวนคอลัมน์ข่าวล่าสุด, หน้า Login ใช้สไตล์ธีม
+- **Footer** — เปิด/ปิด Newsletter, Tags, ตั้งค่า Footer1–4 (Sidebar/Menu/Social), Copyright text และเมนู
+- **Social Sharing** — เปิด/ปิดปุ่มแชร์, ตำแหน่ง, สไตล์ปุ่ม, แพลตฟอร์ม
+- **Search** — Live Search, Suggestions, Post types/fields
+- **Table of Contents** — สไตล์, ตำแหน่ง, Mobile
+- **Widgets** — เลือก Widget ที่แสดงใน Appearance → Widgets
 
 ### Custom Fields
 Theme ใช้ Custom Fields สำหรับ:
@@ -219,25 +228,27 @@ Theme ใช้ Custom Fields สำหรับ:
 
 GNU General Public License v2 or later
 
-## 👥 Contributors
+## 👥 Credits (ตรงกับ Theme Settings → Dashboard)
 
-- [Gawao](https://gawao.com) — ผู้พัฒนา (Developer)
+- **ทีมผู้พัฒนา:** [ต้นกล้าไอที (Tonkla IT)](https://tonkla.co)
+- **เว็บตัวอย่าง:** [กาเหว่า (Gawao)](https://gawao.com)
+
+ธีมนี้ใช้งานได้ฟรี ตามเงื่อนไขสัญญาอนุญาตของ WordPress (GPL)
 
 ## 📞 Support
 
-สำหรับคำถามหรือปัญหาต่างๆ กรุณาเปิด Issue ใน [GitHub Repository](https://github.com/BukHUM/gawao) หรือติดต่อผู้พัฒนาผ่าน [Gawao](https://gawao.com)
+สำหรับคำถามหรือปัญหาต่างๆ กรุณาเปิด Issue ใน [GitHub Repository](https://github.com/BukHUM/gawao) หรือติดต่อ [ต้นกล้าไอที](https://tonkla.co)
 
 ## 🔗 Links
 
-- **ผู้พัฒนา / Developer**: [https://gawao.com](https://gawao.com)
-- **Repository**: [https://github.com/BukHUM/gawao](https://github.com/BukHUM/gawao)
-- **Theme Name**: Trend Today
-- **Version**: 1.0.0
+- **ทีมผู้พัฒนา:** [https://tonkla.co](https://tonkla.co)
+- **เว็บตัวอย่าง:** [https://gawao.com](https://gawao.com)
+- **Repository:** [https://github.com/BukHUM/gawao](https://github.com/BukHUM/gawao)
+- **Theme:** Trend Today · **Version:** 1.0.0
 
 ---
 
 **สร้างเมื่อ**: 2025 · **อัปเดต**: 2026  
-**Theme Version**: 1.0.0  
-**สถานะ**: Production Ready  
+**Theme Version**: 1.0.0 · **สถานะ**: Production Ready  
 
-© [Gawao](https://gawao.com)
+© [ต้นกล้าไอที](https://tonkla.co) · [กาเหว่า](https://gawao.com)
