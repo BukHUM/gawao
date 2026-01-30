@@ -236,6 +236,7 @@ $map = array(
     '• เนื้อหาอื่น: ใส่แท็ก HTML ที่ต้องการได้ (รองรับแท็กพื้นฐาน)' => '• Other content: Add any HTML tags (basic tags supported).',
     '• แบนเนอร์รูป: ใช้ HTML เช่น' => '• Image banner: Use HTML such as',
     '• โฆษณาจาก Google AdSense: วางสคริปต์ที่ได้จาก AdSense ทั้งก้อนลงในช่องด้านบน' => '• Google AdSense: Paste the full AdSense script in the box above.',
+    'หน้านี้รวมลิงก์เนื้อหาหลักของเว็บไซต์ คลิกหัวข้อแต่ละส่วนเพื่อย่อ/ขยาย' => 'This page lists the main content of the site. Click each section heading to expand or collapse.',
 );
 
 function po_escape( $s ) {

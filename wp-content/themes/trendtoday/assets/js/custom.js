@@ -78,6 +78,35 @@
             });
         })();
 
+        // Rank Math Sitemap page: collapsible sections (h2/h3 + next ul)
+        (function() {
+            var container = document.querySelector('.trendtoday-sitemap-page .trendtoday-sitemap-lists');
+            if (!container) return;
+            var headers = container.querySelectorAll('h2, h3');
+            headers.forEach(function(h) {
+                var next = h.nextElementSibling;
+                if (!next) return;
+                var toggle = document.createElement('span');
+                toggle.className = 'sitemap-section-toggle';
+                toggle.setAttribute('aria-hidden', 'true');
+                toggle.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                h.appendChild(toggle);
+                h.setAttribute('role', 'button');
+                h.setAttribute('tabindex', '0');
+                h.setAttribute('aria-expanded', 'true');
+                h.addEventListener('click', function() {
+                    h.classList.toggle('is-collapsed');
+                    h.setAttribute('aria-expanded', h.classList.contains('is-collapsed') ? 'false' : 'true');
+                });
+                h.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        h.click();
+                    }
+                });
+            });
+        })();
+
         // Category Filtering
         $('.category-filter').on('click', function() {
             const category = $(this).data('category');

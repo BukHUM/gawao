@@ -32,6 +32,14 @@ Trend Today is a clean, responsive WordPress theme for news and blog content wit
 2. Activate the theme via **Appearance → Themes**
 3. Configure options under **Trend Today → Theme Settings** (General, Footer, Social Sharing, Search, Table of Contents, Widgets)
 
+## Rank Math HTML Sitemap
+
+The theme includes a **RankMath** page template for the HTML sitemap (collapsible sections, multi-column links, clearer spacing). To use:
+
+1. Create or edit the page used as sitemap in **Rank Math SEO → Sitemap Settings → HTML Sitemap** (Display format: **Page**).
+2. In the page editor, set **Page Attributes → Template** to **RankMath**.
+3. For multiple collapsible sections (Posts, Pages, Categories), in **Rank Math SEO → Sitemap Settings** enable **Include in HTML Sitemap** for each post type and taxonomy you want.
+
 ## Translation
 
 The theme uses the text domain `trendtoday`. English strings are in `languages/trendtoday-en_US.po` and compiled to `languages/en_US.mo`. Set **Settings → General → Site Language** to English to use them. To update or add languages, see **languages/README.md**.

@@ -1623,3 +1623,112 @@ body:has(.trendtoday-toc-mobile-toggle) #back-to-top {
         display: none;
     }
 }
+
+/* ============================================
+   Rank Math Sitemap Page (Template: RankMath)
+   ============================================ */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists {
+    --sitemap-gap: 1.5rem;
+}
+/* Section blocks: h2/h3 + following list */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists > h2,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists > h3,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists .rank-math-html-sitemap h2,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists .rank-math-html-sitemap h3 {
+    margin: 1.75rem 0 0.75rem 0;
+    padding: 0.75rem 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    border-left: 4px solid var(--accent, #ea580c);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists > h2:first-child,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists > h3:first-child,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists .rank-math-html-sitemap h2:first-child,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists .rank-math-html-sitemap h3:first-child {
+    margin-top: 0;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists .sitemap-section-toggle {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+/* Lists: multi-column, more spacing for readability */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul {
+    list-style: none;
+    margin: 0 0 1rem 0;
+    padding: 0.75rem 0 1rem 1.25rem;
+    column-count: 1;
+    column-gap: 2.5rem;
+    line-height: 1.65;
+}
+@media (min-width: 640px) {
+    .trendtoday-sitemap-page .trendtoday-sitemap-lists ul {
+        column-count: 2;
+    }
+}
+@media (min-width: 1024px) {
+    .trendtoday-sitemap-page .trendtoday-sitemap-lists ul {
+        column-count: 3;
+    }
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li {
+    margin: 0.5rem 0;
+    padding: 0.4rem 0.5rem 0.4rem 0;
+    break-inside: avoid;
+    border-bottom: 1px solid #f3f4f6;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li:last-child {
+    border-bottom: none;
+}
+/* Link (title) stands out */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li a {
+    color: #1f2937;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li a:hover {
+    color: var(--accent, #ea580c);
+    text-decoration: underline;
+}
+/* Mute secondary text after link (site name, date) - Rank Math may wrap in span */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li span,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li .sitemap-date {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li a + span,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists ul li a + .sitemap-date {
+    margin-left: 0.25rem;
+}
+/* Collapsed section: hide list (next sibling of collapsed header) */
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h2.is-collapsed + ul,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h3.is-collapsed + ul,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h2.is-collapsed + div,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h3.is-collapsed + div {
+    display: none;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h2 .sitemap-section-toggle,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h3 .sitemap-section-toggle {
+    transition: transform 0.2s ease;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h2.is-collapsed .sitemap-section-toggle,
+.trendtoday-sitemap-page .trendtoday-sitemap-lists h3.is-collapsed .sitemap-section-toggle {
+    transform: rotate(-90deg);
+}
+/* Rank Math wrapper if present */
+.trendtoday-sitemap-page .rank-math-html-sitemap {
+    margin: 0;
+    padding: 0;
+}
+.trendtoday-sitemap-page .trendtoday-sitemap-back a {
+    font-size: 0.9375rem;
+}
