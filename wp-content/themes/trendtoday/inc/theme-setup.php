@@ -130,8 +130,9 @@ function trendtoday_theme_setup() {
      * Register navigation menu locations.
      */
     register_nav_menus( array(
-        'primary' => esc_html__( 'Primary Menu', 'trendtoday' ),
-        'footer'  => esc_html__( 'Footer Menu', 'trendtoday' ),
+        'primary'          => esc_html__( 'Primary Menu', 'trendtoday' ),
+        'footer'           => esc_html__( 'Footer Menu', 'trendtoday' ),
+        'footer_copyright' => esc_html__( 'Footer Copyright Menu', 'trendtoday' ),
     ) );
 
     /*
@@ -224,44 +225,44 @@ function trendtoday_widgets_init() {
         'after_title'   => '</h3>',
     ) );
 
-    // Footer Widget Area 1
+    // Footer1 (first footer column)
     register_sidebar( array(
-        'name'          => esc_html__( 'Footer Widget 1', 'trendtoday' ),
+        'name'          => esc_html__( 'Footer1', 'trendtoday' ),
         'id'            => 'footer-1',
-        'description'   => esc_html__( 'Add widgets here to appear in the first footer column.', 'trendtoday' ),
+        'description'   => esc_html__( 'Footer column 1. Add widgets (Custom HTML, menu, social, etc.) or choose display type in Theme Settings > Footer.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
-    // Footer Widget Area 2
+    // Footer2 (second footer column)
     register_sidebar( array(
-        'name'          => esc_html__( 'Footer Widget 2', 'trendtoday' ),
+        'name'          => esc_html__( 'Footer2', 'trendtoday' ),
         'id'            => 'footer-2',
-        'description'   => esc_html__( 'Add widgets here to appear in the second footer column.', 'trendtoday' ),
+        'description'   => esc_html__( 'Footer column 2. Add widgets or choose display type in Theme Settings > Footer.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
-    // Footer Widget Area 3
+    // Footer3 (third footer column)
     register_sidebar( array(
-        'name'          => esc_html__( 'Footer Widget 3', 'trendtoday' ),
+        'name'          => esc_html__( 'Footer3', 'trendtoday' ),
         'id'            => 'footer-3',
-        'description'   => esc_html__( 'Add widgets here to appear in the third footer column.', 'trendtoday' ),
+        'description'   => esc_html__( 'Footer column 3. Add widgets or choose display type in Theme Settings > Footer.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',
         'after_title'   => '</h4>',
     ) );
 
-    // Footer Widget Area 4
+    // Footer4 (fourth footer column)
     register_sidebar( array(
-        'name'          => esc_html__( 'Footer Widget 4', 'trendtoday' ),
+        'name'          => esc_html__( 'Footer4', 'trendtoday' ),
         'id'            => 'footer-4',
-        'description'   => esc_html__( 'Add widgets here to appear in the fourth footer column.', 'trendtoday' ),
+        'description'   => esc_html__( 'Footer column 4. Add widgets or choose display type in Theme Settings > Footer.', 'trendtoday' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
         'after_widget'  => '</section>',
         'before_title'  => '<h4 class="widget-title font-bold text-gray-900 mb-4 flex items-center gap-2">',

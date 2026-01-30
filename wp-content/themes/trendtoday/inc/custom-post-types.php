@@ -265,6 +265,35 @@ function trendtoday_admin_page() {
                     </div>
                 </div>
             </div>
+
+            <!-- About Theme / Developer -->
+            <div class="trendtoday-dashboard-widgets trendtoday-developer-credit">
+                <div class="trendtoday-widget trendtoday-widget-developer">
+                    <div class="trendtoday-widget-header">
+                        <h3>
+                            <span class="dashicons dashicons-groups"></span>
+                            <?php _e( 'เกี่ยวกับธีม', 'trendtoday' ); ?>
+                        </h3>
+                    </div>
+                    <div class="trendtoday-widget-content">
+                        <p class="trendtoday-credit-intro"><?php _e( 'ธีม Trend Today พัฒนาและดูแลโดย', 'trendtoday' ); ?></p>
+                        <ul class="trendtoday-credit-list">
+                            <li>
+                                <span class="trendtoday-credit-label"><?php _e( 'ทีมผู้พัฒนา:', 'trendtoday' ); ?></span>
+                                <a href="https://tonkla.co" target="_blank" rel="noopener noreferrer">ต้นกล้าไอที</a>
+                            </li>
+                            <li>
+                                <span class="trendtoday-credit-label"><?php _e( 'เว็บตัวอย่าง:', 'trendtoday' ); ?></span>
+                                <a href="https://gawao.com" target="_blank" rel="noopener noreferrer">กาเหว่า</a>
+                            </li>
+                        </ul>
+                        <p class="trendtoday-credit-license">
+                            <span class="dashicons dashicons-yes-alt"></span>
+                            <?php _e( 'ธีมนี้ใช้งานได้ฟรี ตามเงื่อนไขสัญญาอนุญาตของ WordPress (GPL)', 'trendtoday' ); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <style>
@@ -441,6 +470,54 @@ function trendtoday_admin_page() {
         }
         .trendtoday-system-info span {
             color: #646970;
+        }
+        .trendtoday-developer-credit {
+            margin-top: 20px;
+        }
+        .trendtoday-widget-developer .trendtoday-credit-intro {
+            margin: 0 0 12px 0;
+            color: #646970;
+            font-size: 14px;
+        }
+        .trendtoday-credit-list {
+            list-style: none;
+            margin: 0 0 15px 0;
+            padding: 0;
+        }
+        .trendtoday-credit-list li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .trendtoday-credit-label {
+            color: #1d2327;
+            font-weight: 600;
+            min-width: 100px;
+        }
+        .trendtoday-credit-list a {
+            color: #2271b1;
+            text-decoration: none;
+        }
+        .trendtoday-credit-list a:hover {
+            text-decoration: underline;
+        }
+        .trendtoday-credit-license {
+            margin: 0;
+            padding: 12px 15px;
+            background: #f0f6fc;
+            border-left: 4px solid #2271b1;
+            color: #1d2327;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .trendtoday-credit-license .dashicons {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: #00a32a;
         }
     </style>
     <?php
@@ -715,6 +792,39 @@ function trendtoday_settings_page() {
                 : array();
             update_option( 'trendtoday_search_exclude_categories', $exclude_categories );
             
+            // Save Footer settings
+            // Checkbox: when unchecked, hidden sends "0"; when checked, checkbox sends "1". Must check value, not just isset.
+            $footer_newsletter = ( isset( $_POST['trendtoday_footer_newsletter_enabled'] ) && $_POST['trendtoday_footer_newsletter_enabled'] === '1' ) ? '1' : '0';
+            update_option( 'trendtoday_footer_newsletter_enabled', $footer_newsletter );
+            $footer_tags = ( isset( $_POST['trendtoday_footer_tags_enabled'] ) && $_POST['trendtoday_footer_tags_enabled'] === '1' ) ? '1' : '0';
+            update_option( 'trendtoday_footer_tags_enabled', $footer_tags );
+            if ( isset( $_POST['trendtoday_footer_copyright_text'] ) ) {
+                update_option( 'trendtoday_footer_copyright_text', sanitize_textarea_field( $_POST['trendtoday_footer_copyright_text'] ) );
+            }
+            $footer_column_types = array( 'sidebar', 'menu', 'social' );
+            for ( $i = 1; $i <= 4; $i++ ) {
+                $key = 'trendtoday_footer' . $i . '_type';
+                if ( isset( $_POST[ $key ] ) && in_array( $_POST[ $key ], $footer_column_types, true ) ) {
+                    update_option( $key, sanitize_text_field( $_POST[ $key ] ) );
+                }
+                $menu_key = 'trendtoday_footer' . $i . '_menu';
+                if ( isset( $_POST[ $menu_key ] ) ) {
+                    update_option( $menu_key, absint( $_POST[ $menu_key ] ) );
+                }
+                $show_heading_key = 'trendtoday_footer' . $i . '_show_heading';
+                $show_heading = ( isset( $_POST[ $show_heading_key ] ) && $_POST[ $show_heading_key ] === '1' ) ? '1' : '0';
+                update_option( $show_heading_key, $show_heading );
+                $heading_text_key = 'trendtoday_footer' . $i . '_heading_text';
+                if ( isset( $_POST[ $heading_text_key ] ) ) {
+                    update_option( $heading_text_key, sanitize_text_field( $_POST[ $heading_text_key ] ) );
+                }
+                $heading_icon_key = 'trendtoday_footer' . $i . '_heading_icon';
+                $allowed_icons = array( '', 'folder-open', 'info-circle', 'share-alt', 'link', 'list', 'sitemap', 'address-book', 'envelope', 'phone', 'map-marker-alt', 'th-large', 'bars', 'chevron-right', 'star', 'heart', 'bookmark' );
+                if ( isset( $_POST[ $heading_icon_key ] ) && in_array( $_POST[ $heading_icon_key ], $allowed_icons, true ) ) {
+                    update_option( $heading_icon_key, $_POST[ $heading_icon_key ] );
+                }
+            }
+
             // Save TOC settings
             // Enable/Disable
             $toc_enabled = isset( $_POST['trendtoday_toc_enabled'] ) ? '1' : '0';
@@ -811,7 +921,7 @@ function trendtoday_settings_page() {
         $active_tab = sanitize_text_field( $_GET['tab'] );
     }
     
-    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'widgets' ), true ) ) {
+    if ( ! in_array( $active_tab, array( 'general', 'social-sharing', 'search', 'toc', 'widgets', 'footer' ), true ) ) {
         $active_tab = 'general';
     }
     
@@ -927,6 +1037,9 @@ function trendtoday_settings_page() {
             <nav class="nav-tab-wrapper trendtoday-nav-tabs">
                 <a href="#general" class="nav-tab <?php echo $active_tab === 'general' ? 'nav-tab-active' : ''; ?>" data-tab="general">
                     <span class="dashicons dashicons-admin-settings"></span> <?php _e( 'General', 'trendtoday' ); ?>
+                </a>
+                <a href="#footer" class="nav-tab <?php echo $active_tab === 'footer' ? 'nav-tab-active' : ''; ?>" data-tab="footer">
+                    <span class="dashicons dashicons-editor-kitchensink"></span> <?php _e( 'Footer', 'trendtoday' ); ?>
                 </a>
                 <a href="#social-sharing" class="nav-tab <?php echo $active_tab === 'social-sharing' ? 'nav-tab-active' : ''; ?>" data-tab="social-sharing">
                     <span class="dashicons dashicons-share"></span> <?php _e( 'Social Sharing', 'trendtoday' ); ?>
@@ -1878,6 +1991,160 @@ function trendtoday_settings_page() {
                 </div>
             </div>
             
+            <!-- Footer Tab -->
+            <?php
+            $footer_newsletter_enabled = get_option( 'trendtoday_footer_newsletter_enabled', '1' );
+            $footer_tags_enabled       = get_option( 'trendtoday_footer_tags_enabled', '1' );
+            $footer_copyright_text     = get_option( 'trendtoday_footer_copyright_text', '' );
+            $nav_menus                 = wp_get_nav_menus();
+            $footer_column_type_options = array(
+                'sidebar' => __( 'Sidebar (Widgets)', 'trendtoday' ),
+                'menu'    => __( 'Menu', 'trendtoday' ),
+                'social'  => __( 'Social', 'trendtoday' ),
+            );
+            ?>
+            <div id="footer-tab" class="trendtoday-tab-content <?php echo $active_tab === 'footer' ? 'active' : ''; ?>">
+                <div class="trendtoday-settings-section">
+                    <h2 class="trendtoday-section-title">
+                        <span class="dashicons dashicons-editor-kitchensink"></span>
+                        <?php _e( 'Footer Settings', 'trendtoday' ); ?>
+                    </h2>
+                    <p class="trendtoday-section-description">
+                        <?php _e( 'ปรับแต่งส่วน footer: newsletter, tags, คอลัมน์ widget และข้อความ copyright', 'trendtoday' ); ?>
+                    </p>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><?php _e( 'Newsletter Box', 'trendtoday' ); ?></th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="hidden" name="trendtoday_footer_newsletter_enabled" value="0" />
+                                    <input type="checkbox" name="trendtoday_footer_newsletter_enabled" value="1" <?php checked( $footer_newsletter_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดงกล่องสมัครรับข่าวสาร (Newsletter) ใน footer', 'trendtoday' ); ?></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'Tags Section', 'trendtoday' ); ?></th>
+                            <td>
+                                <label class="trendtoday-toggle">
+                                    <input type="hidden" name="trendtoday_footer_tags_enabled" value="0" />
+                                    <input type="checkbox" name="trendtoday_footer_tags_enabled" value="1" <?php checked( $footer_tags_enabled, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'แสดงส่วน tags มาแรงใน footer', 'trendtoday' ); ?></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'Footer Columns (Footer1–Footer4)', 'trendtoday' ); ?></th>
+                            <td>
+                                <p class="description" style="margin-bottom: 15px;"><?php _e( 'แต่ละคอลัมน์เลือกได้ว่าจะแสดง: Widget (จาก Appearance > Widgets), Menu หรือ Social', 'trendtoday' ); ?></p>
+                                <?php for ( $col = 1; $col <= 4; $col++ ) :
+                                    $col_type = get_option( 'trendtoday_footer' . $col . '_type', 'sidebar' );
+                                    $col_menu = get_option( 'trendtoday_footer' . $col . '_menu', 0 );
+                                    $col_show_heading = get_option( 'trendtoday_footer' . $col . '_show_heading', '1' );
+                                    $col_heading_text = get_option( 'trendtoday_footer' . $col . '_heading_text', '' );
+                                    $col_heading_icon = get_option( 'trendtoday_footer' . $col . '_heading_icon', '' );
+                                    $footer_heading_icons = array(
+                                        ''              => __( '— ไม่มีไอคอน', 'trendtoday' ),
+                                        'folder-open'   => __( 'โฟลเดอร์ (folder-open)', 'trendtoday' ),
+                                        'info-circle'  => __( 'ข้อมูล (info-circle)', 'trendtoday' ),
+                                        'share-alt'     => __( 'แชร์ (share-alt)', 'trendtoday' ),
+                                        'link'          => __( 'ลิงก์ (link)', 'trendtoday' ),
+                                        'list'          => __( 'รายการ (list)', 'trendtoday' ),
+                                        'sitemap'       => __( 'แผนผัง (sitemap)', 'trendtoday' ),
+                                        'address-book'  => __( 'สมุดที่อยู่ (address-book)', 'trendtoday' ),
+                                        'envelope'      => __( 'อีเมล (envelope)', 'trendtoday' ),
+                                        'phone'         => __( 'โทรศัพท์ (phone)', 'trendtoday' ),
+                                        'map-marker-alt' => __( 'ตำแหน่ง (map-marker-alt)', 'trendtoday' ),
+                                        'th-large'      => __( 'กริด (th-large)', 'trendtoday' ),
+                                        'bars'          => __( 'เมนู (bars)', 'trendtoday' ),
+                                        'chevron-right' => __( 'ลูกศร (chevron-right)', 'trendtoday' ),
+                                        'star'          => __( 'ดาว (star)', 'trendtoday' ),
+                                        'heart'         => __( 'หัวใจ (heart)', 'trendtoday' ),
+                                        'bookmark'      => __( 'ที่คั่น (bookmark)', 'trendtoday' ),
+                                    );
+                                    ?>
+                                    <div class="trendtoday-footer-col-block" data-col="<?php echo (int) $col; ?>" style="margin-bottom: 20px; padding: 12px; background: #f9f9f9; border-radius: 4px; border-left: 3px solid #2271b1;">
+                                        <strong><?php echo esc_html( sprintf( __( 'Footer%d', 'trendtoday' ), $col ) ); ?></strong>
+                                        <div style="margin-top: 8px;">
+                                            <label>
+                                                <?php _e( 'แสดงเป็น:', 'trendtoday' ); ?>
+                                                <select name="trendtoday_footer<?php echo (int) $col; ?>_type" class="trendtoday-footer-type-select" style="margin-left: 6px;">
+                                                    <?php foreach ( $footer_column_type_options as $val => $label ) : ?>
+                                                        <option value="<?php echo esc_attr( $val ); ?>" <?php selected( $col_type, $val ); ?>><?php echo esc_html( $label ); ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <?php if ( ! empty( $nav_menus ) ) : ?>
+                                        <div class="trendtoday-footer-menu-opt" style="margin-top: 10px; display: <?php echo $col_type === 'menu' ? 'block' : 'none'; ?>;">
+                                            <label>
+                                                <?php _e( 'เลือกเมนู:', 'trendtoday' ); ?>
+                                                <select name="trendtoday_footer<?php echo (int) $col; ?>_menu" style="margin-left: 6px; min-width: 200px;">
+                                                    <option value="0">— <?php _e( 'เลือกเมนู', 'trendtoday' ); ?> —</option>
+                                                    <?php foreach ( $nav_menus as $menu ) : ?>
+                                                        <option value="<?php echo esc_attr( $menu->term_id ); ?>" <?php selected( $col_menu, $menu->term_id ); ?>><?php echo esc_html( $menu->name ); ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div class="trendtoday-footer-sidebar-hint" style="margin-top: 10px; padding: 8px 10px; background: #f0f6fc; border-radius: 4px; display: <?php echo $col_type === 'sidebar' ? 'block' : 'none'; ?>;">
+                                            <p class="description" style="margin: 0;"><?php _e( 'เนื้อหา: ไปที่ Appearance → Widgets แล้วเลือกพื้นที่ Footer1–Footer4 เพื่อเพิ่ม/จัดเรียง Widget ที่ต้องการ (Custom HTML, Categories, Social Follow ฯลฯ)', 'trendtoday' ); ?></p>
+                                        </div>
+                                        <div class="trendtoday-footer-heading-opt" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e0e0e0; display: <?php echo ( $col_type === 'menu' || $col_type === 'sidebar' ) ? 'block' : 'none'; ?>;">
+                                            <p style="margin: 0 0 6px; font-weight: 600;"><?php _e( 'หัวข้อและไอคอน', 'trendtoday' ); ?></p>
+                                            <label class="trendtoday-toggle" style="display: inline-flex; margin-right: 15px;">
+                                                <input type="hidden" name="trendtoday_footer<?php echo (int) $col; ?>_show_heading" value="0" />
+                                                <input type="checkbox" name="trendtoday_footer<?php echo (int) $col; ?>_show_heading" value="1" <?php checked( $col_show_heading, '1' ); ?> />
+                                                <span class="toggle-slider"></span>
+                                                <span class="toggle-label"><?php _e( 'แสดงหัวข้อ', 'trendtoday' ); ?></span>
+                                            </label>
+                                            <label style="display: inline-block; margin-top: 6px;">
+                                                <?php _e( 'ข้อความหัวข้อ:', 'trendtoday' ); ?>
+                                                <input type="text" name="trendtoday_footer<?php echo (int) $col; ?>_heading_text" value="<?php echo esc_attr( $col_heading_text ); ?>" class="regular-text" style="margin-left: 6px; min-width: 180px;" placeholder="<?php echo esc_attr__( 'เช่น หมวดหมู่, เกี่ยวกับเรา', 'trendtoday' ); ?>" />
+                                            </label>
+                                            <label style="display: inline-block; margin-top: 6px; margin-left: 15px;">
+                                                <?php _e( 'ไอคอนหัวข้อ:', 'trendtoday' ); ?>
+                                                <select name="trendtoday_footer<?php echo (int) $col; ?>_heading_icon" style="margin-left: 6px; min-width: 200px;">
+                                                    <?php foreach ( $footer_heading_icons as $icon_val => $icon_label ) : ?>
+                                                        <option value="<?php echo esc_attr( $icon_val ); ?>" <?php selected( $col_heading_icon, $icon_val ); ?>><?php echo esc_html( $icon_label ); ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </label>
+                                            <p class="description" style="margin: 6px 0 0;"><?php _e( 'เว้นว่าง = ใช้ชื่อเมนู (Menu) หรือหัวข้อตามคอลัมน์ (Sidebar)', 'trendtoday' ); ?></p>
+                                        </div>
+                                        <div class="trendtoday-footer-social-hint" style="margin-top: 10px; padding: 8px 10px; background: #fff8e5; border-radius: 4px; display: <?php echo $col_type === 'social' ? 'block' : 'none'; ?>;">
+                                            <p class="description" style="margin: 0;"><strong><?php _e( 'เมื่อเลือก Social', 'trendtoday' ); ?></strong> — <?php _e( 'จะแสดงปุ่มโซเชียล (Facebook, Twitter, Instagram, YouTube). ลิงก์ปัจจุบันเป็นตัวอย่าง (#). ถ้าต้องการกำหนด URL จริง ให้เลือก "Sidebar (Widgets)" แล้วไปที่ Appearance → Widgets → Footer นี้ แล้วใส่ Widget "Trend Today: Social Follow" แล้วกรอกลิงก์ใน Widget', 'trendtoday' ); ?></p>
+                                        </div>
+                                    </div>
+                                <?php endfor; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="trendtoday_footer_copyright_text"><?php _e( 'Copyright Text', 'trendtoday' ); ?></label>
+                            </th>
+                            <td>
+                                <textarea name="trendtoday_footer_copyright_text" id="trendtoday_footer_copyright_text" class="large-text" rows="3" style="width: 100%; max-width: 500px;"><?php echo esc_textarea( $footer_copyright_text ); ?></textarea>
+                                <p class="description">
+                                    <?php _e( 'ข้อความด้านซ้ายของแถบ copyright (เว้นว่าง = ใช้ค่าเริ่มต้น). ใช้ {year} สำหรับปี, {sitename} สำหรับชื่อเว็บ', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'Footer Copyright Menu', 'trendtoday' ); ?></th>
+                            <td>
+                                <p class="description">
+                                    <?php _e( 'เมนูทางขวาของแถบ copyright: ไปที่ Appearance → Menus แล้วกำหนดเมนูให้ตำแหน่ง "Footer Copyright Menu"', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
             <!-- Submit Button -->
             <div class="trendtoday-settings-footer">
                 <?php submit_button( __( 'Save Settings', 'trendtoday' ), 'primary large', 'trendtoday_save_settings', false ); ?>
@@ -1894,6 +2161,9 @@ function trendtoday_settings_page() {
     .trendtoday-nav-tabs {
         margin: 20px 0 0;
         border-bottom: 2px solid #c3c4c7;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
     }
     
     .trendtoday-nav-tabs .nav-tab {
@@ -2381,6 +2651,21 @@ function trendtoday_settings_page() {
                     }
                 });
             }
+            
+            // Footer column: show/hide options based on "Display as" (type) selection
+            function trendtodayFooterColToggle(block) {
+                var type = block.find('.trendtoday-footer-type-select').val();
+                block.find('.trendtoday-footer-menu-opt').toggle(type === 'menu');
+                block.find('.trendtoday-footer-sidebar-hint').toggle(type === 'sidebar');
+                block.find('.trendtoday-footer-heading-opt').toggle(type === 'menu' || type === 'sidebar');
+                block.find('.trendtoday-footer-social-hint').toggle(type === 'social');
+            }
+            $('.trendtoday-footer-col-block').each(function() {
+                trendtodayFooterColToggle($(this));
+            });
+            $(document).on('change', '.trendtoday-footer-type-select', function() {
+                trendtodayFooterColToggle($(this).closest('.trendtoday-footer-col-block'));
+            });
         });
     })(jQuery);
     </script>

@@ -16,6 +16,7 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <?php if ( get_option( 'trendtoday_footer_newsletter_enabled', '1' ) === '1' ) : ?>
             <!-- Newsletter Section - Full Width -->
             <div class="mb-10 mt-0">
                 <div class="bg-gradient-to-r from-accent/10 via-orange-50 to-accent/5 border border-accent/20 rounded-2xl p-6 md:p-8 shadow-sm">
@@ -50,197 +51,196 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             
             <!-- Main Footer Content -->
             <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6 lg:gap-8 mb-10">
-                <!-- Footer Widget 1 - Brand -->
+                <?php
+                for ( $col = 1; $col <= 4; $col++ ) {
+                    $col_type = get_option( 'trendtoday_footer' . $col . '_type', 'sidebar' );
+                    $col_menu = get_option( 'trendtoday_footer' . $col . '_menu', 0 );
+                    $sidebar_id = 'footer-' . $col;
+                    ?>
                 <div>
-                    <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-                        <?php dynamic_sidebar( 'footer-1' ); ?>
-                    <?php else : ?>
-                        <!-- Default: Brand Column -->
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-3 mb-4">
-                                <?php 
-                                $theme_logo_id = get_option( 'trendtoday_logo', '' );
-                                $theme_logo_url = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
-                                
-                                if ( $theme_logo_url ) : 
-                                    // Use theme settings logo
-                                    ?>
-                                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>" class="hover:opacity-80 transition-opacity">
-                                        <img src="<?php echo esc_url( $theme_logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="h-10 w-auto" />
-                                    </a>
-                                <?php elseif ( has_custom_logo() ) : ?>
-                                    <?php the_custom_logo(); ?>
-                                <?php else : ?>
-                                    <div class="w-10 h-10 bg-gradient-to-br from-accent to-orange-600 text-white flex items-center justify-center rounded-lg font-bold text-lg shadow-md">
-                                        T
-                                    </div>
-                                    <span class="font-bold text-2xl tracking-tight text-gray-900"><?php bloginfo( 'name' ); ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <p class="text-gray-600 text-base leading-relaxed">
-                                <?php bloginfo( 'description' ); ?>
-                            </p>
-                        </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Footer Widget 2 - Categories -->
-                <div>
-                    <?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
-                        <?php dynamic_sidebar( 'footer-2' ); ?>
-                    <?php else : ?>
-                        <!-- Default: Category Column -->
-                        <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group"
-                                onclick="toggleFooter(this)"
-                                aria-expanded="false"
-                                aria-controls="footer-categories">
-                            <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors">
-                                <i class="fas fa-folder-open text-accent mr-2"></i><?php _e( 'หมวดหมู่', 'trendtoday' ); ?>
-                            </h4>
-                            <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
-                        </button>
-                        <ul id="footer-categories" class="footer-links space-y-2.5 text-sm text-gray-600 hidden md:block" role="list">
-                            <?php
-                            wp_list_categories( array(
-                                'title_li' => '',
-                                'number'   => 6,
-                                'walker'   => new Walker_Category_Footer(),
-                            ) );
+                    <?php
+                    if ( $col_type === 'menu' && $col_menu ) {
+                        $col_show_heading = get_option( 'trendtoday_footer' . $col . '_show_heading', '1' );
+                        $col_heading_text = get_option( 'trendtoday_footer' . $col . '_heading_text', '' );
+                        $col_heading_icon = get_option( 'trendtoday_footer' . $col . '_heading_icon', '' );
+                        if ( $col_show_heading === '1' ) {
+                            if ( $col_heading_text !== '' ) {
+                                $heading_label = $col_heading_text;
+                            } else {
+                                $menu_obj = wp_get_nav_menu_object( $col_menu );
+                                $heading_label = $menu_obj && isset( $menu_obj->name ) ? $menu_obj->name : __( 'เมนู', 'trendtoday' );
+                            }
                             ?>
-                        </ul>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Footer Widget 3 - About -->
-                <div>
-                    <?php if ( is_active_sidebar( 'footer-3' ) ) : ?>
-                        <?php dynamic_sidebar( 'footer-3' ); ?>
-                    <?php else : ?>
-                        <!-- Default: About Column -->
-                        <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group"
-                                onclick="toggleFooter(this)"
-                                aria-expanded="false"
-                                aria-controls="footer-about">
                             <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors">
-                                <i class="fas fa-info-circle text-accent mr-2"></i><?php _e( 'เกี่ยวกับเรา', 'trendtoday' ); ?>
+                                <?php if ( $col_heading_icon !== '' ) : ?><i class="fas fa-<?php echo esc_attr( $col_heading_icon ); ?> text-accent mr-2"></i><?php endif; ?>
+                                <?php echo esc_html( $heading_label ); ?>
                             </h4>
-                            <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
-                        </button>
-                        <?php
-                        if ( has_nav_menu( 'footer' ) ) {
-                            wp_nav_menu( array(
-                                'theme_location' => 'footer',
-                                'menu_class'     => 'footer-links space-y-2.5 text-sm text-gray-600 hidden md:block',
-                                'container'      => false,
-                                'fallback_cb'    => false,
-                                'depth'          => 1,
-                                'walker'         => new Walker_Nav_Menu_Footer(),
-                            ) );
-                        } else {
-                            // Fallback menu
-                            ?>
-                            <ul id="footer-about" class="footer-links space-y-2.5 text-sm text-gray-600 hidden md:block" role="list">
-                                <li>
-                                    <a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2">
-                                        <i class="fas fa-chevron-right text-xs text-gray-400"></i>
-                                        <?php _e( 'ติดต่อโฆษณา', 'trendtoday' ); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2">
-                                        <i class="fas fa-chevron-right text-xs text-gray-400"></i>
-                                        <?php _e( 'ร่วมงานกับเรา', 'trendtoday' ); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2">
-                                        <i class="fas fa-chevron-right text-xs text-gray-400"></i>
-                                        <?php _e( 'นโยบายความเป็นส่วนตัว', 'trendtoday' ); ?>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2">
-                                        <i class="fas fa-chevron-right text-xs text-gray-400"></i>
-                                        <?php _e( 'เงื่อนไขการใช้งาน', 'trendtoday' ); ?>
-                                    </a>
-                                </li>
-                            </ul>
                             <?php
                         }
+                        wp_nav_menu( array(
+                            'menu'       => $col_menu,
+                            'menu_class' => 'footer-links space-y-2.5 text-sm text-gray-600',
+                            'container'  => false,
+                            'depth'      => 1,
+                            'walker'     => new Walker_Nav_Menu_Footer(),
+                        ) );
+                    } elseif ( $col_type === 'social' ) {
                         ?>
-                    <?php endif; ?>
-                </div>
-
-                <!-- Footer Widget 4 - Social Media -->
-                <div>
-                    <?php if ( is_active_sidebar( 'footer-4' ) ) : ?>
-                        <?php dynamic_sidebar( 'footer-4' ); ?>
-                    <?php else : ?>
-                        <!-- Default: Follow Column -->
-                        <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group"
-                                onclick="toggleFooter(this)"
-                                aria-expanded="false"
-                                aria-controls="footer-social">
+                        <div class="space-y-4">
                             <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors">
                                 <i class="fas fa-share-alt text-accent mr-2"></i><?php _e( 'ติดตามเรา', 'trendtoday' ); ?>
                             </h4>
-                            <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
-                        </button>
-                        <div id="footer-social" class="footer-links hidden md:block">
-                            <p class="text-gray-600 text-sm mb-4"><?php _e( 'ติดตามข่าวสารและอัปเดตล่าสุด', 'trendtoday' ); ?></p>
                             <div class="flex flex-wrap gap-3">
-                                <a href="#" 
-                                   class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                                   aria-label="<?php _e( 'Facebook', 'trendtoday' ); ?>"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <i class="fab fa-facebook-f text-base"></i>
-                                </a>
-                                <a href="#" 
-                                   class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white hover:from-sky-600 hover:to-sky-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                                   aria-label="<?php _e( 'Twitter', 'trendtoday' ); ?>"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <i class="fab fa-twitter text-base"></i>
-                                </a>
-                                <a href="#" 
-                                   class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-pink-600 to-pink-700 flex items-center justify-center text-white hover:from-pink-700 hover:to-pink-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                                   aria-label="<?php _e( 'Instagram', 'trendtoday' ); ?>"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <i class="fab fa-instagram text-base"></i>
-                                </a>
-                                <a href="#" 
-                                   class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110"
-                                   aria-label="<?php _e( 'YouTube', 'trendtoday' ); ?>"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <i class="fab fa-youtube text-base"></i>
-                                </a>
+                                <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Facebook', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f text-base"></i></a>
+                                <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white hover:from-sky-600 to-sky-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Twitter', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter text-base"></i></a>
+                                <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-pink-600 to-pink-700 flex items-center justify-center text-white hover:from-pink-700 to-pink-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Instagram', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram text-base"></i></a>
+                                <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white hover:from-red-700 to-red-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'YouTube', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube text-base"></i></a>
                             </div>
                         </div>
-                    <?php endif; ?>
+                        <?php
+                    } else {
+                        if ( is_active_sidebar( $sidebar_id ) ) {
+                            $col_show_heading = get_option( 'trendtoday_footer' . $col . '_show_heading', '1' );
+                            $col_heading_text = get_option( 'trendtoday_footer' . $col . '_heading_text', '' );
+                            $col_heading_icon = get_option( 'trendtoday_footer' . $col . '_heading_icon', '' );
+                            if ( $col_show_heading === '1' ) {
+                                if ( $col_heading_text !== '' ) {
+                                    $heading_label = $col_heading_text;
+                                } else {
+                                    $default_labels = array(
+                                        1 => '',
+                                        2 => __( 'หมวดหมู่', 'trendtoday' ),
+                                        3 => __( 'เกี่ยวกับเรา', 'trendtoday' ),
+                                        4 => __( 'ติดตามเรา', 'trendtoday' ),
+                                    );
+                                    $heading_label = isset( $default_labels[ $col ] ) ? $default_labels[ $col ] : sprintf( __( 'Footer %d', 'trendtoday' ), $col );
+                                }
+                                if ( $heading_label !== '' ) {
+                                    ?>
+                                    <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors">
+                                        <?php if ( $col_heading_icon !== '' ) : ?><i class="fas fa-<?php echo esc_attr( $col_heading_icon ); ?> text-accent mr-2"></i><?php endif; ?>
+                                        <?php echo esc_html( $heading_label ); ?>
+                                    </h4>
+                                    <?php
+                                }
+                            }
+                            dynamic_sidebar( $sidebar_id );
+                        } else {
+                            if ( $col === 1 ) {
+                                ?>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <?php
+                                        $theme_logo_id = get_option( 'trendtoday_logo', '' );
+                                        $theme_logo_url = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
+                                        if ( $theme_logo_url ) :
+                                            ?><a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php bloginfo( 'name' ); ?>" class="hover:opacity-80 transition-opacity"><img src="<?php echo esc_url( $theme_logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" class="h-10 w-auto" /></a>
+                                        <?php elseif ( has_custom_logo() ) : ?>
+                                            <?php the_custom_logo(); ?>
+                                        <?php else : ?>
+                                            <div class="w-10 h-10 bg-gradient-to-br from-accent to-orange-600 text-white flex items-center justify-center rounded-lg font-bold text-lg shadow-md">T</div>
+                                            <span class="font-bold text-2xl tracking-tight text-gray-900"><?php bloginfo( 'name' ); ?></span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <p class="text-gray-600 text-base leading-relaxed"><?php bloginfo( 'description' ); ?></p>
+                                </div>
+                                <?php
+                            } elseif ( $col === 2 ) {
+                                ?>
+                                <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group" onclick="toggleFooter(this)" aria-expanded="false" aria-controls="footer-categories">
+                                    <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors"><i class="fas fa-folder-open text-accent mr-2"></i><?php _e( 'หมวดหมู่', 'trendtoday' ); ?></h4>
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
+                                </button>
+                                <ul id="footer-categories" class="footer-links space-y-2.5 text-sm text-gray-600 hidden md:block" role="list">
+                                    <?php wp_list_categories( array( 'title_li' => '', 'number' => 6, 'walker' => new Walker_Category_Footer() ) ); ?>
+                                </ul>
+                                <?php
+                            } elseif ( $col === 3 ) {
+                                ?>
+                                <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group" onclick="toggleFooter(this)" aria-expanded="false" aria-controls="footer-about">
+                                    <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors"><i class="fas fa-info-circle text-accent mr-2"></i><?php _e( 'เกี่ยวกับเรา', 'trendtoday' ); ?></h4>
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
+                                </button>
+                                <?php
+                                if ( has_nav_menu( 'footer' ) ) {
+                                    wp_nav_menu( array( 'theme_location' => 'footer', 'menu_class' => 'footer-links space-y-2.5 text-sm text-gray-600 hidden md:block', 'container' => false, 'fallback_cb' => false, 'depth' => 1, 'walker' => new Walker_Nav_Menu_Footer() ) );
+                                } else {
+                                    ?>
+                                    <ul id="footer-about" class="footer-links space-y-2.5 text-sm text-gray-600 hidden md:block" role="list">
+                                        <li><a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-gray-400"></i><?php _e( 'ติดต่อโฆษณา', 'trendtoday' ); ?></a></li>
+                                        <li><a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-gray-400"></i><?php _e( 'ร่วมงานกับเรา', 'trendtoday' ); ?></a></li>
+                                        <li><a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-gray-400"></i><?php _e( 'นโยบายความเป็นส่วนตัว', 'trendtoday' ); ?></a></li>
+                                        <li><a href="#" class="footer-link hover:text-accent transition-colors duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-gray-400"></i><?php _e( 'เงื่อนไขการใช้งาน', 'trendtoday' ); ?></a></li>
+                                    </ul>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <button class="flex justify-between items-center w-full py-3 md:py-0 text-left md:cursor-default group" onclick="toggleFooter(this)" aria-expanded="false" aria-controls="footer-social">
+                                    <h4 class="font-bold text-gray-900 text-base md:mb-5 group-hover:text-accent transition-colors"><i class="fas fa-share-alt text-accent mr-2"></i><?php _e( 'ติดตามเรา', 'trendtoday' ); ?></h4>
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm md:hidden transition-transform duration-300 transform"></i>
+                                </button>
+                                <div id="footer-social" class="footer-links hidden md:block">
+                                    <p class="text-gray-600 text-sm mb-4"><?php _e( 'ติดตามข่าวสารและอัปเดตล่าสุด', 'trendtoday' ); ?></p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Facebook', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f text-base"></i></a>
+                                        <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white hover:from-sky-600 to-sky-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Twitter', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter text-base"></i></a>
+                                        <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-pink-600 to-pink-700 flex items-center justify-center text-white hover:from-pink-700 to-pink-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'Instagram', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram text-base"></i></a>
+                                        <a href="#" class="footer-social-icon w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center text-white hover:from-red-700 to-red-800 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-110" aria-label="<?php _e( 'YouTube', 'trendtoday' ); ?>" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube text-base"></i></a>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
                 </div>
+                <?php } ?>
             </div>
             
-            <!-- Trending Tags Section -->
+            <?php if ( get_option( 'trendtoday_footer_tags_enabled', '1' ) === '1' ) : ?>
             <?php get_template_part( 'template-parts/trending-tags' ); ?>
+            <?php endif; ?>
             
             <!-- Copyright Section -->
             <div class="border-t border-gray-200 pt-6 mt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
                     <div class="text-center md:text-left">
-                        &copy; <?php echo date( 'Y' ); ?> <span class="font-semibold text-gray-700"><?php bloginfo( 'name' ); ?></span>. <?php _e( 'All rights reserved.', 'trendtoday' ); ?>
+                        <?php
+                        $copyright_text = get_option( 'trendtoday_footer_copyright_text', '' );
+                        if ( $copyright_text !== '' ) {
+                            $copyright_text = str_replace( array( '{year}', '{sitename}' ), array( date( 'Y' ), get_bloginfo( 'name' ) ), $copyright_text );
+                            echo wp_kses_post( $copyright_text );
+                        } else {
+                            echo '&copy; ' . esc_html( date( 'Y' ) ) . ' <span class="font-semibold text-gray-700">' . esc_html( get_bloginfo( 'name' ) ) . '</span>. ';
+                            _e( 'All rights reserved.', 'trendtoday' );
+                        }
+                        ?>
                     </div>
                     <div class="flex items-center gap-6 text-xs">
-                        <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Privacy Policy', 'trendtoday' ); ?></a>
-                        <span class="text-gray-300">|</span>
-                        <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Terms of Service', 'trendtoday' ); ?></a>
-                        <span class="text-gray-300">|</span>
-                        <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Contact', 'trendtoday' ); ?></a>
+                        <?php
+                        if ( has_nav_menu( 'footer_copyright' ) ) {
+                            wp_nav_menu( array(
+                                'theme_location' => 'footer_copyright',
+                                'menu_class'      => 'footer-copyright-menu flex items-center gap-6 flex-wrap',
+                                'container'       => false,
+                                'depth'           => 1,
+                                'fallback_cb'     => false,
+                            ) );
+                        } else {
+                            ?>
+                            <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Privacy Policy', 'trendtoday' ); ?></a>
+                            <span class="text-gray-300">|</span>
+                            <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Terms of Service', 'trendtoday' ); ?></a>
+                            <span class="text-gray-300">|</span>
+                            <a href="#" class="hover:text-accent transition-colors"><?php _e( 'Contact', 'trendtoday' ); ?></a>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
