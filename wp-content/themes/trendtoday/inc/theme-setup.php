@@ -24,6 +24,19 @@ function trendtoday_theme_setup() {
     load_theme_textdomain( 'trendtoday', get_template_directory() . '/languages' );
 
     /*
+     * On Theme Settings admin page, use site language so labels/descriptions
+     * follow Site Language (Settings → General) instead of user profile language.
+     */
+    add_filter( 'determine_locale', 'trendtoday_locale_on_settings_page', 5 );
+    function trendtoday_locale_on_settings_page( $locale ) {
+        if ( is_admin() && isset( $_GET['page'] ) && 'trendtoday-settings' === $_GET['page'] ) {
+            $site_locale = get_option( 'WPLANG' );
+            return $site_locale ? $site_locale : 'en_US';
+        }
+        return $locale;
+    }
+
+    /*
      * Let WordPress manage the document title.
      * By adding theme support, we declare that this theme does not use a
      * hard-coded <title> tag in the document head, and expect WordPress to

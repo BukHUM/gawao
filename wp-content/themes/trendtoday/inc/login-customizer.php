@@ -27,7 +27,6 @@ function trendtoday_login_enqueue_scripts() {
 		wp_get_theme()->get( 'Version' )
 	);
 }
-add_action( 'login_enqueue_scripts', 'trendtoday_login_enqueue_scripts' );
 
 /**
  * Logo link goes to site home
@@ -35,7 +34,6 @@ add_action( 'login_enqueue_scripts', 'trendtoday_login_enqueue_scripts' );
 function trendtoday_login_headerurl( $url ) {
 	return home_url( '/' );
 }
-add_filter( 'login_headerurl', 'trendtoday_login_headerurl' );
 
 /**
  * Logo title/alt text
@@ -43,7 +41,6 @@ add_filter( 'login_headerurl', 'trendtoday_login_headerurl' );
 function trendtoday_login_headertext( $title ) {
 	return get_bloginfo( 'name' );
 }
-add_filter( 'login_headertext', 'trendtoday_login_headertext' );
 
 /**
  * Output custom logo and inline styles for login header (when theme logo is set)
@@ -70,4 +67,11 @@ function trendtoday_login_head() {
 	</style>
 	<?php
 }
-add_action( 'login_head', 'trendtoday_login_head' );
+
+// Only apply theme style to login page when option is enabled (Theme Settings > General).
+if ( get_option( 'trendtoday_login_use_theme_style', '1' ) === '1' ) {
+	add_action( 'login_enqueue_scripts', 'trendtoday_login_enqueue_scripts' );
+	add_filter( 'login_headerurl', 'trendtoday_login_headerurl' );
+	add_filter( 'login_headertext', 'trendtoday_login_headertext' );
+	add_action( 'login_head', 'trendtoday_login_head' );
+}

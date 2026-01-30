@@ -100,6 +100,35 @@ function trendtoday_admin_page() {
         </h1>
         
         <div class="trendtoday-dashboard">
+            <!-- About Theme (top) -->
+            <div class="trendtoday-dashboard-widgets trendtoday-developer-credit">
+                <div class="trendtoday-widget trendtoday-widget-developer">
+                    <div class="trendtoday-widget-header">
+                        <h3>
+                            <span class="dashicons dashicons-groups"></span>
+                            <?php _e( 'เกี่ยวกับธีม', 'trendtoday' ); ?>
+                        </h3>
+                    </div>
+                    <div class="trendtoday-widget-content">
+                        <p class="trendtoday-credit-intro"><?php _e( 'ธีม Trend Today พัฒนาและดูแลโดย', 'trendtoday' ); ?></p>
+                        <ul class="trendtoday-credit-list">
+                            <li>
+                                <span class="trendtoday-credit-label"><?php _e( 'ทีมผู้พัฒนา:', 'trendtoday' ); ?></span>
+                                <a href="https://tonkla.co" target="_blank" rel="noopener noreferrer"><?php echo esc_html( __( 'ต้นกล้าไอที', 'trendtoday' ) ); ?></a>
+                            </li>
+                            <li>
+                                <span class="trendtoday-credit-label"><?php _e( 'เว็บตัวอย่าง:', 'trendtoday' ); ?></span>
+                                <a href="https://gawao.com" target="_blank" rel="noopener noreferrer"><?php echo esc_html( __( 'กาเหว่า', 'trendtoday' ) ); ?></a>
+                            </li>
+                        </ul>
+                        <p class="trendtoday-credit-license">
+                            <span class="dashicons dashicons-yes-alt"></span>
+                            <?php _e( 'ธีมนี้ใช้งานได้ฟรี ตามเงื่อนไขสัญญาอนุญาตของ WordPress (GPL)', 'trendtoday' ); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Statistics Grid -->
             <div class="trendtoday-dashboard-widgets">
                 <!-- Content Statistics -->
@@ -262,35 +291,6 @@ function trendtoday_admin_page() {
                                 <span><?php echo size_format( $upload_size, 2 ); ?></span>
                             </li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- About Theme / Developer -->
-            <div class="trendtoday-dashboard-widgets trendtoday-developer-credit">
-                <div class="trendtoday-widget trendtoday-widget-developer">
-                    <div class="trendtoday-widget-header">
-                        <h3>
-                            <span class="dashicons dashicons-groups"></span>
-                            <?php _e( 'เกี่ยวกับธีม', 'trendtoday' ); ?>
-                        </h3>
-                    </div>
-                    <div class="trendtoday-widget-content">
-                        <p class="trendtoday-credit-intro"><?php _e( 'ธีม Trend Today พัฒนาและดูแลโดย', 'trendtoday' ); ?></p>
-                        <ul class="trendtoday-credit-list">
-                            <li>
-                                <span class="trendtoday-credit-label"><?php _e( 'ทีมผู้พัฒนา:', 'trendtoday' ); ?></span>
-                                <a href="https://tonkla.co" target="_blank" rel="noopener noreferrer">ต้นกล้าไอที</a>
-                            </li>
-                            <li>
-                                <span class="trendtoday-credit-label"><?php _e( 'เว็บตัวอย่าง:', 'trendtoday' ); ?></span>
-                                <a href="https://gawao.com" target="_blank" rel="noopener noreferrer">กาเหว่า</a>
-                            </li>
-                        </ul>
-                        <p class="trendtoday-credit-license">
-                            <span class="dashicons dashicons-yes-alt"></span>
-                            <?php _e( 'ธีมนี้ใช้งานได้ฟรี ตามเงื่อนไขสัญญาอนุญาตของ WordPress (GPL)', 'trendtoday' ); ?>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -553,6 +553,9 @@ function trendtoday_settings_page() {
             if ( isset( $_POST['trendtoday_logo'] ) ) {
                 update_option( 'trendtoday_logo', sanitize_text_field( $_POST['trendtoday_logo'] ) );
             }
+            // Save login page style (theme style vs default WordPress)
+            $login_use_theme_style = ( isset( $_POST['trendtoday_login_use_theme_style'] ) && $_POST['trendtoday_login_use_theme_style'] === '1' ) ? '1' : '0';
+            update_option( 'trendtoday_login_use_theme_style', $login_use_theme_style );
             
             // Save pagination type
             if ( isset( $_POST['trendtoday_pagination_type'] ) ) {
@@ -1137,6 +1140,21 @@ function trendtoday_settings_page() {
                                 </select>
                                 <p class="description">
                                     <?php _e( 'เลือกว่าจะให้กริดข่าวล่าสุดในหน้าแรกและหน้าอาร์คิฟแสดงกี่คอลัมน์ (จอขนาดกลางขึ้นไป)', 'trendtoday' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php _e( 'หน้าเข้าสู่ระบบ (Login)', 'trendtoday' ); ?></th>
+                            <td>
+                                <?php $login_use_theme_style = get_option( 'trendtoday_login_use_theme_style', '1' ); ?>
+                                <label class="trendtoday-toggle">
+                                    <input type="hidden" name="trendtoday_login_use_theme_style" value="0" />
+                                    <input type="checkbox" name="trendtoday_login_use_theme_style" value="1" <?php checked( $login_use_theme_style, '1' ); ?> />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label"><?php _e( 'ใช้สไตล์ธีม (ปรับแต่ง wp-login ให้เข้ากับธีม Trend Today)', 'trendtoday' ); ?></span>
+                                </label>
+                                <p class="description" style="margin-top: 8px;">
+                                    <?php _e( 'ปิด = แสดงหน้าเข้าสู่ระบบแบบดั้งเดิมของ WordPress', 'trendtoday' ); ?>
                                 </p>
                             </td>
                         </tr>
